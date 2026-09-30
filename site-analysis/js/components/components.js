@@ -391,12 +391,6 @@
       });
     };
     addEventListener('scroll', onScroll, { passive: true }); onScroll();
-    addEventListener('keydown', (e) => {
-      if (SA.$('.iv.on') || /input|textarea|select/i.test(document.activeElement.tagName)) return;
-      const k = secs.indexOf(active);
-      if (e.key === 'PageDown' || (e.key === 'ArrowDown' && e.altKey)) { e.preventDefault(); secs[Math.min(secs.length - 1, k + 1)].scrollIntoView({ behavior: SA.reduced ? 'auto' : 'smooth' }); }
-      if (e.key === 'PageUp' || (e.key === 'ArrowUp' && e.altKey)) { e.preventDefault(); secs[Math.max(0, k - 1)].scrollIntoView({ behavior: SA.reduced ? 'auto' : 'smooth' }); }
-    });
   };
 
   /* ============================== Scrolly ============================== */

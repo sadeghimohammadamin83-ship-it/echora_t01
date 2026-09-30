@@ -15,7 +15,7 @@
   };
 
   function siteMap(host, o) {
-    const mv = new SA.MapViewer(host, Object.assign({ view: [-120, -80, 125, 165], zoom: true, grid: 10 }, o));
+    const mv = new SA.MapViewer(host, Object.assign({ view: [-190, -140, 200, 225], zoom: true, grid: 10 }, o));
     mv.aerial({ filter: o && o.dark ? 'grayscale(1) brightness(.5)' : 'grayscale(1) brightness(1.2) contrast(.7)', opacity: o && o.dark ? 0.9 : 0.45 });
     SA.drawStreets(mv, mv.layer('st'), ['Keshavarz', 'Poursina', '16Azar', 'Jalalieh', 'Hedayati', 'Enayat', 'Zare', 'ZareS'], { hier: true, k: 0.7, hover: false });
     SA.drawSite(mv, mv.layer('site'), { w: 1.8, hover: false, fill: 'rgba(46,134,222,.12)' });
@@ -101,17 +101,19 @@
     s('path', { d: SA.d(ST.Zare), stroke: 'var(--ink)', 'stroke-width': 1.5, 'stroke-dasharray': '3 3', class: 'ns flow slow', fill: 'none' }, a);
     SA.prepDraw(mv.host); SA.observe(mv.host, () => SA.$$('.draw', mv.host).forEach((p, i) => setTimeout(() => p.classList.add('on'), i * 220)));
     /* matrix: 5 criteria × 4 edges (v1 table) */
-    const crit = [['Public / private', 'عمومی/خصوصی'], ['Pedestrian entry', 'ورود پیاده'], ['Service', 'سرویس'], ['Vehicle pressure', 'فشار سواره'], ['Landscape', 'منظر']];
+    const crit = ['عمومی / خصوصی', 'ورود پیاده', 'سرویس', 'فشار سواره', 'منظر'];
+    /* [text, level 1–3] — same readings as v1, translated */
     const M = {
-      N: ['Public', 'Suitable · main', 'Unsuitable', 'High', 'High (park)'],
-      E: ['Semi-public', 'Suitable · spine', 'Suitable from Poursina', 'Low (dead end)', 'Medium'],
-      S: ['Public / institutional', 'Suitable · faces UT', 'Limited', 'Medium · one-way', 'Medium (plane trees)'],
-      W: ['Private / back', 'Secondary', 'Limited · narrow', 'Low', 'Low (blind walls)'],
+      N: [['عمومی', 3], ['مناسب · ورودی اصلی', 3], ['نامناسب', 1], ['زیاد', 3], ['زیاد (پارک)', 3]],
+      E: [['نیمه‌عمومی', 2], ['مناسب · محور پیاده', 3], ['مناسب از سمت پورسینا', 2], ['کم (بن‌بست)', 1], ['متوسط', 2]],
+      S: [['عمومی / نهادی', 2], ['مناسب · رو به دانشگاه', 3], ['محدود', 1], ['متوسط · یک‌طرفه', 2], ['متوسط (چنارها)', 2]],
+      W: [['خصوصی / پشت', 1], ['ثانویه', 2], ['محدود · کوچه‌ی باریک', 1], ['کم', 1], ['کم (بدنه‌ی کور)', 1]],
     };
-    const lvl = (t) => (/High|Suitable ·|main|Public$/.test(t) ? 3 : /Medium|Semi|Suitable from|institutional|Secondary/.test(t) ? 2 : 1);
+    const EN = { N: 'شمال', E: 'شرق', S: 'جنوب', W: 'غرب' }, SUB = { N: 'کشاورز', E: 'جلالیه', S: 'پورسینا', W: 'هدایتی / عنایت' };
     const X = SA.$('#syn-matrix');
-    X.innerHTML = '<table class="mx"><thead><tr><th></th>' + Object.keys(M).map((k) => '<th data-e="' + k + '" style="--c:' + EDGE[k].c + '">' + k + '<span class="fa-inline">' + EDGE[k].fa.split(' — ')[0] + '</span></th>').join('') + '</tr></thead><tbody>' +
-      crit.map((c, i) => '<tr><th>' + c[0] + '<span class="fa-inline">' + c[1] + '</span></th>' + Object.keys(M).map((k) => '<td data-e="' + k + '"><i class="lv l' + lvl(M[k][i]) + '"></i>' + M[k][i] + '</td>').join('') + '</tr>').join('') + '</tbody></table>';
+    X.innerHTML = '<table class="mx fa-t"><thead><tr><th>معیار</th>' + Object.keys(M).map((k) => '<th data-e="' + k + '" style="--c:' + EDGE[k].c + '">' + EN[k] + '<span class="fa-inline">' + SUB[k] + '</span></th>').join('') + '</tr></thead><tbody>' +
+      crit.map((c, i) => '<tr><th>' + c + '</th>' + Object.keys(M).map((k) => '<td data-e="' + k + '"><i class="lv l' + M[k][i][1] + '"></i>' + M[k][i][0] + '</td>').join('') + '</tr>').join('') + '</tbody></table>' +
+      '<p class="t-cap mx-leg" lang="fa">● پررنگ = زیاد / مناسب · ● کم‌رنگ = کم / محدود</p>';
     SA.$$('[data-e]', X).forEach((c) => { const k = c.dataset.e; c.addEventListener('pointerenter', () => { mv.hot('edge-' + k); X.classList.add('dim'); SA.$$('[data-e="' + k + '"]', X).forEach((n) => n.classList.add('hl')); }); c.addEventListener('pointerleave', () => { mv.unhot(); X.classList.remove('dim'); SA.$$('.hl', X).forEach((n) => n.classList.remove('hl')); }); });
     /* N–S schematic section (v1 s8: ≈40 m boulevard, ≈100 m site) */
     const S = SA.$('#syn-section');
@@ -175,24 +177,13 @@
 
   /* ================= 20 SOURCES & ARCHIVE ================= */
   function archive() {
-    const A = SA.$('#archive'), IMG = window.SA_IMG;
-    const groups = [
-      ['Aerial images', 'تصاویر هوایی', [
-        { src: 'img/source/aerial_clean.jpg', fa: 'تصویر هوایی تمیز — پایه‌ی زمین‌مرجع همه‌ی نقشه‌های سایت', en: 'Aerial, clean · 1290 × 1264 px · 0.1935 m/px after georeferencing', group: 'Aerial' },
-        { src: 'img/source/aerial_annotated.jpg', fa: 'تصویر هوایی با حاشیه‌نویسی رنگی شما — مرجع کد رنگی معابر و محدوده‌ی سایت', en: 'Aerial with the user colour annotation (reference for the colour code)', group: 'Aerial' },
-        { src: 'img/source/photo_key_map.jpg', fa: 'نقشه‌ی کلید شماره‌دار عکس‌ها (صفحه‌ی ۱ PDF)', en: 'Photo key map — PDF page 1 · 0.333 m/px', group: 'Key map' },
-      ]],
-      ['Apple Maps screenshots', 'اسکرین‌شات‌های Apple Maps', Array.from({ length: 10 }, (_, i) => { const n = 'IMG_' + (8728 + i); return { src: 'img/source/' + n + '.jpg', thumb: 'img/thumbs/' + n + '.jpg', fa: 'اسکرین‌شات Apple Maps — ' + n, en: 'Apple Maps screenshot ' + n + ' (source for names and context)', group: 'Apple Maps' }; })],
-      ['Photo survey · 35 frames', 'برداشت عکاسی — ۳۵ قاب', SA.photoList],
-    ];
-    groups.forEach(([en, fa, list]) => {
-      const box = el('div', { class: 'arch' }, A, '<div class="arch-h"><span class="t-tech">' + en + ' · ' + list.length + '</span><span class="fa-inline">' + fa + '</span></div>');
-      const row = el('div', { class: 'arch-row' }, box);
-      list.forEach((it, i) => SA.thumb(row, list, i, { no: it.pno && it.pno !== '—' ? it.pno.replace(/[()]/g, '') : null }));
-    });
-    void IMG;
-    SA.$('#bib').innerHTML = D.sources.map(([n, t, u]) => '<li><span class="n">[' + n + ']</span> ' + SA.esc(t) + (u ? ' <a href="' + u + '" target="_blank" rel="noopener">link ↗</a>' : '') + '</li>').join('');
+    /* only sources taken from websites (the user's own material is not listed here) */
+    const web = D.sources.filter(([, , u]) => u);
+    web.push(['S2', 'Copernicus Sentinel-2 L2A, scene S2A_39SWV_20250831 (ESA), via the AWS open-data registry.', 'https://registry.opendata.aws/sentinel-2-l2a-cogs/']);
+    web.push(['DEM', 'AWS Terrain Tiles (SRTM 30 m, terrarium encoding).', 'https://registry.opendata.aws/terrain-tiles/']);
+    SA.$('#bib').innerHTML = web.map(([n, t, u]) => { let host = ''; try { host = new URL(u).hostname.replace(/^www\./, ''); } catch (e) { /* */ } return '<li><span class="n">' + n + '</span><span class="t">' + SA.esc(t) + '</span><a href="' + u + '" target="_blank" rel="noopener">' + host + ' ↗</a></li>'; }).join('');
   }
+
 
   SA.sections.push(() => swot('#swot-o', ['S', 'O']), () => swot('#swot-c', ['W', 'T']), synthesis, implications, archive);
 })();

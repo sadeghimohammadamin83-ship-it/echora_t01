@@ -87,8 +87,28 @@
   };
 
   /* ---------- site envelope ---------- */
+  /* outward offset of the (convex, clockwise-in-svg) envelope by d metres */
+  SA.envOffset = function (d) {
+    const P = G.envelope, n = P.length, c = SA.centroid(P);
+    return P.map((p, i) => { const a = P[(i + n - 1) % n], b = P[(i + 1) % n];
+      const n1 = norm(a, p, c), n2 = norm(p, b, c), bis = [n1[0] + n2[0], n1[1] + n2[1]], L = Math.hypot(...bis) || 1, k = d / ((bis[0] / L) * n1[0] + (bis[1] / L) * n1[1]);
+      return [p[0] + (bis[0] / L) * k, p[1] + (bis[1] / L) * k]; });
+    function norm(a, b, c) { const dx = b[0] - a[0], dy = b[1] - a[1], L = Math.hypot(dx, dy); let nx = dy / L, ny = -dx / L; const m = [(a[0] + b[0]) / 2 - c[0], (a[1] + b[1]) / 2 - c[1]]; if (nx * m[0] + ny * m[1] < 0) { nx = -nx; ny = -ny; } return [nx, ny]; }
+  };
   SA.site = function (mv, g, o) {
     o = o || {};
+    if (o.emph) {
+      /* emphasised boundary: halo casing + outer dashed setback line + corner brackets */
+      s('path', { d: SA.d(G.envelope, true), fill: 'none', stroke: o.dark === false ? '#fff' : 'rgba(255,255,255,.9)', 'stroke-width': (o.w || 2) + 4, class: 'ns', 'stroke-linejoin': 'miter', opacity: 0.85 }, g);
+      s('path', { d: SA.d(SA.envOffset(6), true), fill: 'none', stroke: 'var(--site)', 'stroke-width': 1, 'stroke-dasharray': '6 4', class: 'ns', opacity: 0.9 }, g);
+      const br = s('g', { class: 'site-br' }, g);
+      SA.onScale(mv, (ppm) => {
+        br.innerHTML = ''; const L = 14 / ppm;
+        SA.envOffset(9).forEach((p, i, P) => { const a = P[(i + P.length - 1) % P.length], b = P[(i + 1) % P.length];
+          const u = (q) => { const dx = q[0] - p[0], dy = q[1] - p[1], l = Math.hypot(dx, dy); return [p[0] + (dx / l) * L, p[1] + (dy / l) * L]; };
+          s('path', { d: SA.d([u(a), p, u(b)]), fill: 'none', stroke: 'var(--site)', 'stroke-width': 2.2, class: 'ns' }, br); });
+      });
+    }
     const p = s('path', { d: SA.d(G.envelope, true), fill: o.fill == null ? 'rgba(46,134,222,.12)' : o.fill, stroke: 'var(--site)', 'stroke-width': o.w || 2, class: 'ns site-poly' + (o.draw ? ' draw' : ''), 'stroke-linejoin': 'miter' }, g);
     if (o.hover !== false) mv.hover(p, { k: 'سایت پروژه', t: 'محدوده‌ی ساده‌شده‌ی سایت', big: '≈ ۸٬۹۰۰ m²', rows: [['دقت مساحت', '±۱۰٪'], ['ابعاد محاط', '≈ ۱۰۵ × ۱۱۰ متر'], ['ساخته‌شده امروز', '≈ ' + SA.fa(G.landuse.siteBuilt) + '٪']], src: 'پوشش گرافیکی چهارضلعی؛ نه مرز ثبتی. مساحت از ماسک آبی کاربر روی تصویر هوایی.' }, 'site');
     return p;

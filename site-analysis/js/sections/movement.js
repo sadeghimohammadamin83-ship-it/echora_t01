@@ -8,7 +8,8 @@
   /* ================= 04 ACCESSIBILITY ================= */
   function access() {
     const host = SA.$('#access-map');
-    const mv = new SA.MapViewer(host, { view: [-260, -660, 520, 330], zoom: true, grid: 50, corners: { tl: 'Access routes · street network', tr: 'OSM oneway tags' } });
+    const mv = new SA.MapViewer(host, { view: [-420, -720, 640, 380], zoom: true, grid: 50, corners: { tl: 'Access routes · street network', tr: 'OSM oneway tags' } });
+    SA.atlas(mv, { veg: true, op: 0.95 });
     const base = mv.layer('base');
     const park = SA.F('laleh_park'), camp = SA.F('ut_campus');
     s('path', { d: SA.d(park.pts, true), fill: 'var(--lu-green)', 'fill-opacity': 0.55 }, base);
@@ -99,6 +100,7 @@
     /* ---- isochrone / catchment ---- */
     const ih = SA.$('#iso-map'), C = SA.SITE_C;
     const iv = new SA.MapViewer(ih, { view: [C[0] - 1400, C[1] - 1400, C[0] + 1400, C[1] + 1400], corners: { tl: 'Catchment · 400 / 800 / 1200 m', tr: 'straight line' } });
+    SA.atlas(iv, { context: false, aerial: false, veg: true, op: 0.95 });
     const ib = iv.layer('b');
     s('path', { d: SA.d(park.pts, true), fill: 'var(--lu-green)', 'fill-opacity': 0.6 }, ib);
     s('path', { d: SA.d(camp.pts, true), fill: 'var(--lu-edu)', 'fill-opacity': 0.5 }, ib);
@@ -120,7 +122,7 @@
   /* ================= 05 ROAD NETWORK ================= */
   function roads() {
     const host = SA.$('#road-map');
-    const mv = new SA.MapViewer(host, { view: [-150, -100, 130, 170], zoom: true, grid: 10, corners: { tl: 'Street hierarchy · site scale', tr: 'width = hierarchy · colour = user code' } });
+    const mv = new SA.MapViewer(host, { view: [-270, -200, 260, 300], zoom: true, grid: 10, corners: { tl: 'Street hierarchy · site scale', tr: 'width = hierarchy · colour = user code' } });
     mv.aerial({ filter: 'grayscale(1) brightness(1.18) contrast(.7)', opacity: 0.5 });
     const b = mv.layer('b');
     SA.drawFeatures(mv, b, { filter: (f) => f.kind === 'bldg', hover: false, dashUnc: false, style: () => ({ fill: 'var(--paper-3)', 'fill-opacity': 0.8 }) });

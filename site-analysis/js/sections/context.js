@@ -13,7 +13,7 @@
   };
   SA.drawSite = function (mv, g, o) {
     o = o || {};
-    const p = SA.site(mv, g, { fill: o.fill, w: o.w ? Math.min(o.w, 2.6) : 2, hover: o.hover, draw: o.draw });
+    const p = SA.site(mv, g, { fill: o.fill, w: o.w ? Math.min(o.w, 2.6) : 2.2, hover: o.hover, draw: o.draw, emph: o.emph !== false });
     return p;
   };
   SA.drawFeatures = function (mv, g, o) { return SA.features(mv, g, o); };
@@ -52,86 +52,116 @@
     return site;
   }
 
-  /* ================= 01 LOCATION — nested zoom ================= */
+  /* ================= 01 LOCATION — one continuous cinematic map: Iran → Tehran → District 6 → park/campus → site ================= */
   function location() {
-    const stage = SA.$('#loc-stage');
-    const frames = [];
-    const mk = (view, label, corners, extra) => {
-      const f = el('div', { class: 'zf' }, stage);
-      const mv = new SA.MapViewer(f, Object.assign({ view, corners, label, coords: false }, extra));
-      frames.push({ f, mv }); return mv;
-    };
-    /* 1 Iran — lon/lat equirectangular, x scaled by cos 32° */
-    const K = Math.cos((32 * Math.PI) / 180), ll = (lon, lat) => [lon * K, lat];
-    const m1 = mk([43.5 * K, 24.5, 64 * K, 40.5], 'Iran', { tl: '01 · Iran', tr: 'Natural Earth' }, { scale: false });
-    const g1 = m1.layer('p');
+    const host = SA.$('#loc-stage');
+    const KX = 111320 * Math.cos((35.7065 * Math.PI) / 180), KY = 111000;
+    const ll = (lon, lat) => [(lon - 51.393) * KX, (lat - 35.7065) * KY];
+    const c = SA.SITE_C;
+    const VIEWS = [
+      [-900000, -1200000, 1500000, 600000],                /* Iran */
+      [-30000, -17500, 22000, 15500],                       /* Tehran, 22 districts */
+      [-2600, -1400, 4400, 5600],                           /* District 6 */
+      [c[0] - 900, c[1] - 820, c[0] + 900, c[1] + 760],     /* Laleh Park ↔ UT */
+      [c[0] - 120, c[1] - 105, c[0] + 130, c[1] + 110],     /* site */
+    ];
+    host.classList.add('locmap');
+    const mv = new SA.MapViewer(host, { view: VIEWS[0], fit: 'xMidYMid slice', coords: true, scale: true });
+    SA.sheet(mv, { no: 'A-01', title: 'LOCATION · MACRO → MICRO', src: 'Natural Earth · OSM · Copernicus Sentinel-2 (31 Aug 2025) · Google + aerial (site)' });
+    const defs = SA.defs(mv.svg);
+    const glow = s('filter', { id: 'glow', x: '-50%', y: '-50%', width: '200%', height: '200%' }, defs);
+    s('feGaussianBlur', { stdDeviation: 6, result: 'b' }, glow);
+    const fm = s('feMerge', null, glow); s('feMergeNode', { in: 'b' }, fm); s('feMergeNode', { in: 'SourceGraphic' }, fm);
+    const L = {};
+    const layer = (n) => (L[n] = mv.layer('L' + n));
+    /* ---- Iran (projected to local metres) ---- */
+    const ir = layer('iran');
     G.iran.forEach((pv) => pv.r.forEach((ring) => {
-      const p = s('path', { d: SA.d(ring.map((q) => ll(q[0], q[1])), true), fill: pv.n === 'Tehran' ? 'var(--site)' : 'var(--paper-3)', stroke: 'var(--card)', 'stroke-width': 0.6, class: 'ns' }, g1);
-      m1.hover(p, { k: 'Province', t: pv.n === 'Tehran' ? 'استان تهران' : '', e: pv.n }, 'pv-' + pv.n);
+      const P = ring.map((q) => ll(q[0], q[1])), isT = pv.n === 'Tehran';
+      const p = s('path', { d: SA.d(P, true), fill: isT ? 'rgba(46,134,222,.55)' : 'rgba(255,255,255,.035)', stroke: isT ? '#5AA7F0' : 'rgba(233,231,226,.28)', 'stroke-width': isT ? 1.6 : 0.6, class: 'ns', filter: isT ? 'url(#glow)' : null }, ir);
+      mv.hover(p, { k: 'استان', e: pv.n }, 'pv' + pv.n);
     }));
-    m1.label(ll(51.39, 36.35), 'TEHRAN', 'lbl'); m1.label(ll(55.2, 32.3), 'IRAN', 'lbl', { size: 16 });
-    const t1 = SA.P(ll(51.39, 35.7)); frames[0].mark = s('circle', { cx: t1[0], cy: t1[1], r: 0.22, fill: '#fff', stroke: 'var(--ink)', 'stroke-width': 0.08 }, g1);
-    /* 2 Tehran — 22 districts */
-    const all = [].concat(...Object.values(G.districts));
-    const bx = [Math.min(...all.map((p) => p[0])), Math.min(...all.map((p) => p[1])), Math.max(...all.map((p) => p[0])), Math.max(...all.map((p) => p[1]))];
-    const m2 = mk([bx[0] - 1200, bx[1] - 1500, bx[2] + 1200, bx[3] + 1500], 'Tehran districts', { tl: '02 · Tehran · 22 districts', tr: 'OSM' });
-    const g2 = m2.layer('d');
+    mv.label(ll(55.3, 32.2), 'IRAN', 'lbl light', { size: 22, layer: 'Liran' });
+    mv.label(ll(51.39, 36.55), 'TEHRAN', 'lbl light', { size: 11, layer: 'Liran' });
+    /* ---- Tehran: Sentinel-2 + 22 districts ---- */
+    const th = layer('tehran'), T = window.SA_S2.tehran, D = window.SA_S2.district;
+    s('image', { href: 'img/layers/s2_tehran_dark.jpg', x: T.x0, y: -T.y1, width: T.x1 - T.x0, height: T.y1 - T.y0, preserveAspectRatio: 'none' }, th);
     for (const k in G.districts) {
       const P = G.districts[k], is6 = k === '6';
-      const p = s('path', { d: SA.d(P, true), fill: is6 ? 'var(--site)' : 'var(--paper-3)', stroke: 'var(--card)', 'stroke-width': 1.2, class: 'ns' }, g2);
-      m2.hover(p, { k: 'Municipal district', t: 'منطقه‌ی ' + SA.fa(k), big: G.districtArea[k] + ' km²', e: 'District ' + k }, 'd' + k);
-      m2.label(SA.centroid(P), k, 'lbl' + (is6 ? ' light' : ''), { size: is6 ? 12 : 9 });
+      const p = s('path', { d: SA.d(P, true), fill: is6 ? 'rgba(46,134,222,.38)' : 'rgba(255,255,255,.02)', stroke: is6 ? '#6CB4F5' : 'rgba(233,231,226,.45)', 'stroke-width': is6 ? 2 : 0.7, class: 'ns', filter: is6 ? 'url(#glow)' : null }, th);
+      mv.hover(p, { k: 'منطقه‌ی شهرداری', t: 'منطقه‌ی ' + SA.fa(k), big: SA.fa(G.districtArea[k]) + ' km²' }, 'd' + k);
+      mv.label(SA.centroid(P), k, 'lbl light', { size: is6 ? 14 : 10, layer: 'Ltehran' });
     }
-    frames[1].mark = s('circle', { cx: 0, cy: -40, r: 260, fill: '#fff', stroke: 'var(--ink)', 'stroke-width': 90 }, g2);
-    /* 3 District 6 */
-    const d6 = G.districts['6'], xs = d6.map((p) => p[0]), ys = d6.map((p) => p[1]);
-    const cx = (Math.min(...xs) + Math.max(...xs)) / 2, cy = (Math.min(...ys) + Math.max(...ys)) / 2, r = Math.max(Math.max(...xs) - Math.min(...xs), Math.max(...ys) - Math.min(...ys)) / 2 + 300;
-    const m3 = mk([cx - r, cy - r, cx + r, cy + r], 'District 6', { tl: '03 · District 6 · 21.4 km²', tr: 'OSM rel. 6729037' });
-    const g3 = m3.layer('d');
-    s('path', { d: SA.d(d6, true), fill: 'rgba(46,134,222,.07)', stroke: 'var(--site)', 'stroke-width': 1.4, class: 'ns' }, g3);
-    s('path', { d: SA.d(F('laleh_park').pts, true), fill: 'var(--lu-green)' }, g3);
-    s('path', { d: SA.d(F('ut_campus').pts, true), fill: 'var(--lu-edu)', opacity: 0.7 }, g3);
-    roadsInto(m3, g3, 1);
-    stationsInto(m3, g3, 3.2);
-    frames[2].mark = s('circle', { cx: SA.SITE_C[0], cy: -SA.SITE_C[1], r: 60, fill: 'var(--site)', stroke: '#fff', 'stroke-width': 2, class: 'ns' }, g3);
-    /* 4 UT / Laleh */
-    const m4 = mk([-800, -760, 800, 840], 'University of Tehran and Laleh Park', { tl: '04 · Laleh Park ↔ University of Tehran', tr: 'OSM' });
-    const g4 = m4.layer('d');
-    const pk = s('path', { d: SA.d(F('laleh_park').pts, true), fill: 'var(--lu-green)' }, g4);
-    m4.hover(pk, { k: 'Green space', t: 'بوستان لاله', big: '35 ha', e: 'Laleh Park — est. 1966 (Farah Park)', src: 'Wikipedia [4]; OSM [1]' });
-    const cp = s('path', { d: SA.d(F('ut_campus').pts, true), fill: 'var(--lu-edu)', opacity: 0.8 }, g4);
-    m4.hover(cp, { k: 'Educational', t: 'پردیس مرکزی دانشگاه تهران', big: '≈ 20.8 ha', e: 'University of Tehran — inaugurated 1934', src: 'OSM polygon [1]; [5]' });
-    roadsInto(m4, g4, 2);
-    stationsInto(m4, g4, 5);
-    s('path', { d: SA.d(G.envelope, true), fill: 'var(--site)', stroke: 'var(--ink)', 'stroke-width': 0.8, class: 'ns' }, g4);
-    m4.label([-40, 470], 'LALEH PARK', 'lbl'); m4.label([160, -330], 'UNIVERSITY OF TEHRAN', 'lbl'); m4.label([-40, 505], 'بوستان لاله', 'lbl-fa'); m4.label([160, -295], 'دانشگاه تهران', 'lbl-fa');
-    frames[3].mark = s('circle', { cx: SA.SITE_C[0], cy: -SA.SITE_C[1], r: 30, fill: 'none' }, g4);
-    /* 5 Site */
-    const m5 = mk([-95, -60, 105, 145], 'The site', { tl: '05 · Site', tr: 'aerial + user annotation' });
-    m5.aerial({ filter: 'saturate(.35) contrast(.95) brightness(1.06)' });
-    const g5 = m5.layer('d');
-    SA.drawStreets(m5, g5, ['Keshavarz', 'Jalalieh', 'Zare', 'ZareS', 'Hedayati', 'Enayat', 'Poursina', '16Azar'], { k: 0.75 });
-    SA.drawSite(m5, g5, { fill: 'rgba(46,134,222,.28)', w: 2 });
-    const mr = SA.minRect(G.envelope);
-    s('path', { d: SA.d(mr.pts, true), fill: 'none', stroke: '#fff', 'stroke-width': 0.9, 'stroke-dasharray': '3 2', class: 'ns' }, g5);
-    dim(m5, g5, mr.pts[0], mr.pts[1], '≈ ' + Math.round(mr.w) + ' m', -9);
-    dim(m5, g5, mr.pts[1], mr.pts[2], '≈ ' + Math.round(mr.h) + ' m', -9);
-    m5.label(SA.SITE_C, '≈ 8,900 m²', 'lbl light', { size: 13 });
-    m5.label([SA.SITE_C[0], SA.SITE_C[1] - 9], '±10 % · min. rectangle at ' + mr.a.toFixed(1) + '°', 'lbl light', { size: 8.5 });
-    frames[4].mark = null;
-    /* choreography */
-    const set = (k) => frames.forEach((fr, j) => { fr.f.className = 'zf mapframe ' + (j < k ? 'past' : j === k ? 'cur' : 'next'); });
-    const origins = () => frames.forEach((fr, j) => {
-      const tgt = fr.mark; if (!tgt) return;
-      const r1 = fr.f.getBoundingClientRect(), r2 = tgt.getBoundingClientRect();
-      if (!r1.width) return;
-      fr.f.style.transformOrigin = ((r2.left + r2.width / 2 - r1.left) / r1.width * 100).toFixed(2) + '% ' + ((r2.top + r2.height / 2 - r1.top) / r1.height * 100).toFixed(2) + '%';
-      const nx = frames[j + 1]; if (nx) nx.f.style.transformOrigin = fr.f.style.transformOrigin;
+    /* ---- District 6: Sentinel-2 true colour, outside darkened, glowing boundary ---- */
+    const d6 = layer('d6');
+    s('image', { href: 'img/layers/s2_district_color.jpg', x: D.x0, y: -D.y1, width: D.x1 - D.x0, height: D.y1 - D.y0, preserveAspectRatio: 'none' }, d6);
+    const B = G.districts['6'];
+    s('path', { d: 'M' + (D.x0 - 20000) + ' ' + -(D.y1 + 20000) + 'h60000v60000h-60000z' + SA.d(B, true), fill: 'rgba(12,14,16,.62)', 'fill-rule': 'evenodd' }, d6);
+    s('path', { d: SA.d(B, true), fill: 'none', stroke: '#6CB4F5', 'stroke-width': 2.4, class: 'ns draw', filter: 'url(#glow)' }, d6);
+    const rd = s('g', { class: 'roads' }, d6);
+    for (const n in G.roads) {
+      const r = G.roads[n], col = n === 'Keshavarz Blvd' ? 'var(--kesh)' : n === 'Poursina St' ? 'var(--pour)' : n === '16 Azar St' ? 'var(--azar)' : '#fff';
+      s('path', { d: SA.d(r.p), fill: 'none', stroke: col, 'stroke-opacity': col === '#fff' ? { t: 0.85, p: 0.6, s: 0.38 }[r.c] : 1, 'stroke-width': { t: 2.2, p: 1.5, s: 1 }[r.c] + (col !== '#fff' ? 0.6 : 0), class: 'ns draw', 'stroke-linecap': 'round' }, rd);
+    }
+    ['Keshavarz Blvd', 'Enghelab St', 'Valiasr St', 'N. Kargar St', 'Chamran Expy', 'Fatemi St', 'Taleqani St'].forEach((n) => {
+      const a = SA.along(G.roads[n].p, 0.55); let deg = (-a.ang * 180) / Math.PI; if (deg > 90) deg -= 180; if (deg < -90) deg += 180;
+      mv.label(a.p, n.toUpperCase(), 'lbl light', { rot: deg, size: 8.5, layer: 'Ld6' });
     });
-    set(0);
-    requestAnimationFrame(origins); addEventListener('resize', origins);
-    SA.scrolly(SA.$('#loc-scrolly'), (k) => { origins(); set(k); });
+    s('path', { d: SA.d(F('laleh_park').pts, true), fill: 'rgba(120,190,110,.25)', stroke: '#9FD08A', 'stroke-width': 1.2, class: 'ns' }, d6);
+    s('path', { d: SA.d(F('ut_campus').pts, true), fill: 'rgba(147,180,210,.2)', stroke: '#A9C6E0', 'stroke-width': 1.2, class: 'ns' }, d6);
+    SA.stations(mv, d6, 8);
+    mv.label([Math.max(...B.map((p) => p[0])) - 500, Math.max(...B.map((p) => p[1])) - 350], 'DISTRICT 6 · 21.4 km²', 'lbl light', { size: 12, layer: 'Ld6', anchor: 'end' });
+    /* ---- Laleh ↔ UT: context imagery + outlines ---- */
+    const pu = layer('pu');
+    pu.insertBefore(SA.atlas(mv, { dark: true, veg: false, s2: false, aerial: false, op: 0.95, parent: pu }), pu.firstChild);
+    const pk = s('path', { d: SA.d(F('laleh_park').pts, true), fill: 'rgba(120,190,110,.28)', stroke: '#9FD08A', 'stroke-width': 1.6, class: 'ns' }, pu);
+    mv.hover(pk, { k: 'فضای سبز عمومی', t: 'بوستان لاله', big: '۳۵ هکتار', e: 'Laleh Park — est. 1966' });
+    const cp = s('path', { d: SA.d(F('ut_campus').pts, true), fill: 'rgba(147,180,210,.22)', stroke: '#A9C6E0', 'stroke-width': 1.6, class: 'ns' }, pu);
+    mv.hover(cp, { k: 'آموزشی', t: 'پردیس مرکزی دانشگاه تهران', big: '≈ ۲۰٫۸ هکتار', e: 'University of Tehran — 1934' });
+    mv.label([-40, 460], 'LALEH PARK · 35 ha', 'lbl light', { size: 11, layer: 'Lpu' });
+    mv.label([150, -330], 'UNIVERSITY OF TEHRAN · ≈ 20.8 ha', 'lbl light', { size: 11, layer: 'Lpu' });
+    SA.arrow(mv, pu, [[c[0] + 20, c[1] + 70], [40, 330]], '#9FD08A', { w: 1.6, dash: '5 4' });
+    SA.arrow(mv, pu, [[c[0] + 10, c[1] - 60], [120, -250]], '#A9C6E0', { w: 1.6, dash: '5 4' });
+    /* ---- site ---- */
+    const st = layer('site');
+    SA.atlas(mv, { dark: true, veg: true, s2: false, context: false, op: 1, parent: st });
+    SA.streets(mv, st, ['16Azar', 'Poursina', 'Enayat', 'Hedayati', 'Jalalieh', 'Zare', 'ZareS', 'Keshavarz'], { hover: false });
+    SA.site(mv, st, { fill: 'rgba(46,134,222,.22)', w: 2.6, hover: true });
+    const mr = SA.minRect(G.envelope), dg = s('g', { class: 'lightdims' }, st);
+    SA.dimLine(mv, dg, mr.pts[0], mr.pts[1], '≈ ' + Math.round(mr.w) + ' m', -12);
+    SA.dimLine(mv, dg, mr.pts[1], mr.pts[2], '≈ ' + Math.round(mr.h) + ' m', -12);
+    SA.annot(mv, st, G.envelope[1], 'A01', 'KESHAVARZ × JALALIEH', { dir: [1, 1], len: 36, color: '#fff' });
+    SA.annot(mv, st, c, 'A02', '≈ 8,900 m² · ±10 %', { dir: [-1, 1], len: 60, color: '#7DB7EE' });
+    SA.annot(mv, st, G.envelope[3], 'A03', 'POURSINA · UT EDGE', { dir: [-1, -1], len: 30, color: '#fff' });
+    /* ---- site target: screen-sized, visible at every scale ---- */
+    const tg = s('g', { class: 'target' }, mv.layer('target'));
+    const q = SA.P(c);
+    [0, 1, 2].forEach((i) => s('circle', { cx: 0, cy: 0, r: 10, fill: 'none', stroke: '#fff', 'stroke-width': 1.2, class: 'tpulse', style: 'animation-delay:' + i * 0.9 + 's' }, tg));
+    s('circle', { cx: 0, cy: 0, r: 4.5, fill: 'var(--site)', stroke: '#fff', 'stroke-width': 1.5 }, tg);
+    s('path', { d: 'M-22 0h12M10 0h12M0 -22v12M0 10v12', stroke: '#fff', 'stroke-width': 1.2 }, tg);
+    SA.onScale(mv, (ppm) => tg.setAttribute('transform', 'translate(' + q[0] + ' ' + q[1] + ') scale(' + (1 / ppm).toFixed(5) + ')'));
+    /* ---- HUD ---- */
+    const hud = el('div', { class: 'loc-hud' }, host.parentNode);
+    const setHud = (k) => {
+      const lab = [['SCALE 1', 'Iran', 'ایران'], ['SCALE 2', 'Tehran · 22 districts', 'تهران'], ['SCALE 3', 'District 6 · 21.4 km²', 'منطقه‌ی ۶'], ['SCALE 4', 'Laleh Park ↔ UT', 'بوستان لاله ↔ دانشگاه'], ['SCALE 5', 'Site · ≈ 8,900 m²', 'سایت']][k];
+      hud.innerHTML = '<span class="h-k">' + lab[0] + ' / 5</span><b>' + lab[1] + '</b><span class="h-fa">' + lab[2] + '</span><span class="h-c">35.7070° N · 51.3931° E</span>';
+      hud.classList.remove('in'); void hud.offsetWidth; hud.classList.add('in');
+    };
+    const vis = [['iran'], ['tehran'], ['d6'], ['d6', 'pu'], ['pu', 'site']];
+    let cur = -1;
+    const go = (k) => {
+      if (k === cur) return; cur = k;
+      Object.keys(L).forEach((n) => L[n].classList.toggle('loc-off', vis[k].indexOf(n) < 0));
+      mv.setView(VIEWS[k], SA.reduced ? 0 : 2200);
+      setHud(k);
+      if (k === 2) SA.$$('.draw', L.d6).forEach((p, i) => { p.classList.remove('on'); void p.getBoundingClientRect(); setTimeout(() => p.classList.add('on'), 300 + i * 40); });
+      if (k === 4) { SA.revealAnnots(host); dg.classList.add('on'); }
+    };
+    SA.prepDraw(host);
+    go(0);
+    SA.scrolly(SA.$('#loc-scrolly'), (k) => go(k));
   }
+
   function dim(mv, g, a, b, text, off) {
     const ang = Math.atan2(b[1] - a[1], b[0] - a[0]), nx = -Math.sin(ang) * off, ny = Math.cos(ang) * off;
     const A2 = [a[0] + nx, a[1] + ny], B2 = [b[0] + nx, b[1] + ny];
@@ -167,6 +197,7 @@
     const host = SA.$('#urban-map');
     const C = SA.SITE_C;
     const mv = new SA.MapViewer(host, { view: [C[0] - 2750, C[1] - 2750, C[0] + 2750, C[1] + 2750], zoom: true, corners: { tl: 'Radius 2.5 km · OSM network', tr: 'hover stations & roads' } });
+    SA.atlas(mv, { context: false, aerial: false, veg: true, op: 0.95 });
     const base = mv.layer('base');
     const d6 = s('path', { d: SA.d(G.districts['6'], true), fill: 'rgba(46,134,222,.05)', stroke: 'var(--site)', 'stroke-width': 1, 'stroke-dasharray': '5 4', class: 'ns' }, base);
     mv.hover(d6, { k: 'Municipal boundary', t: 'مرز منطقه‌ی ۶', big: '21.4 km²', src: 'OSM relation 6729037' });
@@ -271,7 +302,7 @@
     });
     /* SITE */
     const st = mv.layer('site', { label: 'Site', fa: 'سایت', sw: 'background:var(--site)' });
-    const sp = SA.drawSite(mv, st, { w: 2.4, fill: 'rgba(46,134,222,.14)' });
+    const sp = SA.site(mv, st, { w: 3, fill: 'rgba(46,134,222,.16)', emph: true });
     const mr = SA.minRect(E);
     const dims = s('g', { class: 'dims' }, st);
     SA.dimLine(mv, dims, mr.pts[0], mr.pts[1], '≈ ' + Math.round(mr.w) + ' m', -10);

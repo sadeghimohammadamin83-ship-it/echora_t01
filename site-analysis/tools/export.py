@@ -10,9 +10,12 @@ SRC = sys.argv[1] if len(sys.argv) > 1 else 'index.html'
 OUT = '../export/Site_Analysis_PE_Faculty_Tehran' + ('_slides' if 'presentation' in SRC else '') + '.html'
 imgs = {}
 for p in sorted(glob.glob('img/**/*.*', recursive=True)):
+    if 'presentation' in SRC and p.startswith('img/layers/'): continue   # the slide version uses no imagery layers
     ext = p.rsplit('.', 1)[-1].lower()
     if ext == 'jpg':
         if 'google_context' in p: continue
+        if p.startswith('img/layers/s2_'):          # Sentinel bases: keep their full resolution
+            imgs[p] = b64(p, 'image/jpeg'); continue
         im = Image.open(p).convert('RGB')
         if p.startswith('img/photos/') or p.startswith('img/source/IMG'): im.thumbnail((1100, 1100))
         buf = io.BytesIO(); im.save(buf, 'JPEG', quality=70 if not p.startswith('img/layers/') else 82, optimize=True, progressive=True)

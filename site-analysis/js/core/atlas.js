@@ -6,7 +6,7 @@
    · spatial transitions: every map "zooms into place" the first time it is seen */
 (function () {
   'use strict';
-  const SA = window.SA, G = window.SA_GEO, I = window.SA_IMGRY, s = SA.s, el = SA.el;
+  const SA = window.SA, G = window.SA_GEO, I = window.SA_IMGRY, S2 = window.SA_S2, s = SA.s, el = SA.el;
   const A = G.aerial;
   /* registry of every map (for sheets, entrances, refresh) */
   SA.maps = SA.maps || [];
@@ -29,17 +29,28 @@
      o.context: draw the wide Google-derived base; o.aerial: draw the sharp site aerial on top (frame only);
      o.veg: stipple canopy extracted from the imagery; o.dark: dark grading. */
   SA.atlas = function (mv, o) {
-    o = Object.assign({ context: true, aerial: true, veg: true, dark: false, op: 1 }, o);
-    const g = mv.layer('atlas');
+    o = Object.assign({ s2: true, context: true, aerial: true, veg: true, dark: false, op: 1 }, o);
+    const g = o.parent ? s('g', { class: 'atlas' }, o.parent) : mv.layer('atlas');
     /* keep the base under everything: after the grid if there is one, else first */
     const grid = mv.layers.grid && mv.layers.grid.g;
-    mv.world.insertBefore(g, grid ? grid.nextSibling : mv.world.firstChild);
-    const C = I.context, M = C.m, sfx = o.dark ? 'dark' : 'base';
-    if (o.context) s('image', { href: 'img/layers/context_' + sfx + '.jpg', width: C.w, height: C.h, transform: 'matrix(' + M.join(' ') + ')', preserveAspectRatio: 'none', opacity: o.op * (o.aerial ? 0.9 : 1) }, g);
+    if (!o.parent) mv.world.insertBefore(g, grid ? grid.nextSibling : mv.world.firstChild);
+    const C = I.context, M = C.m, sfx = o.dark ? 'dark' : 'base', defs = SA.defs(mv.svg);
+    /* 1 · Sentinel-2 (10 m) — the wide base, so every zoom-out stays in imagery */
+    if (o.s2 && S2) { const b = S2.district; s('image', { href: 'img/layers/s2_district_' + (o.s2 === 'color' ? 'color' : o.dark ? 'dark' : 'mono') + '.jpg', x: b.x0, y: -b.y1, width: b.x1 - b.x0, height: b.y1 - b.y0, preserveAspectRatio: 'none', opacity: o.op }, g); }
+    /* 2 · Google context (0.65 m), feathered into the Sentinel base */
+    if (o.context) {
+      const fid = 'fc' + (SA._fe = (SA._fe || 0) + 1);
+      const gr = s('radialGradient', { id: fid + 'g', cx: 0.5, cy: 0.5, r: 0.6 }, defs);
+      s('stop', { offset: 0.74, 'stop-color': '#fff' }, gr); s('stop', { offset: 1, 'stop-color': '#000' }, gr);
+      /* the mask lives in the image's own (pixel) user space, because the image carries the transform */
+      const mk = s('mask', { id: fid, maskUnits: 'userSpaceOnUse', x: 0, y: 0, width: C.w, height: C.h }, defs);
+      s('rect', { width: C.w, height: C.h, fill: 'url(#' + fid + 'g)' }, mk);
+      s('image', { href: 'img/layers/context_' + sfx + '.jpg', width: C.w, height: C.h, transform: 'matrix(' + M.join(' ') + ')', preserveAspectRatio: 'none', opacity: o.op, mask: 'url(#' + fid + ')' }, g);
+    }
+    /* 3 · site aerial (0.19 m), feathered */
     if (o.aerial) {
       const x = -A.tx / A.s, y = -A.ty / A.s, w = A.w / A.s, h = A.h / A.s;
-      const defs = SA.defs(mv.svg), fid = 'fe' + (SA._fe = (SA._fe || 0) + 1);
-      /* feathered edge so the sharp aerial dissolves into the context base */
+      const fid = 'fe' + (SA._fe = (SA._fe || 0) + 1);
       const lg = s('mask', { id: fid, maskUnits: 'userSpaceOnUse', x, y, width: w, height: h }, defs);
       const gr = s('radialGradient', { id: fid + 'g', cx: 0.5, cy: 0.5, r: 0.62 }, defs);
       s('stop', { offset: 0.72, 'stop-color': '#fff' }, gr); s('stop', { offset: 1, 'stop-color': '#000' }, gr);
@@ -53,13 +64,15 @@
     o = o || {};
     const defs = SA.defs(mv.svg), id = 'vm' + (SA._vm = (SA._vm || 0) + 1);
     const C = I.context, x = -A.tx / A.s, y = -A.ty / A.s, w = A.w / A.s, h = A.h / A.s;
-    const m = s('mask', { id, maskUnits: 'userSpaceOnUse', x: -2000, y: -2000, width: 4000, height: 4000 }, defs);
+    const m = s('mask', { id, maskUnits: 'userSpaceOnUse', x: -3000, y: -7000, width: 8000, height: 11000 }, defs);
+    if (S2) { const b = S2.district; s('image', { href: 'img/layers/s2_district_ndvi.png', x: b.x0, y: -b.y1, width: b.x1 - b.x0, height: b.y1 - b.y0, preserveAspectRatio: 'none' }, m); }
+    s('rect', { width: C.w, height: C.h, fill: '#000', transform: 'matrix(' + C.m.join(' ') + ')' }, m);     /* finer masks win where they exist */
     s('image', { href: 'img/layers/context_veg.png', width: C.w, height: C.h, transform: 'matrix(' + C.m.join(' ') + ')', preserveAspectRatio: 'none' }, m);
-    s('rect', { x, y, width: w, height: h, fill: '#000' }, m);                   /* inside the aerial frame use the finer mask */
+    s('rect', { x, y, width: w, height: h, fill: '#000' }, m);
     s('image', { href: 'img/layers/aerial_veg.png', x, y, width: w, height: h, preserveAspectRatio: 'none' }, m);
     const g = s('g', { class: 'veg', mask: 'url(#' + id + ')' }, parent || mv.layer('veg'));
-    s('rect', { x: -2000, y: -2000, width: 4000, height: 4000, fill: o.dark ? 'rgba(126,160,106,.26)' : 'rgba(142,168,110,.30)' }, g);
-    s('rect', { x: -2000, y: -2000, width: 4000, height: 4000, fill: SA.stipple(mv.svg, 'stp' + (o.dark ? 'd' : 'l'), o.dark ? '#9CC08A' : '#56773F', 2.2, 0.36) }, g);
+    s('rect', { x: -3000, y: -7000, width: 8000, height: 11000, fill: o.dark ? 'rgba(126,160,106,.30)' : 'rgba(142,168,110,.34)' }, g);
+    s('rect', { x: -3000, y: -7000, width: 8000, height: 11000, fill: SA.stipple(mv.svg, 'stp' + (o.dark ? 'd' : 'l'), o.dark ? '#9CC08A' : '#56773F', 2.2, 0.36) }, g);
     return g;
   };
 
@@ -78,10 +91,10 @@
       if (!r.width) return;
       const W = r.width / k, H = r.height / k, vw = q[2] - q[0], vh = q[3] - q[1];
       const sc = Math.min(W / vw, H / vh), ox = (W - vw * sc) / 2, oy = (H - vh * sc) / 2;
-      const nice = [10, 20, 25, 50, 100, 200, 250, 500, 1000, 2000], step = nice.find((n) => n * sc > 70) || 5000;
+      const nice = []; for (let e = 0; e < 8; e++) [1, 2, 5].forEach((m) => nice.push(m * Math.pow(10, e))); const step = nice.find((n) => n * sc > 90);
       let h = '';
-      for (let x = Math.ceil(q[0] / step) * step; x <= q[2]; x += step) { const X = ox + (x - q[0]) * sc; if (X < 40 || X > W - 40) continue; h += '<span class="tx" style="left:' + X.toFixed(0) + 'px">' + SA.toLatLon([x, 0])[1].toFixed(4) + '°</span>'; }
-      for (let y = Math.ceil(q[1] / step) * step; y <= q[3]; y += step) { const Y = oy + (q[3] - y) * sc; if (Y < 40 || Y > H - 40) continue; h += '<span class="ty" style="top:' + Y.toFixed(0) + 'px">' + SA.toLatLon([0, y])[0].toFixed(4) + '°</span>'; }
+      for (let x = Math.ceil(q[0] / step) * step; x <= q[2]; x += step) { const X = ox + (x - q[0]) * sc; if (X < 40 || X > W - 40) continue; h += '<span class="tx" style="left:' + X.toFixed(0) + 'px">' + SA.toLatLon([x, 0])[1].toFixed(step > 5000 ? 1 : 4) + '°</span>'; }
+      for (let y = Math.ceil(q[1] / step) * step; y <= q[3]; y += step) { const Y = oy + (q[3] - y) * sc; if (Y < 40 || Y > H - 40) continue; h += '<span class="ty" style="top:' + Y.toFixed(0) + 'px">' + SA.toLatLon([0, y])[0].toFixed(step > 5000 ? 1 : 4) + '°</span>'; }
       tk.innerHTML = h;
     };
     mv.refresh();

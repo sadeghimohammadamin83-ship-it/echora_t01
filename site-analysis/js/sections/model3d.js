@@ -15,8 +15,8 @@
     const THREE = window.THREE;
     let renderer;
     try { renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false }); } catch (e) { host.innerHTML = '<p class="t-cap">3D needs WebGL, which this browser does not provide.</p>'; return; }
-    renderer.setPixelRatio(Math.min(2, devicePixelRatio));
-    renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.setPixelRatio(Math.min(1.5, devicePixelRatio));
+    renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFShadowMap; renderer.shadowMap.autoUpdate = false;
     renderer.outputEncoding = THREE.sRGBEncoding;
     host.appendChild(renderer.domElement);
     const scene = new THREE.Scene();
@@ -35,7 +35,7 @@
       const Z = (jj, ii) => g3.z[jj * n + ii];
       return ((Z(j, i) * (1 - u) + Z(j, i + 1) * u) * (1 - v) + (Z(j + 1, i) * (1 - u) + Z(j + 1, i + 1) * u) * v - z0) * VEX;
     };
-    const seg = 150, geo = new THREE.PlaneGeometry(HALF * 2, HALF * 2, seg, seg);
+    const seg = 100, geo = new THREE.PlaneGeometry(HALF * 2, HALF * 2, seg, seg);
     geo.rotateX(-Math.PI / 2);
     const pos = geo.attributes.position;
     for (let i = 0; i < pos.count; i++) pos.setY(i, hAt(pos.getX(i), -pos.getZ(i)));
@@ -83,20 +83,48 @@
     const edges = new THREE.LineBasicMaterial({ color: 0x3a3a3a, transparent: true, opacity: 0.35 });
     const siteBlds = [], pick = [];
     const inEnv = (q) => { let c = false; const P = G.envelope; for (let i = 0, j = P.length - 1; i < P.length; j = i++) { if ((P[i][1] > q[1]) !== (P[j][1] > q[1]) && q[0] < ((P[j][0] - P[i][0]) * (q[1] - P[i][1])) / (P[j][1] - P[i][1]) + P[i][0]) c = !c; } return c; };
+    const inPoly = (q, P) => { let c = false; for (let i = 0, j = P.length - 1; i < P.length; j = i++) { if ((P[i][1] > q[1]) !== (P[j][1] > q[1]) && q[0] < ((P[j][0] - P[i][0]) * (q[1] - P[i][1])) / (P[j][1] - P[i][1]) + P[i][0]) c = !c; } return c; };
+    /* street corridors (half-widths, m): traced footprints that fall on a street are not extruded */
+    const CORR = [['Keshavarz', 11], ['Poursina', 6], ['16Azar', 6], ['Qods', 6], ['Jalalieh', 4.5], ['Hedayati', 3.5], ['Enayat', 3.5], ['Zare', 3], ['ZareS', 3]];
+    const segDist = (q, a, b) => { const dx = b[0] - a[0], dy = b[1] - a[1], t = Math.max(0, Math.min(1, ((q[0] - a[0]) * dx + (q[1] - a[1]) * dy) / (dx * dx + dy * dy || 1))); return Math.hypot(q[0] - a[0] - t * dx, q[1] - a[1] - t * dy); };
+    const onStreet = (q) => CORR.some(([n, w]) => { const P = G.streets[n]; for (let i = 1; i < P.length; i++) if (segDist(q, P[i - 1], P[i]) < w) return true; return false; });
+    const streetShare = (P) => {
+      const xs = P.map((p) => p[0]), ys = P.map((p) => p[1]); let n = 0, k = 0;
+      for (let x = Math.min(...xs); x <= Math.max(...xs); x += 1.5) for (let y = Math.min(...ys); y <= Math.max(...ys); y += 1.5) if (inPoly([x, y], P)) { n++; if (onStreet([x, y])) k++; }
+      return n ? k / n : 0;
+    };
+    const merged = { n: [], edu: [] }, mergedEdges = [], ranges = { n: [], edu: [] };
+    let dropped = 0;
     G.features.filter((f) => f.kind === 'bldg').forEach((f) => {
-      const c0 = SA.centroid(f.pts), onSite0 = f.use === 'site' || inEnv(c0);
-      const h = (onSite0 ? H.site : H[f.use]) || 12, shape = new THREE.Shape(f.pts.map((p) => new THREE.Vector2(p[0], p[1])));
-      const eg = new THREE.ExtrudeGeometry(shape, { depth: h, bevelEnabled: false });
+      const c = SA.centroid(f.pts), onSite = f.use === 'site' || inEnv(c); /* the user: every building inside the blue boundary is demolished */
+      if (!onSite && streetShare(f.pts) > 0.08) { dropped++; return; }
+      const h = (onSite ? H.site : H[f.use]) || 12, shape = new THREE.Shape(f.pts.map((p) => new THREE.Vector2(p[0], p[1])));
+      const eg = new THREE.ExtrudeGeometry(shape, { depth: h, bevelEnabled: false, curveSegments: 1 });
       eg.rotateX(-Math.PI / 2);
-      const c = SA.centroid(f.pts), base = Math.min(...f.pts.map((p) => hAt(p[0], p[1])));
-      const onSite = f.use === 'site' || inEnv(c); /* the user: every building inside the blue boundary is demolished */
-      const m = new THREE.Mesh(eg, onSite ? mats.site.clone() : f.use === 'edu' || f.use === 'cult' ? mats.edu : mats.n);
-      m.position.y = base; m.castShadow = true; m.receiveShadow = true;
-      m.add(new THREE.LineSegments(new THREE.EdgesGeometry(eg, 20), edges));
-      m.userData = { f, h, c };
-      scene.add(m); pick.push(m);
-      if (onSite) siteBlds.push(m);
+      const base = Math.min(...f.pts.map((p) => hAt(p[0], p[1])));
+      if (onSite) {
+        const m = new THREE.Mesh(eg, mats.site.clone());
+        m.position.y = base; m.castShadow = true; m.receiveShadow = true;
+        m.add(new THREE.LineSegments(new THREE.EdgesGeometry(eg, 20), edges));
+        m.userData = { f, h, c }; scene.add(m); pick.push(m); siteBlds.push(m);
+      } else {
+        eg.translate(0, base, 0);
+        const key = f.use === 'edu' || f.use === 'cult' ? 'edu' : 'n';
+        ranges[key].push({ tri: eg.attributes.position.count / 3, f, h });
+        merged[key].push(eg); mergedEdges.push(new THREE.EdgesGeometry(eg, 20));
+      }
     });
+    /* one draw call per material (plus one for all edges) */
+    const BGU = THREE.BufferGeometryUtils;
+    ['n', 'edu'].forEach((key) => {
+      if (!merged[key].length) return;
+      const g2 = BGU.mergeBufferGeometries(merged[key].map((x) => x.toNonIndexed ? (x.index ? x.toNonIndexed() : x) : x));
+      const m = new THREE.Mesh(g2, mats[key]); m.castShadow = true; m.receiveShadow = true;
+      let acc = 0; m.userData.ranges = ranges[key].map((r) => { const o = { from: acc, to: acc + r.tri, f: r.f, h: r.h }; acc += r.tri; return o; });
+      scene.add(m); pick.push(m);
+    });
+    if (mergedEdges.length) scene.add(new THREE.LineSegments(BGU.mergeBufferGeometries(mergedEdges), edges));
+    if (dropped) console.info('[3d] footprints on street corridors not extruded:', dropped);
 
     /* ---------- trees (canopy extracted from imagery) ---------- */
     const tgeo = new THREE.IcosahedronGeometry(1, 0), tmat = new THREE.MeshStandardMaterial({ color: 0x7d9a5f, roughness: 1, flatShading: true });
@@ -105,7 +133,7 @@
     const dummy = new THREE.Object3D(); let rnd = 1;
     const rand = () => ((rnd = (rnd * 16807) % 2147483647) / 2147483647);
     pts.forEach((p, i) => { const r = 2.6 + rand() * 1.8; dummy.position.set(p[0], hAt(p[0], p[1]) + r * 1.4, -p[1]); dummy.scale.set(r, r * 1.15, r); dummy.rotation.y = rand() * 6; dummy.updateMatrix(); inst.setMatrixAt(i, dummy.matrix); });
-    inst.castShadow = true; inst.receiveShadow = true; scene.add(inst);
+    inst.castShadow = true; inst.receiveShadow = false; scene.add(inst);
 
     /* ---------- site envelope as a thin raised outline ---------- */
     const env = G.envelope.concat([G.envelope[0]]).map((p) => new THREE.Vector3(p[0], hAt(p[0], p[1]) + 0.6, -p[1]));
@@ -117,12 +145,13 @@
     /* ---------- light: sky + computed sun ---------- */
     scene.add(new THREE.HemisphereLight(0xffffff, 0xd9d2c3, 0.62));
     const sun = new THREE.DirectionalLight(0xfff4e0, 0.95);
-    sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048);
+    sun.castShadow = true; sun.shadow.mapSize.set(1536, 1536);
     Object.assign(sun.shadow.camera, { left: -340, right: 340, top: 340, bottom: -340, near: 10, far: 1600 });
     sun.shadow.bias = -0.0006; sun.shadow.normalBias = 0.6;
     scene.add(sun); scene.add(sun.target); sun.target.position.copy(controls.target);
     let day = 172, hour = 15;
     const placeSun = () => {
+      renderer.shadowMap.needsUpdate = true;
       const sp = SA.sunpos ? SA.sunpos(day, hour) : { alt: 45, az: 225 };
       const alt = Math.max(sp.alt, 2) * Math.PI / 180, az = sp.az * Math.PI / 180, R = 700;
       sun.position.set(controls.target.x + R * Math.cos(alt) * Math.sin(az), R * Math.sin(alt), controls.target.z - R * Math.cos(alt) * Math.cos(az));
@@ -138,12 +167,17 @@
     const lw = el('div', { class: 'm3d-labels' }, host);
     const L = labs.map(([p, fa, en, lift]) => ({ v: new THREE.Vector3(p[0], hAt(p[0], p[1]) + lift, -p[1]), e: el('div', { class: 'm3d-l' }, lw, '<i></i><b>' + fa + '</b><span>' + en + '</span>') }));
     const tip = SA.tip;
-    const ray = new THREE.Raycaster(), mouse = new THREE.Vector2();
+    const ray = new THREE.Raycaster(), mouse = new THREE.Vector2(); let rayPending = false, lastEv = null;
     renderer.domElement.addEventListener('pointermove', (ev) => {
       const r = renderer.domElement.getBoundingClientRect(); mouse.set(((ev.clientX - r.left) / r.width) * 2 - 1, -((ev.clientY - r.top) / r.height) * 2 + 1);
-      ray.setFromCamera(mouse, cam); const hit = ray.intersectObjects(pick, false)[0];
-      if (hit && hit.object.visible) { const f = hit.object.userData.f, lu = D.landuse[f.use] || {}; tip.show(ev, SA.card({ k: lu.en + ' · assumed height', t: f.fa || lu.fa, e: f.name || 'Building footprint', rows: [['Height (assumed)', '≈ ' + hit.object.userData.h + ' m'], ['Footprint', '≈ ' + SA.fmt(SA.area(f.pts)) + ' m²']], src: f.src })); }
-      else tip.hide();
+      if (rayPending) return; rayPending = true; lastEv = ev;
+      requestAnimationFrame(() => {
+        rayPending = false; ray.setFromCamera(mouse, cam); const hit = ray.intersectObjects(pick, false)[0];
+        let info = null;
+        if (hit && hit.object.visible) info = hit.object.userData.ranges ? hit.object.userData.ranges.find((r) => hit.faceIndex >= r.from && hit.faceIndex < r.to) : hit.object.userData;
+        if (info) { const f = info.f, lu = D.landuse[f.use] || {}; tip.show(lastEv, SA.card({ k: lu.en + ' · assumed height', t: f.fa || lu.fa, e: f.name || 'Building footprint', rows: [['Height (assumed)', '≈ ' + info.h + ' m'], ['Footprint', '≈ ' + SA.fmt(SA.area(f.pts)) + ' m²']], src: f.src })); }
+        else tip.hide();
+      });
     });
     renderer.domElement.addEventListener('pointerleave', () => tip.hide());
 
@@ -200,7 +234,7 @@
       raf = 0;
       if (!visible) return;
       if (tween) tween(now);
-      if (demoT) demoT(now);
+      if (demoT) { demoT(now); renderer.shadowMap.needsUpdate = true; }
       const moving = controls.update();
       render();
       if (tween || demoT || moving || now < idleUntil) raf = requestAnimationFrame(loop);

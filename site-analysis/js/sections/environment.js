@@ -25,14 +25,15 @@
   /* ================= 09 GREEN & OPEN SPACE ================= */
   function green() {
     const host = SA.$('#green-map');
-    const mv = new SA.MapViewer(host, { view: [-300, -330, 360, 360], zoom: true, grid: 50, corners: { tl: 'Green & open space', tr: 'OSM + observed tree rows' } });
+    const mv = new SA.MapViewer(host, { view: [-420, -420, 480, 460], zoom: true, grid: 50, corners: { tl: 'Green & open space', tr: 'OSM + observed tree rows' } });
+    SA.atlas(mv, { veg: true, op: 0.95 });
     const b = mv.layer('b');
     const park = SA.F('laleh_park'), camp = SA.F('ut_campus');
-    const pk = s('path', { d: SA.d(park.pts, true), fill: 'var(--lu-green)', class: 'grow' }, b);
+    const pk = s('path', { d: SA.d(park.pts, true), fill: 'rgba(158,180,139,.28)', stroke: '#56773F', 'stroke-width': 1.4, class: 'ns grow' }, b);
     mv.hover(pk, { k: 'Public green', t: 'بوستان لاله', big: '35 ha', e: 'est. 1966 · tree mass north of Keshavarz', src: '[4] · OSM [1]' });
     const cp = s('path', { d: SA.d(camp.pts, true), fill: 'var(--lu-edu)', 'fill-opacity': 0.35, stroke: 'var(--lu-edu)', 'stroke-width': 1, class: 'ns' }, b);
     mv.hover(cp, { k: 'Enclosed campus open space', t: 'پردیس دانشگاه تهران (فضای باز محصور)', big: '≈ 20.8 ha', e: 'garden-campus on the Jalaliyeh garden' });
-    SA.drawFeatures(mv, b, { filter: (f) => f.kind === 'bldg', hover: false, dashUnc: false, style: () => ({ fill: 'var(--card)', stroke: 'var(--line)', 'stroke-width': 0.4 }) });
+    SA.drawFeatures(mv, b, { filter: (f) => f.kind === 'bldg', hover: false, dashUnc: false, style: () => ({ fill: 'rgba(250,249,246,.55)', stroke: 'rgba(28,31,34,.3)', 'stroke-width': 0.5, class: 'ns' }) });
     const tp = SA.F('tums_parking'), sp = SA.F('site_parking');
     const hatch = SA.hatch(mv.svg, 'h-asph', 'rgba(28,31,34,.4)', 3, 0.5);
     [tp, sp].forEach((f) => { const p = s('path', { d: SA.d(f.pts, true), fill: hatch, stroke: 'var(--mute)', 'stroke-width': 0.5 }, b); mv.hover(p, { k: 'Sealed surface · parking', t: f.fa, big: '≈ ' + SA.fmt(SA.area(f.pts)) + ' m²', e: 'asphalt' }); });
@@ -328,7 +329,7 @@
   /* ================= 14 NOISE & AIR ================= */
   function noise() {
     const host = SA.$('#noise-map');
-    const mv = new SA.MapViewer(host, { view: [-160, -120, 150, 200], zoom: true, grid: 10, corners: { tl: 'Noise · qualitative', tr: 'no measured dB' } });
+    const mv = new SA.MapViewer(host, { view: [-250, -190, 250, 280], zoom: true, grid: 10, corners: { tl: 'Noise · qualitative', tr: 'no measured dB' } });
     mv.aerial({ filter: 'grayscale(1) brightness(1.2) contrast(.7)', opacity: 0.45 });
     const g = mv.layer('n');
     const band = (pts, w, c, o, lvl) => { const p = s('path', { d: SA.d(pts), fill: 'none', stroke: c, 'stroke-width': w, 'stroke-opacity': o, 'stroke-linecap': 'round', class: 'nb' }, g); mv.hover(p, { k: 'Noise · ' + lvl, t: { High: 'صدای زیاد', Medium: 'صدای متوسط', Low: 'صدای کم' }[lvl], src: 'qualitative, from traffic class and observation' }, 'nz-' + lvl); return p; };
@@ -364,34 +365,36 @@
   /* ================= 15 VIEWS ================= */
   function views() {
     const host = SA.$('#views-map');
-    const mv = new SA.MapViewer(host, { view: [-130, -90, 140, 190], zoom: true, grid: 10, corners: { tl: 'Views from the site', tr: 'green = positive · red = negative' } });
-    mv.aerial({ filter: 'saturate(.3) brightness(1.08)', opacity: 0.8 });
-    SA.drawSite(mv, mv.layer('s'), { w: 2, hover: false });
+    const mv = new SA.MapViewer(host, { view: [-170, -120, 190, 230], zoom: true, grid: 10, corners: { tl: 'Views from the site', tr: 'green = positive · red = negative' } });
+    mv.aerial({ filter: 'brightness(.5)', opacity: 0.95 });
+    SA.drawFeatures(mv, mv.layer('bl'), { filter: (f) => f.kind === 'bldg' && f.use !== 'site', hover: false, dashUnc: false, style: () => ({ fill: 'rgba(255,255,255,.06)', stroke: 'rgba(255,255,255,.3)', 'stroke-width': 0.5, class: 'ns' }) });
+    SA.streets(mv, mv.layer('st'), ['16Azar', 'Poursina', 'Enayat', 'Hedayati', 'Jalalieh', 'Zare', 'ZareS', 'Keshavarz'], { hover: false, op: 0.6, arrows: false });
+    SA.drawSite(mv, mv.layer('s'), { w: 2.4, hover: false, fill: 'rgba(46,134,222,.18)' });
     const C = SA.SITE_C, vg = mv.layer('v');
     const V = [
-      { dir: 0, r: 110, w: 50, c: 'var(--pos)', en: 'North → Laleh Park (above the tree canopy, from upper floors)', fa: 'دید به پارک از طبقات بالاتر، بالای تاج درختان', page: 30, from: [5, 70] },
-      { dir: 197, r: 95, w: 55, c: 'var(--pos)', en: 'South → campus and the Poursina plane trees', fa: 'دید به پردیس و ردیف چنارهای پورسینا', page: 12, from: [10, 0] },
-      { dir: 340, r: 70, w: 18, c: 'var(--pos)', en: 'Jalalieh axis → Keshavarz Blvd', fa: 'محور دید جلالیه به بلوار', page: 27, from: [70, 40] },
-      { dir: 270, r: 60, w: 40, c: 'var(--neg)', en: 'West → blind walls and backs of buildings', fa: 'بدنه‌های کور و پشت ساختمان‌ها در غرب', page: 17, from: [-30, 45] },
-      { dir: 90, r: 55, w: 35, c: 'var(--neg)', en: 'East → TUMS parking, rear facades', fa: 'پارکینگ علوم پزشکی و نماهای پشتی', page: 14, from: [55, 55] },
+      { dir: 0, r: 110, w: 50, c: '#19C48A', en: 'North → Laleh Park (above the tree canopy, from upper floors)', fa: 'دید به پارک از طبقات بالاتر، بالای تاج درختان', page: 30, from: [5, 70] },
+      { dir: 197, r: 95, w: 55, c: '#19C48A', en: 'South → campus and the Poursina plane trees', fa: 'دید به پردیس و ردیف چنارهای پورسینا', page: 12, from: [10, 0] },
+      { dir: 340, r: 70, w: 18, c: '#19C48A', en: 'Jalalieh axis → Keshavarz Blvd', fa: 'محور دید جلالیه به بلوار', page: 27, from: [70, 40] },
+      { dir: 270, r: 60, w: 40, c: '#F0604A', en: 'West → blind walls and backs of buildings', fa: 'بدنه‌های کور و پشت ساختمان‌ها در غرب', page: 17, from: [-30, 45] },
+      { dir: 90, r: 55, w: 35, c: '#F0604A', en: 'East → TUMS parking, rear facades', fa: 'پارکینگ علوم پزشکی و نماهای پشتی', page: 14, from: [55, 55] },
     ];
     V.forEach((v, i) => {
       const o = [C[0] + v.from[0] - 10, v.from[1]], q = SA.P(o), a0 = ((v.dir - v.w / 2 - 90) * Math.PI) / 180, a1 = ((v.dir + v.w / 2 - 90) * Math.PI) / 180;
       const d = 'M' + q[0] + ' ' + q[1] + ' L' + (q[0] + v.r * Math.cos(a0)) + ' ' + (q[1] + v.r * Math.sin(a0)) + ' A' + v.r + ' ' + v.r + ' 0 0 1 ' + (q[0] + v.r * Math.cos(a1)) + ' ' + (q[1] + v.r * Math.sin(a1)) + 'Z';
       const defs = SA.defs(mv.svg), gid = 'vg' + i, rg = s('radialGradient', { id: gid, cx: q[0], cy: q[1], r: v.r, gradientUnits: 'userSpaceOnUse' }, defs);
-      s('stop', { offset: 0, 'stop-color': v.c, 'stop-opacity': 0.55 }, rg); s('stop', { offset: 1, 'stop-color': v.c, 'stop-opacity': 0.02 }, rg);
-      const p = s('path', { d, fill: 'url(#' + gid + ')', stroke: v.c, 'stroke-width': 0.8, 'stroke-dasharray': '3 2', class: 'ns cone-v', style: 'transform-origin:' + q[0] + 'px ' + q[1] + 'px' }, vg);
-      s('circle', { cx: q[0], cy: q[1], r: 2.4, fill: v.c }, vg);
+      s('stop', { offset: 0, 'stop-color': v.c, 'stop-opacity': 0.7 }, rg); s('stop', { offset: 0.75, 'stop-color': v.c, 'stop-opacity': 0.28 }, rg); s('stop', { offset: 1, 'stop-color': v.c, 'stop-opacity': 0.08 }, rg);
+      const p = s('path', { d, fill: 'url(#' + gid + ')', stroke: v.c, 'stroke-width': 1.6, class: 'ns cone-v', style: 'transform-origin:' + q[0] + 'px ' + q[1] + 'px' }, vg);
+      s('circle', { cx: q[0], cy: q[1], r: 3, fill: v.c, stroke: '#fff', 'stroke-width': 1 }, vg);
       const lp = [o[0] + v.r * 0.62 * Math.sin((v.dir * Math.PI) / 180), o[1] + v.r * 0.62 * Math.cos((v.dir * Math.PI) / 180)];
-      mv.label(lp, 'V' + (i + 1), 'lbl', { size: 11, layer: 'v' });
-      mv.hover(p, { k: (v.c === 'var(--pos)' ? 'Positive' : 'Negative') + ' view · V' + (i + 1), t: v.fa, e: v.en, img: 'img/thumbs/pdf_page_' + String(v.page).padStart(2, '0') + '.jpg', src: 'photo: PDF page ' + v.page + ' — click for full screen' }, 'v' + i);
+      mv.label(lp, 'V' + (i + 1), 'lbl light', { size: 12, layer: 'v' });
+      mv.hover(p, { k: (v.c === '#19C48A' ? 'Positive' : 'Negative') + ' view · V' + (i + 1), t: v.fa, e: v.en, img: 'img/thumbs/pdf_page_' + String(v.page).padStart(2, '0') + '.jpg', src: 'photo: PDF page ' + v.page + ' — click for full screen' }, 'v' + i);
       p.addEventListener('click', () => SA.openPage(v.page));
       v.p = p;
     });
     SA.observe(host, () => V.forEach((v, i) => setTimeout(() => v.p.classList.add('in'), i * 180)));
     const L = SA.$('#views-list');
     V.forEach((v, i) => {
-      const it = el('div', { class: 'vl ' + (v.c === 'var(--pos)' ? 'pos' : 'neg'), tabindex: 0 }, L, '<span class="b">V' + (i + 1) + '</span><div><b>' + v.en + '</b><span class="fa">' + v.fa + '</span></div>');
+      const it = el('div', { class: 'vl ' + (v.c === '#19C48A' ? 'pos' : 'neg'), tabindex: 0 }, L, '<span class="b">V' + (i + 1) + '</span><div><b>' + v.en + '</b><span class="fa">' + v.fa + '</span></div>');
       const idx = SA.photoList.findIndex((p) => p.page === v.page);
       SA.thumb(it, SA.photoList, idx, { cls: 'vl-th' });
       it.addEventListener('pointerenter', () => mv.hot('v' + i)); it.addEventListener('pointerleave', () => mv.unhot());

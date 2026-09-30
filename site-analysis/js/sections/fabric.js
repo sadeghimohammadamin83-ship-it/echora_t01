@@ -16,7 +16,7 @@
   /* ================= 06 LAND USE ================= */
   function landuse() {
     const host = SA.$('#lu-map'), fr = SA.FRAME;
-    const mv = new SA.MapViewer(host, { view: [fr[0] - 20, fr[1] - 10, fr[2] + 30, fr[3] + 15], zoom: true, grid: 10, corners: { tl: 'Land use · aerial frame', tr: 'hover a parcel or a legend row' } });
+    const mv = new SA.MapViewer(host, { view: [fr[0] - 70, fr[1] - 45, fr[2] + 80, fr[3] + 40], zoom: true, grid: 10, corners: { tl: 'Land use · aerial frame', tr: 'hover a parcel or a legend row' } });
     mv.aerial({ filter: 'grayscale(1) brightness(1.25) contrast(.6)', opacity: 0.35 });
     const g = mv.layer('lu');
     const hatch = SA.hatch(mv.svg, 'h-park', 'rgba(28,31,34,.35)', 3, 0.5);

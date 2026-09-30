@@ -7,7 +7,7 @@
   const idle = window.requestIdleCallback || ((f) => setTimeout(f, 1));
   function next() {
     const fn = list.shift();
-    if (!fn) { sheets(); SA.initReveal(); document.documentElement.classList.add('ready'); return; }
+    if (!fn) { sheets(); SA.initReveal(); document.documentElement.classList.add('ready'); SA.Stepper(); return; }
     try { fn(); } catch (e) { console.error('[section]', e); }
     SA.initReveal();
     idle(next, { timeout: 60 });

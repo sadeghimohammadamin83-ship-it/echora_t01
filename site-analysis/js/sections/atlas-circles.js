@@ -53,20 +53,6 @@
       SA.arrow(mv, g, SA.offset(G.streets.Keshavarz, 5), '#EF7F1A', { w: 1.6 });
       SA.arrow(mv, g, SA.offset(G.streets.Keshavarz, -5).slice().reverse(), '#EF7F1A', { w: 1.6 });
     }, 'one-way directions from OSM · junction nodes');
-    /* 5 VISUAL CONNECTION */
-    mk('Visual connection', 'پیوند بصری', 'AT-5', 190, (mv, g) => {
-      const c = C();
-      [[0, 190, '#3E7A4E'], [30, -140, '#3E7A4E'], [60, 150, '#3E7A4E'], [-150, 45, '#C0504A'], [170, 60, '#C0504A']].forEach(([x, y, col]) => { SA.arrow(mv, g, [c, [x, y]], col, { w: 2, dash: '5 4', draw: true }); const q = SA.P([x, y]); s('circle', { cx: q[0], cy: q[1], r: 5, fill: col }, g); });
-    }, 'green = positive view · red = blind walls / parking');
-    /* 6 SPATIAL PLANNING */
-    mk('Spatial planning', 'منطق فضایی پیشنهادی', 'AT-6', 170, (mv, g) => {
-      const E = G.envelope;
-      s('path', { d: SA.d(SA.offset([E[3], E[0]], -10)), fill: 'none', stroke: '#C0504A', 'stroke-width': 14, 'stroke-opacity': 0.5 }, g);
-      s('path', { d: SA.d([[60, 300], J0, JS, [70, -200]]), fill: 'none', stroke: '#2E86DE', 'stroke-width': 3, class: 'ns' }, g);
-      s('path', { d: SA.d([[0, 140], [22, -40]]), fill: 'none', stroke: '#1C1F22', 'stroke-width': 1.2, 'stroke-dasharray': '6 4', class: 'ns' }, g);
-      const q = SA.P([J0[0] - 10, J0[1] - 8]); s('circle', { cx: q[0], cy: q[1], r: 10, fill: '#2E86DE', 'fill-opacity': 0.6 }, g);
-      s('path', { d: SA.d([[20, 10], [55, 12], [52, 40], [22, 38]], true), fill: '#E8A05A', 'fill-opacity': 0.7 }, g);
-    }, 'protect west · activate NE · pedestrian spine · halls on the S/E edge');
   }
   SA.sections.push(circles);
 })();
