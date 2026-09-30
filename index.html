@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ECHORA — A Living World</title>
+<meta name="description" content="ECHORA is a living-world survival and discovery game. Wake in Camp One, a month after the crash, and help the others hold it together. Pre-Alpha 0.1 for Windows.">
+<meta name="theme-color" content="#080d14">
+<link rel="canonical" href="https://sadeghimohammadamin83-ship-it.github.io/bim-asset-hub/">
+<link rel="icon" type="image/png" href="assets/img/icon.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ECHORA — A Living World">
+<meta property="og:description" content="A living-world survival and discovery game. Pre-Alpha 0.1 for Windows.">
+<meta property="og:image" content="https://sadeghimohammadamin83-ship-it.github.io/bim-asset-hub/assets/img/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ECHORA — A Living World">
+<meta name="twitter:description" content="A living-world survival and discovery game. Pre-Alpha 0.1 for Windows.">
+<meta name="twitter:image" content="https://sadeghimohammadamin83-ship-it.github.io/bim-asset-hub/assets/img/og.jpg">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoGame","name":"ECHORA","alternateName":"اِکورا","description":"A living-world survival and discovery game.","genre":["Survival","Exploration"],"gamePlatform":"Windows","operatingSystem":"Windows x64","inLanguage":["en","fa"],"softwareVersion":"Pre-Alpha 0.1"}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/css/fonts.css">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<!--BODY-->
+<a class="skip" href="#story" data-i18n="skip">Skip to content</a>
+
+<div class="loader" id="loader" aria-hidden="true">
+  <svg class="loader__mark" viewBox="0 0 40 40"><circle cx="20" cy="20" r="14"/><line x1="20" y1="2" x2="20" y2="38"/></svg>
+  <span class="loader__line"></span>
+</div>
+
+<header class="nav" id="nav">
+  <a class="nav__brand" href="#top" aria-label="ECHORA">
+    <span class="wordmark wordmark--sm" aria-hidden="true">ECH<svg class="wm-o" viewBox="0 0 40 40"><circle cx="20" cy="20" r="14"/><line x1="20" y1="4" x2="20" y2="36"/></svg>RA</span>
+  </a>
+  <nav class="nav__links" aria-label="Sections">
+    <a href="#story" data-i18n="nav.story">Story</a>
+    <a href="#crew" data-i18n="nav.crew">Crew</a>
+    <a href="#world" data-i18n="nav.world">World</a>
+    <a href="#archive" data-i18n="nav.archive">Archive</a>
+    <a href="#chapters" data-i18n="nav.chapters">Chapters</a>
+    <a href="#media" data-i18n="nav.media">Media</a>
+  </nav>
+  <div class="nav__end">
+    <button class="lang" id="langBtn" type="button" data-i18n-aria="lang.label"><span data-i18n="lang.switch">فارسی</span></button>
+    <a class="btn btn--sm btn--primary" href="#download" data-dl><span data-i18n="nav.download">Download</span></a>
+    <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="drawer"><span></span><span></span><span class="sr" data-i18n="nav.menu">Menu</span></button>
+  </div>
+</header>
+
+<div class="drawer" id="drawer" hidden>
+  <nav aria-label="Sections">
+    <a href="#story"><small>01</small><span data-i18n="nav.story">Story</span></a>
+    <a href="#crew"><small>02</small><span data-i18n="nav.crew">Crew</span></a>
+    <a href="#world"><small>03</small><span data-i18n="nav.world">World</span></a>
+    <a href="#archive"><small>04</small><span data-i18n="nav.archive">Archive</span></a>
+    <a href="#chapters"><small>05</small><span data-i18n="nav.chapters">Chapters</span></a>
+    <a href="#media"><small>06</small><span data-i18n="nav.media">Media</span></a>
+    <a href="#download"><small>07</small><span data-i18n="nav.download">Download</span></a>
+  </nav>
+</div>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero" id="hero" aria-labelledby="heroTitle">
+    <div class="hero__bg" data-parallax="0.25"><img src="assets/img/hero.webp" alt="" fetchpriority="high"></div>
+    <div class="hero__halo" aria-hidden="true"></div>
+    <canvas class="hero__motes" id="motes" aria-hidden="true"></canvas>
+    <div class="hero__inner wrap">
+      <p class="eyebrow" data-i18n="hero.eyebrow">Pre-Alpha 0.1 · Windows</p>
+      <h1 class="hero__title" id="heroTitle">
+        <span class="wordmark wordmark--xl" aria-label="ECHORA">ECH<svg class="wm-o" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="14"/><line x1="20" y1="4" x2="20" y2="36"/></svg>RA</span>
+        <span class="hero__tag" data-i18n="hero.tag">A Living World</span>
+      </h1>
+      <p class="hero__line" data-i18n="hero.line">The planet will keep breathing without you.</p>
+      <p class="hero__sub" data-i18n="hero.sub">A living-world survival and discovery game.</p>
+      <div class="hero__cta">
+        <a class="btn btn--primary btn--lg magnetic" href="#download" data-dl>
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5 10.5 4.4v7.2H3zm8.5-1.2L21 3v8.6h-9.5zM3 12.4h7.5v7.2L3 18.5zm8.5 0H21V21l-9.5-1.3z"/></svg>
+          <span data-i18n="cta.download">Download for Windows</span>
+        </a>
+        <button class="btn btn--ghost btn--lg magnetic" type="button" data-teaser>
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+          <span data-i18n="cta.teaser">Watch Teaser</span>
+        </button>
+      </div>
+      <p class="dl-meta mono"><span data-cfg="VERSION">Pre-Alpha 0.1</span> · <span data-cfg="PLATFORM">Windows x64</span> · <span data-cfg="FILE_SIZE">112 MB</span></p>
+    </div>
+    <div class="hero__foot wrap">
+      <span class="mono motto" data-i18n="hero.motto">Explore · Learn · Restore · Belong</span>
+      <a class="scrollcue" href="#story"><span data-i18n="hero.scroll">Scroll</span><i></i></a>
+    </div>
+  </section>
+
+  <!-- STORY -->
+  <section class="story" id="story" aria-labelledby="storyTitle">
+    <div class="wrap story__grid">
+      <div class="story__text">
+        <p class="eyebrow mono" data-i18n="story.eyebrow">Day 30 · 06:14 · Glassroot Basin</p>
+        <h2 class="display" id="storyTitle" data-i18n="story.title">A month after the crash.</h2>
+        <p class="lede" data-i18n="story.p1"></p>
+        <p data-i18n="story.p2"></p>
+        <p class="alarm mono"><i></i><span data-i18n="story.alarm">Pressure drop detected</span></p>
+      </div>
+      <figure class="story__art reveal">
+        <div class="frame graded" data-parallax="-0.06"><img src="assets/img/story.webp" alt="The crashed colony ship and Camp One in Glassroot Basin" ></div>
+        <figcaption class="mono">Camp One</figcaption>
+      </figure>
+    </div>
+    <blockquote class="quote wrap reveal">
+      <svg class="quote__mark" viewBox="0 0 60 60" aria-hidden="true"><polygon points="30,2 58,30 30,58 2,30"/><polygon points="30,14 46,30 30,46 14,30"/></svg>
+      <p data-i18n="story.quote">Every root begins with a place to stand.</p>
+      <footer class="mono">— <span data-i18n="story.cite">ECHORA Expedition</span></footer>
+    </blockquote>
+  </section>
+
+  <!-- CREW -->
+  <section class="crew" id="crew" aria-labelledby="crewTitle">
+    <div class="crew__stage">
+      <div class="crew__img" id="crewImg"></div>
+      <div class="crew__shade" aria-hidden="true"></div>
+    </div>
+    <div class="wrap crew__inner">
+      <header class="sec-head">
+        <p class="eyebrow" data-i18n="crew.eyebrow">The survivors of Camp One</p>
+        <h2 class="display" id="crewTitle" data-i18n="crew.title">Four people. One camp.</h2>
+        <p class="sec-lead" data-i18n="crew.lead"></p>
+      </header>
+      <div class="crew__detail" id="crewDetail" aria-live="polite"></div>
+      <div class="crew__tabs" role="tablist" id="crewTabs" aria-labelledby="crewTitle"></div>
+      <div class="crew__classes">
+        <p class="eyebrow" data-i18n="crew.classes">Your expedition role</p>
+        <ul id="classes" class="chips"></ul>
+        <p class="mono pillars" data-i18n="crew.pillars">Identity · Explore · Study · Survive · Belong</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORLD -->
+  <section class="world" id="world" aria-labelledby="worldTitle">
+    <div class="wrap">
+      <header class="sec-head">
+        <p class="eyebrow" data-i18n="world.eyebrow">Expedition map</p>
+        <h2 class="display" id="worldTitle" data-i18n="world.title">The continent, as far as we know it.</h2>
+        <p class="sec-lead" data-i18n="world.lead"></p>
+      </header>
+      <div class="world__grid">
+        <div class="map" id="map">
+          <svg id="mapSvg" viewBox="0 0 2000 1300" role="group" aria-label="Expedition map"></svg>
+          <p class="map__scale mono" data-i18n="world.scale"></p>
+        </div>
+        <aside class="region" id="region" aria-live="polite"></aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARCHIVE -->
+  <section class="archive" id="archive" aria-labelledby="archTitle">
+    <div class="archive__bg" aria-hidden="true"><img src="assets/img/archive.webp" alt="" ></div>
+    <div class="wrap">
+      <header class="sec-head">
+        <p class="eyebrow" data-i18n="archive.eyebrow">Living Archive</p>
+        <h2 class="display" id="archTitle" data-i18n="archive.title"></h2>
+        <p class="sec-lead" data-i18n="archive.lead"></p>
+      </header>
+      <div class="archive__grid">
+        <figure class="web">
+          <figcaption class="eyebrow" data-i18n="archive.web">Ecosystem web · hypotheses</figcaption>
+          <svg id="webSvg" viewBox="0 0 600 440" role="img" aria-label="Ecosystem web"></svg>
+          <p class="web__note" id="webNote" aria-live="polite"></p>
+        </figure>
+        <div class="specimens">
+          <ul class="spec-list" id="specList"></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features" id="features" aria-labelledby="featTitle">
+    <h2 class="sr" id="featTitle" data-i18n="feat.eyebrow">The expedition</h2>
+    <article class="feat">
+      <div class="feat__media graded reveal"><img src="assets/img/f-explore.webp" alt="Waterfalls pouring off the basin cliffs" ></div>
+      <div class="feat__body wrap-in">
+        <span class="feat__n mono">01</span><p class="eyebrow" data-i18n="feat.1.k">Explore</p>
+        <h3 class="display" data-i18n="feat.1.t"></h3><p data-i18n="feat.1.p"></p><p class="mono feat__d" data-i18n="feat.1.d"></p>
+      </div>
+    </article>
+    <article class="feat feat--flip">
+      <div class="feat__media graded reveal"><img src="assets/img/f-study.webp" alt="A scan result in the field" ></div>
+      <div class="feat__body wrap-in">
+        <span class="feat__n mono">02</span><p class="eyebrow" data-i18n="feat.2.k">Study</p>
+        <h3 class="display" data-i18n="feat.2.t"></h3><p data-i18n="feat.2.p"></p><p class="mono feat__d" data-i18n="feat.2.d"></p>
+      </div>
+    </article>
+    <article class="feat">
+      <div class="feat__media graded reveal"><img src="assets/img/f-survive.webp" alt="The oxygen alarm in Camp One" ></div>
+      <div class="feat__body wrap-in">
+        <span class="feat__n mono">03</span><p class="eyebrow" data-i18n="feat.3.k">Survive</p>
+        <h3 class="display" data-i18n="feat.3.t"></h3><p data-i18n="feat.3.p"></p><p class="mono feat__d" data-i18n="feat.3.d"></p>
+      </div>
+    </article>
+    <article class="feat feat--flip">
+      <div class="feat__media graded reveal"><img src="assets/img/f-belong.webp" alt="Camp One at night" ></div>
+      <div class="feat__body wrap-in">
+        <span class="feat__n mono">04</span><p class="eyebrow" data-i18n="feat.4.k">Belong</p>
+        <h3 class="display" data-i18n="feat.4.t"></h3><p data-i18n="feat.4.p"></p><p class="mono feat__d" data-i18n="feat.4.d"></p>
+      </div>
+    </article>
+    <div class="events wrap">
+      <p class="eyebrow" data-i18n="events.label">World events</p>
+      <ul class="ticker" id="events"></ul>
+    </div>
+  </section>
+
+  <!-- CHAPTERS -->
+  <section class="chapters" id="chapters" aria-labelledby="chapTitle">
+    <div class="wrap">
+      <header class="sec-head">
+        <p class="eyebrow" data-i18n="chap.eyebrow">Story arc</p>
+        <h2 class="display" id="chapTitle" data-i18n="chap.title"></h2>
+      </header>
+    </div>
+    <div class="timeline-scroll">
+      <ol class="timeline" id="timeline"></ol>
+    </div>
+  </section>
+
+  <!-- MEDIA -->
+  <section class="media" id="media" aria-labelledby="mediaTitle">
+    <div class="wrap">
+      <header class="sec-head sec-head--row">
+        <div>
+          <p class="eyebrow" data-i18n="media.eyebrow">Media</p>
+          <h2 class="display" id="mediaTitle" data-i18n="media.title"></h2>
+        </div>
+        <p class="sec-lead" data-i18n="media.lead"></p>
+      </header>
+      <button class="teaser-card" type="button" data-teaser>
+        <img src="assets/img/teaser.webp" alt="" >
+        <span class="teaser-card__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
+        <span class="teaser-card__txt"><strong class="display" data-i18n="media.teaser">Teaser</strong><small class="mono" data-i18n="media.teaserNote"></small></span>
+      </button>
+      <ul class="gallery" id="gallery"></ul>
+    </div>
+  </section>
+
+  <!-- TECH -->
+  <section class="tech" id="tech" aria-labelledby="techTitle">
+    <div class="wrap tech__grid">
+      <header class="sec-head">
+        <p class="eyebrow" data-i18n="tech.eyebrow">Technology</p>
+        <h2 class="display" id="techTitle" data-i18n="tech.title"></h2>
+        <p class="sec-lead" data-i18n="tech.lead"></p>
+      </header>
+      <ol class="stack" dir="ltr">
+        <li class="reveal"><span class="stack__k mono">L1</span><div><strong data-i18n="tech.l1"></strong><span class="mono" data-i18n="tech.l1d"></span></div></li>
+        <li class="reveal"><span class="stack__k mono">L2</span><div><strong data-i18n="tech.l2"></strong><span class="mono" data-i18n="tech.l2d"></span></div></li>
+        <li class="reveal"><span class="stack__k mono">L3</span><div><strong data-i18n="tech.l3"></strong><span class="mono" data-i18n="tech.l3d"></span></div></li>
+        <li class="reveal"><span class="stack__k mono">L4</span><div><strong data-i18n="tech.l4"></strong><span class="mono" data-i18n="tech.l4d"></span></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- DOWNLOAD -->
+  <section class="download" id="download" aria-labelledby="dlTitle">
+    <div class="download__bg" aria-hidden="true"><img src="assets/img/download.webp" alt="" ></div>
+    <div class="download__halo" aria-hidden="true"></div>
+    <div class="wrap download__inner">
+      <p class="eyebrow" data-i18n="dl.eyebrow">Download</p>
+      <h2 class="display display--xl" id="dlTitle" data-i18n="dl.title">The planet waits.</h2>
+      <p class="dl-lead" data-i18n="dl.lead"></p>
+      <a class="btn btn--primary btn--xl magnetic" href="#download" data-dl>
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0-4.5-4.5M12 14l4.5-4.5M4 17v3h16v-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span data-i18n="cta.download">Download for Windows</span>
+      </a>
+      <dl class="specs mono">
+        <div><dt data-i18n="dl.platform">Platform</dt><dd data-cfg="PLATFORM"></dd></div>
+        <div><dt data-i18n="dl.version">Version</dt><dd data-cfg="VERSION"></dd></div>
+        <div><dt data-i18n="dl.file">File</dt><dd data-cfg="FILE_NAME" dir="ltr"></dd></div>
+        <div><dt data-i18n="dl.size">Size</dt><dd data-cfg="FILE_SIZE"></dd></div>
+      </dl>
+      <div class="dl-notes">
+        <p data-i18n="dl.how"></p>
+        <p data-i18n="dl.warn"></p>
+        <p data-i18n="dl.low"></p>
+      </div>
+      <details class="controls">
+        <summary data-i18n="dl.controls">Controls</summary>
+        <ul id="controls"></ul>
+      </details>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__grid">
+    <div class="foot__brand">
+      <span class="wordmark wordmark--md" aria-hidden="true">ECH<svg class="wm-o" viewBox="0 0 40 40"><circle cx="20" cy="20" r="14"/><line x1="20" y1="4" x2="20" y2="36"/></svg>RA</span>
+      <p data-i18n="foot.tag"></p>
+    </div>
+    <nav class="foot__nav" aria-label="Footer">
+      <a href="#story" data-i18n="nav.story"></a><a href="#crew" data-i18n="nav.crew"></a><a href="#world" data-i18n="nav.world"></a>
+      <a href="#archive" data-i18n="nav.archive"></a><a href="#chapters" data-i18n="nav.chapters"></a><a href="#media" data-i18n="nav.media"></a>
+      <a href="#download" data-i18n="nav.download"></a>
+    </nav>
+    <div class="foot__meta">
+      <p class="mono">ECHORA · <span data-cfg="VERSION"></span></p>
+      <p class="foot__credits" data-i18n="foot.credits"></p>
+      <a class="mono totop" href="#top" data-i18n="foot.top">Back to top</a>
+    </div>
+  </div>
+</footer>
+
+<div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="Gallery">
+  <button class="lb__btn lb__close" type="button" data-lb="close" data-i18n-aria="lb.close">×</button>
+  <button class="lb__btn lb__prev" type="button" data-lb="prev" data-i18n-aria="lb.prev">‹</button>
+  <figure class="lb__fig"><img id="lbImg" alt=""><figcaption id="lbCap" class="mono"></figcaption></figure>
+  <button class="lb__btn lb__next" type="button" data-lb="next" data-i18n-aria="lb.next">›</button>
+</div>
+
+<div class="teaser" id="teaser" hidden role="dialog" aria-modal="true" aria-label="Teaser">
+  <button class="lb__btn lb__close" type="button" data-tz="close" data-i18n-aria="lb.close">×</button>
+  <div class="teaser__stage" id="tzStage"></div>
+  <div class="teaser__bar"><i id="tzBar"></i></div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<div class="cursor" id="cursor" aria-hidden="true"><span></span></div>
+<!--/BODY-->
+<script src="assets/js/config.js"></script>
+<script src="assets/js/content.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>
