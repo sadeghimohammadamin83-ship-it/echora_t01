@@ -63,7 +63,7 @@ a { color: inherit; }
 .northarrow { position: absolute; left: 16px; top: 30px; width: 16px; color: var(--ink); pointer-events: none; }
 .northarrow text { font: 700 9px var(--f-lat); fill: currentColor; }
 .dark .scalebar, .dark .northarrow { color: var(--night-ink); }
-.lbl { font-family: var(--f-lat); }
+.lbl { font-family: var(--f-lat); direction: ltr; unicode-bidi: isolate; }
 .lbl-fa { font-family: var(--f-fa); }
 .dark .lbl, .dark .lbl-fa { fill: var(--night-ink); stroke: var(--night-2); }
 .lbl.light, .lbl-fa.light { fill: #fff; stroke: rgba(0,0,0,.55); }
@@ -343,3 +343,23 @@ a { color: inherit; }
 .dark .mapframe .zoomctl { background: var(--night-2); border-color: var(--night-line); }
 .dark .mapframe .zoomctl button { border-color: var(--night-line); color: var(--night-ink); }
 .fer-h { font-size: 10.5px; color: var(--mute); margin-bottom: 2px; }
+
+/* print / PDF: one slide per page, no chrome */
+@page { size: 1600px 900px; margin: 0; }
+@media print {
+  html, body { background: #fff; }
+  .menu, .ctrl, .progress, .tip, .iv, .mapframe .zoomctl { display: none !important; }
+  .slide { transition: none !important; }
+  .wflow, .flow, .siren, .ripple, .pulse-ring { animation: none !important; }
+}
+@media print {
+  .print-all .viewport { position: static; overflow: visible; }
+  .print-all .stage { position: static; transform: none !important; height: auto; overflow: visible; }
+  .print-all .slide { position: relative; opacity: 1 !important; visibility: visible !important; transform: none !important; width: 1600px; height: 900px; overflow: hidden; break-after: page; page-break-after: always; }
+  .print-all html, .print-all body { overflow: visible; height: auto; }
+}
+@media print {
+  .print-all .zoomstack { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: 1fr 1fr; gap: 10px; }
+  .print-all .zf { position: relative !important; inset: auto; transform: none !important; opacity: 1 !important; transition: none; }
+  .print-all .zf:last-child { grid-column: 2 / 4; grid-row: 1 / 3; }
+}
