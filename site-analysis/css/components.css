@@ -132,7 +132,7 @@
 .tip .rows div { display: flex; justify-content: space-between; gap: 12px; }
 .tip .rows b { color: var(--night-ink); font-weight: 500; }
 .tip .src { margin-top: 8px; font: 400 .66rem/1.4 var(--f-lat); color: var(--night-mute); }
-.tip img { width: 100%; aspect-ratio: 4/3; object-fit: cover; margin-top: 8px; background: #000; }
+.tip img { width: 100%; object-fit: contain; margin-top: 8px; background: #000; }
 
 /* ---------- Image viewer (lightbox) ---------- */
 .iv { position: fixed; inset: 0; z-index: 100; background: rgba(12, 13, 15, .96); color: #E9E7E2; display: none; }
@@ -160,7 +160,7 @@
 
 /* zoomable thumbnails */
 .zoomable { position: relative; cursor: zoom-in; overflow: hidden; background: var(--paper-3); }
-.zoomable img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.1s var(--ease), filter .5s; }
+.zoomable img { width: 100%; height: 100%; object-fit: contain; transition: transform 1.1s var(--ease), filter .5s; }
 .zoomable:hover img { transform: scale(1.04); }
 .zoomable::after { content: "⤢"; position: absolute; right: 8px; top: 6px; font-size: .9rem; color: #fff; opacity: 0; transition: opacity .3s; text-shadow: 0 1px 4px rgba(0,0,0,.6); }
 .zoomable:hover::after { opacity: 1; }

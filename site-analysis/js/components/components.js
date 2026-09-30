@@ -150,7 +150,7 @@
     },
     zoomUI() {
       const z = el('div', { class: 'zoomctl' }, this.host,
-        '<button type="button" aria-label="Zoom in">+</button><button type="button" aria-label="Zoom out">−</button><button type="button" aria-label="Reset view">FIT</button>');
+        '<button type="button" aria-label="بزرگ‌نمایی">+</button><button type="button" aria-label="کوچک‌نمایی">−</button><button type="button" aria-label="نمای کامل">کل</button>');
       const [bi, bo, br] = z.children;
       const zoom = (f) => { const q = this.view, cx = (q[0] + q[2]) / 2, cy = (q[1] + q[3]) / 2, w = ((q[2] - q[0]) * f) / 2, h = ((q[3] - q[1]) * f) / 2; this.setView([cx - w, cy - h, cx + w, cy + h], 500); };
       bi.onclick = () => zoom(0.66); bo.onclick = () => zoom(1.5); br.onclick = () => this.setView(this.home, 700);
@@ -233,9 +233,9 @@
   const IV = {};
   (function () {
     const root = el('div', { class: 'iv', role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Image viewer' }, document.body,
-      '<div class="bar"><span class="ttl"></span><div class="ctl"><button type="button" data-a="out" aria-label="Zoom out">−</button><button type="button" data-a="in" aria-label="Zoom in">+</button><button type="button" data-a="fit" aria-label="Fit">⤢</button><button type="button" data-a="x" aria-label="Close (Esc)">✕</button></div></div>' +
+      '<div class="bar"><span class="ttl"></span><div class="ctl"><button type="button" data-a="out" aria-label="کوچک‌نمایی">−</button><button type="button" data-a="in" aria-label="بزرگ‌نمایی">+</button><button type="button" data-a="fit" aria-label="اندازه‌ی کامل">⤢</button><button type="button" data-a="x" aria-label="بستن (Esc)">✕</button></div></div>' +
       '<div class="stage"><img alt=""></div>' +
-      '<button type="button" class="nav prev" aria-label="Previous">←</button><button type="button" class="nav next" aria-label="Next">→</button>' +
+      '<button type="button" class="nav prev" aria-label="قبلی">←</button><button type="button" class="nav next" aria-label="بعدی">→</button>' +
       '<div class="cap"><div><div class="fa"></div><div class="en"></div></div><div class="strip"></div></div>');
     const stage = root.querySelector('.stage'), img = stage.querySelector('img'), ttl = root.querySelector('.ttl');
     const cfa = root.querySelector('.cap .fa'), cen = root.querySelector('.cap .en'), strip = root.querySelector('.strip');
