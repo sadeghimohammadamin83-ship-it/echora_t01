@@ -64,7 +64,7 @@
     },
     toggle(name, on) {
       const L = this.layers[name]; if (!L) return;
-      L.on = on == null ? !L.on : on; L.g.classList.toggle('off', !L.on);
+      L.on = on == null ? !L.on : on; L.g.classList.toggle('off', !L.on); L.g.style.opacity = L.on ? (L.range ? L.range.value / 100 : '') : '';
       if (L.on) SA.$$('.draw', L.g).forEach((p) => { p.classList.remove('on'); void p.getBoundingClientRect(); p.classList.add('on'); });
       this.onToggle && this.onToggle(name, L.on);
     },
@@ -114,11 +114,13 @@
       this.world.insertBefore(g, this.world.firstChild);
     },
     aerial(opt) {
-      const A = window.SA_GEO.aerial, g = this.layer('aerial', Object.assign({ label: 'Aerial base', fa: 'تصویر هوایی' }, opt));
-      this.world.insertBefore(g, this.world.firstChild.nextSibling || null);
-      const img = s('image', { href: 'img/source/aerial_clean.jpg', x: -A.tx / A.s, y: -A.ty / A.s, width: A.w / A.s, height: A.h / A.s, preserveAspectRatio: 'none', class: 'aer' }, g);
-      if (opt && opt.filter) img.setAttribute('style', 'filter:' + opt.filter);
-      if (opt && opt.opacity != null) img.setAttribute('opacity', opt.opacity);
+      /* processed imagery base (graded Google context + sharp aerial + extracted canopy); never the raw screenshot */
+      opt = Object.assign({ label: 'Aerial base', fa: 'تصویر هوایی' }, opt);
+      const f = opt.filter || '', dark = /brightness\(\.[0-6]/.test(f);
+      const op = opt.opacity == null ? 1 : Math.min(1, opt.opacity * 1.35);
+      const g = SA.atlas(this, { dark, veg: opt.veg !== false, op });
+      this.layers.atlas && Object.assign(this.layers.atlas, { label: opt.label, fa: opt.fa, sw: opt.sw });
+      this.layers.aerial = this.layers.atlas;
       return g;
     },
     /* hover: el gets .feat; data = card object or function returning one; group = selector key to co-highlight */
@@ -193,11 +195,17 @@
     names.forEach((n) => {
       const L = mv.layers[n]; if (!L) return;
       const lab = el('label', null, box);
-      const inp = el('input', { type: 'checkbox' }, lab); inp.checked = L.on;
+      const inp = el('input', { type: 'checkbox', 'data-n': n }, lab); inp.checked = L.on;
       el('span', { class: 'sw', style: L.sw || 'background:var(--ink)' }, lab);
       el('span', null, lab, L.label || n);
       el('span', { class: 'fa-s' }, lab, L.fa || '');
       inp.addEventListener('change', () => mv.toggle(n, inp.checked));
+      if (L.opacity !== false) {
+        const r = el('input', { type: 'range', min: 0, max: 100, value: 100, class: 'op', 'aria-label': (L.label || n) + ' opacity' }, lab);
+        r.addEventListener('input', () => { L.g.style.setProperty('--lop', r.value / 100); L.g.style.opacity = L.on ? r.value / 100 : 0; });
+        r.addEventListener('click', (e) => e.stopPropagation());
+        L.range = r;
+      }
       inputs.push([n, inp]);
     });
     const sync = () => inputs.forEach(([n, i]) => (i.checked = mv.layers[n].on));
@@ -338,13 +346,16 @@
   SA.Navigation = function () {
     const rail = SA.$('.rail'), list = rail.querySelector('ol'), bar = rail.querySelector('.prog i');
     const secs = SA.$$('[data-nav]');
+    const meta = rail.querySelector('.meta');
+    const now = el('div', { class: 'rail-now', 'aria-live': 'polite' }, rail);
+    rail.insertBefore(now, list);
     let grp = null;
     secs.forEach((sec) => {
       if (sec.dataset.grp && sec.dataset.grp !== grp) { grp = sec.dataset.grp; el('li', { class: 'grp', 'aria-hidden': 'true' }, list, grp); }
       const li = el('li', null, list);
-      const a = el('a', { href: '#' + sec.id }, li, '<span class="n">' + sec.dataset.no + '</span><span>' + sec.dataset.nav + '</span>');
+      const a = el('a', { href: '#' + sec.id }, li, '<span class="n">' + sec.dataset.no + '</span><span>' + sec.dataset.nav + '</span><i class="ip"><b></b></i>');
       a.addEventListener('click', () => rail.classList.remove('open'));
-      sec._a = a;
+      sec._a = a; sec._ip = a.querySelector('.ip b');
     });
     const top = SA.$('.topbar'), cur = top && top.querySelector('.cur');
     top && top.querySelector('button').addEventListener('click', () => rail.classList.toggle('open'));
@@ -353,20 +364,33 @@
     const setActive = (sec) => {
       if (active === sec) return; active = sec;
       secs.forEach((x) => x._a.setAttribute('aria-current', x === sec ? 'true' : 'false'));
-      rail.classList.toggle('on-dark', sec.classList.contains('dark') && innerWidth > 1180);
-      if (cur) cur.innerHTML = '<b>' + sec.dataset.no + '</b><span>' + sec.dataset.nav + '</span>';
+      const dark = sec.classList.contains('dark') || sec.classList.contains('cover');
+      rail.classList.toggle('on-dark', dark && innerWidth > 1180);
+      document.documentElement.classList.toggle('in-dark', dark);
+      now.classList.remove('in'); void now.offsetWidth;
+      now.innerHTML = '<span class="rn-g">' + (sec.dataset.grp || 'Index') + '</span><span class="rn-n">' + sec.dataset.no + '</span><span class="rn-t">' + sec.dataset.nav + '</span>';
+      now.classList.add('in');
+      if (cur) { cur.innerHTML = '<b>' + sec.dataset.no + '</b><span>' + sec.dataset.nav + '</span>'; cur.classList.remove('in'); void cur.offsetWidth; cur.classList.add('in'); }
       const a = sec._a; const r = a.getBoundingClientRect(), lr = list.getBoundingClientRect();
-      if (r.top < lr.top || r.bottom > lr.bottom) list.scrollTop += r.top - lr.top - lr.height / 2;
+      if (r.top < lr.top || r.bottom > lr.bottom) list.scrollTo({ top: list.scrollTop + r.top - lr.top - lr.height / 2, behavior: SA.reduced ? 'auto' : 'smooth' });
       if (history.replaceState) history.replaceState(null, '', '#' + sec.id);
     };
+    let ticking = false;
     const onScroll = () => {
-      const mid = innerHeight * 0.35; let best = secs[0];
-      for (const sct of secs) if (sct.getBoundingClientRect().top <= mid) best = sct;
-      setActive(best);
-      const h = document.documentElement; bar.style.width = ((h.scrollTop / (h.scrollHeight - innerHeight)) * 100).toFixed(1) + '%';
+      if (ticking) return; ticking = true;
+      requestAnimationFrame(() => {
+        ticking = false;
+        const mid = innerHeight * 0.35; let best = secs[0];
+        for (const sct of secs) if (sct.getBoundingClientRect().top <= mid) best = sct;
+        setActive(best);
+        const h = document.documentElement, p = h.scrollTop / (h.scrollHeight - innerHeight);
+        bar.style.transform = 'scaleX(' + p.toFixed(4) + ')';
+        const r = best.getBoundingClientRect(), k = Math.max(0, Math.min(1, (mid - r.top) / Math.max(1, r.height)));
+        secs.forEach((x) => { x._ip.style.transform = 'scaleX(' + (x === best ? k : x.getBoundingClientRect().bottom < mid ? 1 : 0).toFixed(3) + ')'; });
+        if (meta) meta.innerHTML = 'SECTION ' + best.dataset.no + ' / ' + secs[secs.length - 1].dataset.no + ' · ' + Math.round(p * 100) + '%<br>35.7070° N · 51.3931° E';
+      });
     };
     addEventListener('scroll', onScroll, { passive: true }); onScroll();
-    /* keyboard: PageDown/PageUp jump sections when not typing */
     addEventListener('keydown', (e) => {
       if (SA.$('.iv.on') || /input|textarea|select/i.test(document.activeElement.tagName)) return;
       const k = secs.indexOf(active);

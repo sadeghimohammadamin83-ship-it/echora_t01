@@ -39,7 +39,7 @@
     });
     /* PE entrances (analysis) */
     const eg = mv.layer('ent');
-    const ent = (p, t, fill, tip) => { const m = SA.marker(mv, eg, p, t, { fill }); mv.hover(m, tip); };
+    const ent = (p, t, fill, tip) => { const m = SA.pin(mv, eg, p, t, { fill }); mv.hover(m, tip); };
     ent([J0[0] - 14, J0[1] - 8], 'ع', 'var(--ink)', { k: 'ورودی عمومی', t: 'گوشه‌ی شمال‌شرقی (کشاورز × جلالیه)', e: 'رو به پارک و مترو' });
     ent([JS[0] - 16, JS[1] + 14], 'د', 'var(--site)', { k: 'ورودی دانشجویان', t: 'جنوب‌شرق، از پورسینا/جلالیه', e: 'رو به دانشگاه' });
     ent([JS[0] - 4, JS[1] + 48], 'س', 'var(--serv)', { k: 'سرویس و امداد', t: 'جلالیه از سمت پورسینا', e: 'جدا از مسیر پیاده' });
@@ -316,7 +316,7 @@
       const p = s('path', { d, fill: col, 'fill-opacity': v.pos ? 0.16 : 0, stroke: col, 'stroke-width': 1, 'stroke-dasharray': v.pos ? null : '3 3', class: 'ns' }, vg);
       if (!v.pos) p.setAttribute('fill', SA.hatch(mv.svg, 'vh', 'rgba(168,68,60,.45)', 3, 0.6));
       SA.arrow(mv, vg, [o, [o[0] + v.r * 0.85 * Math.sin((v.dir * Math.PI) / 180), o[1] + v.r * 0.85 * Math.cos((v.dir * Math.PI) / 180)]], col, { w: 1.2 });
-      SA.marker(mv, vg, [o[0] + v.r * 0.55 * Math.sin((v.dir * Math.PI) / 180) + 6, o[1] + v.r * 0.55 * Math.cos((v.dir * Math.PI) / 180)], 'V' + (i + 1), { fill: col });
+      SA.pin(mv, vg, [o[0] + v.r * 0.55 * Math.sin((v.dir * Math.PI) / 180) + 6, o[1] + v.r * 0.55 * Math.cos((v.dir * Math.PI) / 180)], 'V' + (i + 1), { fill: col });
       mv.hover(p, { k: (v.pos ? 'دید مثبت' : 'دید منفی') + ' · V' + (i + 1), t: v.t, rows: [['دلیل', v.why], ['پاسخ', v.rsp]], img: 'img/thumbs/pdf_page_' + String(v.page).padStart(2, '0') + '.jpg' }, 'v' + i);
       const it = el('div', { class: 'vl ' + (v.pos ? 'pos' : 'neg'), tabindex: 0 }, L, '<span class="b">V' + (i + 1) + '</span><div><b>' + v.t + '</b><span class="why">' + v.why + '</span><span class="rsp">پاسخ: ' + v.rsp + '</span></div>');
       SA.photo(it, SA.photoList, SA.photoList.findIndex((x) => x.page === v.page));
@@ -348,7 +348,7 @@
         cone.addEventListener('click', () => SA.openPage(p.page));
       });
       const unknown = ps.length && ps.every((p) => p.dir == null);
-      const m = SA.marker(mv, mg, st.xy, SA.fa(st.no), { fill: st.missing || unknown ? 'var(--card)' : 'var(--ink)', stroke: 'var(--ink)', color: st.missing || unknown ? 'var(--ink)' : '#fff' });
+      const m = SA.pin(mv, mg, st.xy, SA.fa(st.no), { fill: st.missing || unknown ? 'var(--card)' : 'var(--ink)', stroke: 'var(--ink)', color: st.missing || unknown ? 'var(--ink)' : '#fff' });
       if (st.missing) m.querySelector('circle').setAttribute('stroke-dasharray', '2 2');
       m.setAttribute('tabindex', st.missing ? -1 : 0); m.style.cursor = st.missing ? 'default' : 'pointer';
       mv.hover(m, st.missing ? { k: 'ایستگاه ۱۳', t: 'روی نقشه‌ی کلید هست ولی در PDF نیست' } : { k: 'ایستگاه ' + SA.fa(st.no) + ' · ' + SA.fa(ps.length) + ' قاب', t: ps[0] ? ps[0].fa : '', img: ps[0] ? 'img/thumbs/pdf_page_' + String(ps[0].page).padStart(2, '0') + '.jpg' : null }, 'no-' + st.no);

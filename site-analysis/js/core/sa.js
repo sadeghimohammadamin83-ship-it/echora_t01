@@ -116,10 +116,10 @@
       const t = e.target; io.unobserve(t);
       t.classList.add('in');
       if (t.dataset.count != null) SA.count(t);
-      if (t._onEnter) t._onEnter();
+      if (t._fns) t._fns.forEach((f) => f());
     });
   }, { rootMargin: '0px 0px -12% 0px', threshold: 0.05 });
-  SA.observe = (el, fn) => { if (fn) el._onEnter = fn; io.observe(el); };
+  SA.observe = (el, fn) => { if (fn) (el._fns = el._fns || []).push(fn); io.observe(el); };
   SA.count = function (el) {
     const to = parseFloat(el.dataset.count), dec = +(el.dataset.dec || 0), dur = 1400, t0 = performance.now();
     if (SA.reduced) { el.textContent = SA.fmt(to, dec); return; }

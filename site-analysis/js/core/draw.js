@@ -128,7 +128,7 @@
     });
   };
   /* numbered marker, px-sized */
-  SA.marker = function (mv, g, p, text, o) {
+  SA.pin = function (mv, g, p, text, o) {
     o = o || {};
     const q = SA.P(p), m = s('g', { class: 'mkr', transform: 'translate(' + q[0] + ' ' + q[1] + ')' }, g);
     s('circle', { r: 8, fill: o.fill || 'var(--ink)', stroke: o.stroke || '#fff', 'stroke-width': 1.3 }, m);

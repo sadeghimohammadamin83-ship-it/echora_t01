@@ -193,17 +193,17 @@
     s('path', { d: SA.d(ax), stroke: 'var(--site)', 'stroke-width': 2.2, class: 'ns draw', fill: 'none' }, g);
     const nrm = [u[1], -u[0]];
     [-150, 60].forEach((t) => { const p = [cc[0] + u[0] * t, cc[1] + u[1] * t]; s('path', { d: SA.d([[p[0] - nrm[0] * 150, p[1] - nrm[1] * 150], [p[0] + nrm[0] * 150, p[1] + nrm[1] * 150]]), stroke: 'var(--site)', 'stroke-width': 1, 'stroke-dasharray': '4 4', class: 'ns', fill: 'none' }, g); });
-    SA.marker(mv, g, ax[0], '۱', { fill: 'var(--site)' });
+    SA.pin(mv, g, ax[0], '۱', { fill: 'var(--site)' });
     mv.label([ax[0][0] + 40, ax[0][1] - 5], 'سردر (۱۹۶۵) · خیابان انقلاب', 'lbl-fa', { anchor: 'start', size: 11 });
-    SA.marker(mv, g, [cc[0] + u[0] * 40, cc[1] + u[1] * 40], '۲', { fill: 'var(--site)' });
+    SA.pin(mv, g, [cc[0] + u[0] * 40, cc[1] + u[1] * 40], '۲', { fill: 'var(--site)' });
     mv.label([cc[0] + u[0] * 40 + 25, cc[1] + u[1] * 40], 'محور اصلی شمالی–جنوبی (خوانش)', 'lbl-fa', { anchor: 'start', size: 11 });
-    SA.marker(mv, g, [cc[0] + nrm[0] * 120 - u[0] * 150, cc[1] + nrm[1] * 120 - u[1] * 150], '۳', { fill: 'var(--pos)' });
+    SA.pin(mv, g, [cc[0] + nrm[0] * 120 - u[0] * 150, cc[1] + nrm[1] * 120 - u[1] * 150], '۳', { fill: 'var(--pos)' });
     mv.label([cc[0] + nrm[0] * 120 - u[0] * 150 + 22, cc[1] + nrm[1] * 120 - u[1] * 150], 'پاویون در منظر سبز', 'lbl-fa', { anchor: 'start', size: 11 });
     /* site + Jalalieh spine linking to the campus */
     SA.site(mv, mv.layer('s'), { w: 2 });
     SA.streets(mv, mv.layer('st'), ['Poursina', '16Azar', 'Jalalieh', 'Keshavarz'], { hover: false });
     SA.arrow(mv, mv.layer('sp'), [[60, 150], [65, 10], [70, -80]], 'var(--site)', { w: 1.6, dash: '3 3', flow: true });
-    SA.marker(mv, mv.layer('sp'), [95, 60], '۴', { fill: 'var(--site-deep)' });
+    SA.pin(mv, mv.layer('sp'), [95, 60], '۴', { fill: 'var(--site-deep)' });
     mv.label([112, 60], 'امتداد محور پیاده به سایت', 'lbl-fa', { anchor: 'start', size: 11 });
     const sec = SA.$('#concept-map').closest('.slide');
     sec._enter = () => SA.$$('#concept-map .draw').forEach((p) => { p.classList.remove('on'); void p.getBoundingClientRect(); p.classList.add('on'); });

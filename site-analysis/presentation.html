@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>تحلیل سایت و استراتژی طراحی — دانشکده تربیت بدنی دانشگاه تهران</title>
+<meta name="description" content="ارائه‌ی تعاملی تمام‌صفحه: تحلیل سایت و استراتژی طراحی دانشکده تربیت بدنی دانشگاه تهران، منطقه‌ی ۶ تهران.">
+<meta name="theme-color" content="#F2F0EB">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/deck.css">
+</head>
+<body>
+
+<div class="viewport"><div class="stage" id="stage">
+
+<!-- ================= 00 START ================= -->
+<section class="slide start dark" data-id="start" data-menu="شروع">
+  <div class="st-map" id="start-map"></div>
+  <div class="st-txt">
+    <div class="st-kick">معماری طرح ۴</div>
+    <h1>تحلیل سایت<br>و استراتژی طراحی</h1>
+    <p class="st-sub">دانشکده تربیت بدنی دانشگاه تهران</p>
+    <p class="st-loc">منطقه‌ی ۶ تهران · میان بوستان لاله و دانشگاه تهران</p>
+    <button type="button" class="st-cta" id="start-btn">شروع ارائه <span aria-hidden="true">←</span></button>
+    <p class="st-hint">کلیدهای ← و → برای جابه‌جایی · منوی فهرست در لبه‌ی راست</p>
+  </div>
+  <div class="st-foot ltr">TEHRAN · SITE ANALYSIS · 2026</div>
+</section>
+
+<!-- ================= 01 LOCATION ================= -->
+<section class="slide" data-id="loc" data-menu="موقعیت و زمینه">
+  <header class="sh"><div class="sh-no">۰۱</div><div class="sh-t"><h2>موقعیت: از کلان به خرد</h2><span class="sh-en">Location · macro → micro</span></div>
+    <p class="sh-f">سایت در منطقه‌ی ۶ تهران، دقیقاً میان دو فضای باز بزرگ شهری است: بوستان لاله در شمال و پردیس مرکزی دانشگاه تهران در جنوب.</p></header>
+  <div class="sb g-side">
+    <aside class="panel">
+      <ol class="steps5" id="loc-steps"></ol>
+      <div class="kv" id="loc-kv"></div>
+    </aside>
+    <div class="fig"><div class="zoomstack" id="loc-stage"></div></div>
+  </div>
+  <footer class="sf">مرزها: Natural Earth، OSM (منطقه‌ی ۶: relation 6729037) · مساحت از محدوده‌ی آبی کاربر روی تصویر هوایی زمین‌مرجع‌شده؛ تقریبی</footer>
+</section>
+
+<!-- ================= 02 URBAN ================= -->
+<section class="slide tint" data-id="urban" data-menu="زمینه‌ی شهری">
+  <header class="sh"><div class="sh-no">۰۲</div><div class="sh-t"><h2>زمینه‌ی شهری در شعاع ۲٫۵ کیلومتر</h2><span class="sh-en">Urban context · 2.5 km</span></div>
+    <p class="sh-f">خوشه‌ای متراکم از دانشگاه‌ها، موزه‌ها و ایستگاه‌های مترو؛ دانشکده‌ی فعلی تربیت بدنی دانشگاه تهران درست روی لبه‌ی این شعاع است.</p></header>
+  <div class="sb g-side">
+    <aside class="panel"><div class="t-cap">فاصله‌ی مستقیم از مرکز سایت</div><div id="urban-ladder"></div><div id="urban-legend"></div></aside>
+    <div class="fig"><div class="map" id="urban-map"></div></div>
+  </div>
+  <footer class="sf">OSM (Overpass، ۳۰ سپتامبر ۲۰۲۶) · مکان‌های بدون مختصات فقط با فاصله نمایش داده شده‌اند</footer>
+</section>
+
+<!-- ================= 03 UT + CONTEXT ================= -->
+<section class="slide" data-id="ut" data-menu="دانشگاه تهران و بستر">
+  <header class="sh"><div class="sh-no">۰۳</div><div class="sh-t"><h2>دانشگاه تهران و بستر شهری</h2><span class="sh-en">University of Tehran · urban setting</span></div>
+    <p class="sh-f">سایت لولای میان پردیس محصور دانشگاه و پارک عمومی است؛ فقط عرض پورسینا آن را از دانشکده‌های علوم پزشکی جدا می‌کند.</p></header>
+  <div class="sb g-side">
+    <aside class="panel">
+      <div class="kv" id="ut-kv"></div>
+      <div class="fer" id="ut-fer"></div>
+    </aside>
+    <div class="fig"><div class="map" id="ut-map"></div></div>
+  </div>
+  <footer class="sf">OSM [1] · Wikipedia «History of the University of Tehran» [5]، «University of Tehran» [6]، «Laleh Park» [4]</footer>
+</section>
+
+<!-- ================= 04 UT CONCEPT ================= -->
+<section class="slide tint" data-id="concept" data-menu="کانسپت دانشگاه تهران">
+  <header class="sh"><div class="sh-no">۰۴</div><div class="sh-t"><h2>کانسپت و منطق فضایی دانشگاه تهران</h2><span class="sh-en">University of Tehran · spatial logic</span></div>
+    <p class="sh-f">نه کپی تاریخی: تداوم منطق فضایی + زبان معماری معاصر + پاسخ عملکردی به تربیت بدنی.</p></header>
+  <div class="sb g-concept">
+    <div class="fig"><div class="map" id="concept-map"></div></div>
+    <div class="concept-cols" id="concept-cols"></div>
+  </div>
+  <footer class="sf">تاریخ‌ها و نام معماران از [5][6]. محورها و «پاویون در منظر» خوانش نموداری از نقشه‌ی OSM است، نه نقشه‌ی طرح جامع.</footer>
+</section>
+
+<!-- ================= 05 ADJACENCY ================= -->
+<section class="slide" data-id="adj" data-menu="همجواری و بافت">
+  <header class="sh"><div class="sh-no">۰۵</div><div class="sh-t"><h2>همجواری‌ها و بافت پیرامون</h2><span class="sh-en">Adjacency · urban fabric</span></div>
+    <p class="sh-f">چهار لبه با چهار شخصیت: شمال عمومی و پرصدا، شرق پیاده و نیمه‌عمومی، جنوب نهادی و سبز، غرب مسکونی و حساس.</p></header>
+  <div class="sb g-adj">
+    <div class="fig"><div class="map" id="adj-map"></div></div>
+    <div class="adj-side"><div id="adj-table"></div>
+      <p class="note">سایت در بستری از بافت مختلط شهری قرار دارد که ساختار مهمی از آن در دوره‌ی پهلوی اول و دوم شکل گرفته و در دوره‌ی معاصر با مداخلات جدید تکمیل شده است؛ این به معنای تعلق همه‌ی بناهای پیرامون به آن دوره‌ها نیست.</p></div>
+  </div>
+  <footer class="sf">کاربری‌ها از OSM، تابلوهای عکس‌های برداشت و بناهای ردیابی‌شده · ارتفاع ۳ تا ۸ طبقه از عکس‌ها (تقریبی)</footer>
+</section>
+
+<!-- ================= 06 MOVEMENT ================= -->
+<section class="slide tint" data-id="move" data-menu="حرکت و دسترسی">
+  <header class="sh"><div class="sh-no">۰۶</div><div class="sh-t"><h2>شبکه‌ی حرکت و دسترسی</h2><span class="sh-en">Movement · accessibility</span></div>
+    <p class="sh-f">هیچ ضلعی مستقیم به خیابان سواره‌ی اصلی باز نمی‌شود. خودرو فقط از پورسینای یک‌طرفه به جلالیه و عنایت می‌رسد؛ پیاده از مترو و از اتصال جلالیه به کشاورز.</p></header>
+  <div class="sb g-side">
+    <aside class="panel">
+      <div class="seg" id="move-seg" role="group" aria-label="مسیر"></div>
+      <ol class="chain" id="move-chain"></ol>
+      <div id="move-legend"></div>
+    </aside>
+    <div class="fig"><div class="map" id="move-map"></div></div>
+  </div>
+  <footer class="sf">جهت‌های یک‌طرفه: تگ oneway در OSM · مسیرها نشانگرند، نه طرح · ورودی‌ها پیشنهاد تحلیلی‌اند</footer>
+</section>
+
+<!-- ================= 07 LAND USE + TYPOLOGY ================= -->
+<section class="slide" data-id="lu" data-menu="کاربری و تیپولوژی">
+  <header class="sh"><div class="sh-no">۰۷</div><div class="sh-t"><h2>کاربری و تیپولوژی بافت</h2><span class="sh-en">Land use · building typology</span></div>
+    <p class="sh-f">بافت نهادی در جنوب و شرق غالب است؛ بافت مسکونی دانه‌ریز و میان‌مرتبه در غرب. سایت امروز پارکینگ آسفالته با ≈۲۸٪ سطح ساخته است.</p></header>
+  <div class="sb g-lu">
+    <div class="fig"><div class="map" id="lu-map"></div></div>
+    <div class="lu-side">
+      <div class="lu-top"><div id="lu-donut" class="donut-box"></div><div id="lu-legend"></div></div>
+      <div class="lu-bottom"><div class="map mini" id="fg-map"></div><div class="kv" id="fg-kv"></div></div>
+    </div>
+  </div>
+  <footer class="sf" id="lu-note"></footer>
+</section>
+
+<!-- ================= 08 GREEN ================= -->
+<section class="slide tint" data-id="green" data-menu="فضای سبز و باز">
+  <header class="sh"><div class="sh-no">۰۸</div><div class="sh-t"><h2>فضای سبز و فضای باز</h2><span class="sh-en">Green · open space</span></div>
+    <p class="sh-f">سایت ۰٫۹ هکتاری میان ۳۵ هکتار پارک و ≈۲۱ هکتار پردیس قرار دارد و خودش تقریباً یکسره آسفالت است؛ ردیف چنارهای لبه‌ها باید حفظ شوند.</p></header>
+  <div class="sb g-side">
+    <aside class="panel"><div class="t-cap">مقایسه‌ی مساحت · هم‌مقیاس</div><div class="areas" id="green-areas"></div>
+      <div class="fer" id="green-fer"></div></aside>
+    <div class="fig"><div class="map" id="green-map"></div></div>
+  </div>
+  <footer class="sf">پلیگون‌ها از OSM؛ ردیف درختان از تصویر هوایی و عکس‌ها (تقریبی)</footer>
+</section>
+
+<!-- ================= 09 TOPOGRAPHY ================= -->
+<section class="slide" data-id="topo" data-menu="توپوگرافی">
+  <header class="sh"><div class="sh-no">۰۹</div><div class="sh-t"><h2>توپوگرافی و شیب</h2><span class="sh-en">Topography · SRTM 30 m</span></div>
+    <p class="sh-f">شیب منطقه‌ای ≈۳٪ از شمال به جنوب. در سایت ≈۱۲۳۰ متر در شمال تا ≈۱۲۲۶ متر در جنوب: تقریباً مسطح، با شیب ملایم رو به دانشگاه.</p></header>
+  <div class="sb g-topo">
+    <div class="profile" id="topo-profile"></div>
+    <div class="topo-row"><div class="map" id="topo-map"></div><div class="kv four" id="topo-kv"></div><div class="fer" id="topo-fer"></div></div>
+  </div>
+  <footer class="sf">OpenTopoData SRTM30 [14] · دقت قائم چند متر؛ جایگزین نقشه‌برداری نیست</footer>
+</section>
+
+<!-- ================= 10 CLIMATE + SUN ================= -->
+<section class="slide dark" data-id="sun" data-menu="اقلیم و خورشید">
+  <header class="sh"><div class="sh-no">۱۰</div><div class="sh-t"><h2>اقلیم و مسیر خورشید</h2><span class="sh-en">Climate · sun path · outdoor sport</span></div>
+    <p class="sh-f">اقلیم نیمه‌خشک سرد (BSk) با آفتاب فراوان. برای ورزش روباز، آفتاب کم‌ارتفاع عصر از غرب مهم‌ترین عامل خیرگی و گرماست.</p></header>
+  <div class="sb g-sun">
+    <div class="sun-diag"><svg viewBox="-135 -135 270 270" id="sun-svg" role="img" aria-label="نمودار مسیر خورشید"></svg></div>
+    <div class="sun-mid"><div class="map" id="sun-map"></div><div class="sun-ctl" id="sun-ctl"></div></div>
+    <aside class="panel"><div class="clim" id="clim"></div><div class="fer" id="sun-fer"></div></aside>
+  </div>
+  <footer class="sf">موقعیت خورشید محاسبه‌شده برای ۳۵٫۷۰۷ شمالی، UTC+3:30 · اقلیم: مهرآباد ۱۹۹۱–۲۰۲۰ [9]</footer>
+</section>
+
+<!-- ================= 11 WIND NOISE AIR ================= -->
+<section class="slide dark" data-id="env" data-menu="باد، صدا و هوا">
+  <header class="sh"><div class="sh-no">۱۱</div><div class="sh-t"><h2>باد، صدا و آلودگی هوا</h2><span class="sh-en">Wind · noise · air</span></div>
+    <p class="sh-f">جریان روزانه‌ی جنوب‌غربی و شبانه‌ی شمال‌شرقی؛ لبه‌ی کشاورز پرصدا و آلوده، لبه‌های کوچه‌ای آرام. صدا کیفی است؛ دسی‌بل اندازه‌گیری نشده.</p></header>
+  <div class="sb g-side">
+    <aside class="panel">
+      <div class="seg" id="env-seg" role="group" aria-label="لایه"></div>
+      <div class="kv" id="env-kv"></div>
+      <div class="fer" id="env-fer"></div>
+    </aside>
+    <div class="fig"><div class="map" id="env-map"></div></div>
+  </div>
+  <footer class="sf">باد: Windfinder مهرآباد [10]، مطالعه‌ی پروفیل باد تهران [11]، ایرانیکا [16] · هوا: [12][13] · صدا: کیفی، از رده‌ی معبر و مشاهده</footer>
+</section>
+
+<!-- ================= 12 VIEWS ================= -->
+<section class="slide tint" data-id="views" data-menu="دیدها و لبه‌ها">
+  <header class="sh"><div class="sh-no">۱۲</div><div class="sh-t"><h2>دیدها و کیفیت لبه‌ها</h2><span class="sh-en">Views · edge conditions</span></div>
+    <p class="sh-f">دید مثبت به پارک (از طبقات بالا) و به پردیس و چنارهای پورسینا؛ دید منفی به بدنه‌های کور غرب و شرق و پارکینگ علوم پزشکی.</p></header>
+  <div class="sb g-side wide">
+    <aside class="panel"><div class="views-list" id="views-list"></div></aside>
+    <div class="fig"><div class="map" id="views-map"></div></div>
+  </div>
+  <footer class="sf">مخروط‌ها نموداری‌اند؛ هر دید با یک عکس برداشت پشتیبانی می‌شود (کلیک برای نمایش کامل)</footer>
+</section>
+
+<!-- ================= 13 FIELD SURVEY ================= -->
+<section class="slide" data-id="survey" data-menu="برداشت میدانی">
+  <header class="sh"><div class="sh-no">۱۳</div><div class="sh-t"><h2>برداشت میدانی و تصاویر سایت</h2><span class="sh-en">Field survey · 12 stations · 35 frames</span></div>
+    <p class="sh-f">شماره‌ها همان شماره‌های برداشت شماست. همه‌ی عکس‌ها با نسبت اصلی و بدون برش نمایش داده شده‌اند؛ روی هر ایستگاه یا عکس کلیک کنید.</p></header>
+  <div class="sb g-survey">
+    <div class="fig"><div class="map" id="survey-map"></div></div>
+    <div class="photo-wall" id="photo-wall"></div>
+  </div>
+  <footer class="sf">مخروط‌ها جهت دید استنتاج‌شده (تقریبی)؛ دایره‌ی توخالی = جهت نامشخص؛ عکس ۱۳ در PDF نیست</footer>
+</section>
+
+<!-- ================= 14 OPPORTUNITIES ================= -->
+<section class="slide tint" data-id="opp" data-menu="فرصت‌ها">
+  <header class="sh"><div class="sh-no">۱۴</div><div class="sh-t"><h2>فرصت‌ها و قوت‌ها</h2><span class="sh-en">Strengths · opportunities</span></div>
+    <p class="sh-f">موقعیت لولایی پارک–دانشگاه، مترو در ۲۸۰ متری و کریدور پیاده‌ی جلالیه، سایت را به نقطه‌ی پیوند شهری تبدیل می‌کند.</p></header>
+  <div class="sb g-side wide" id="swot-o"></div>
+  <footer class="sf">SWOT مکان‌مند؛ هر مورد روی نقشه جای خود را دارد</footer>
+</section>
+
+<!-- ================= 15 CONSTRAINTS ================= -->
+<section class="slide" data-id="con" data-menu="محدودیت‌ها">
+  <header class="sh"><div class="sh-no">۱۵</div><div class="sh-t"><h2>محدودیت‌ها و تهدیدها</h2><span class="sh-en">Weaknesses · threats</span></div>
+    <p class="sh-f">مساحت کم برای برنامه‌ی ورزشی، نبود جبهه‌ی مستقیم به خیابان اصلی، همسایگی مسکونی حساس در غرب، و صدا و آلودگی کشاورز.</p></header>
+  <div class="sb g-side wide" id="swot-c"></div>
+  <footer class="sf">SWOT مکان‌مند؛ هر مورد روی نقشه جای خود را دارد</footer>
+</section>
+
+<!-- ================= 16 SYNTHESIS ================= -->
+<section class="slide tint" data-id="syn" data-menu="سنتز: پنج نیرو">
+  <header class="sh"><div class="sh-no">۱۶</div><div class="sh-t"><h2>سنتز: پنج نیروی اصلی سایت</h2><span class="sh-en">Synthesis · five site forces</span></div>
+    <p class="sh-f">همه‌ی تحلیل‌ها به پنج نیرو خلاصه می‌شوند؛ بقیه‌ی داده‌ها نقش پشتیبان دارند.</p></header>
+  <div class="sb g-side wide">
+    <aside class="panel"><ol class="forces" id="forces"></ol></aside>
+    <div class="fig"><div class="map" id="syn-map"></div></div>
+  </div>
+  <footer class="sf">سنتز تحلیلی از فصل‌های ۰۱ تا ۱۵</footer>
+</section>
+
+<!-- ================= 17 STRATEGY ================= -->
+<section class="slide dark" data-id="strat" data-menu="استراتژی طراحی">
+  <header class="sh"><div class="sh-no">۱۷</div><div class="sh-t"><h2>استراتژی طراحی: پنج قاعده</h2><span class="sh-en">Design strategy · five rules</span></div>
+    <p class="sh-f">نیروهای سایت به پنج قاعده‌ی فضایی برای دانشکده تربیت بدنی ترجمه می‌شوند — پیش از هر حجم‌گذاری.</p></header>
+  <div class="sb g-side wide">
+    <aside class="panel"><ol class="rules" id="rules"></ol></aside>
+    <div class="fig"><div class="map" id="strat-map"></div></div>
+  </div>
+  <footer class="sf">دیاگرام راهبردی؛ نه طرح نهایی و نه حجم‌گذاری</footer>
+</section>
+
+<!-- ================= 18 IMPLICATIONS ================= -->
+<section class="slide" data-id="impl" data-menu="دلالت‌ها و قواعد">
+  <header class="sh"><div class="sh-no">۱۸</div><div class="sh-t"><h2>دلالت‌های طراحی برای برنامه‌ی تربیت بدنی</h2><span class="sh-en">Finding → effect → design response</span></div>
+    <p class="sh-f">هر یافته‌ی سایت به یک پاسخ برنامه‌ای مشخص می‌رسد؛ این جدول پل میان تحلیل و حجم‌گذاری است.</p></header>
+  <div class="sb g-impl">
+    <div id="impl-table"></div>
+    <div class="impl-side"><div class="map" id="impl-map"></div><div class="next-step">گام بعد: مطالعات حجمی (massing) بر اساس این پنج قاعده، برنامه‌ی فیزیکی و سطوح مورد نیاز</div></div>
+  </div>
+  <footer class="sf">برنامه‌ی فیزیکی دقیق (مساحت سالن‌ها، زمین‌ها و کلاس‌ها) هنوز ارائه نشده است</footer>
+</section>
+
+<!-- ================= APPENDIX ================= -->
+<section class="slide tint" data-id="app" data-menu="پیوست: منابع">
+  <header class="sh"><div class="sh-no">پ</div><div class="sh-t"><h2>پیوست: منابع، روش و عدم قطعیت‌ها</h2><span class="sh-en">Appendix · sources · method · open questions</span></div>
+    <p class="sh-f">محدودیت‌های داده پنهان نشده‌اند. همه‌ی مواد خام در این صفحه با کلیک تمام‌صفحه باز می‌شوند.</p></header>
+  <div class="sb g-app">
+    <div class="app-col">
+      <h3>عدم قطعیت‌ها</h3>
+      <ul class="unc">
+        <li><b>مساحت سایت</b> ≈ ۸٬۹۰۰ مترمربع (±۱۰٪) از محدوده‌ی آبی کاربر؛ مرز رسمی نیازمند تأیید است. خط چهارضلعی ارائه، پوشش گرافیکی است.</li>
+        <li><b>صدا</b> کیفی است؛ اندازه‌گیری معتبر دسی‌بل در دسترس نیست.</li>
+        <li><b>توپوگرافی</b> از SRTM ۳۰ متری؛ دقت قائم چند متر.</li>
+        <li><b>باد</b> ایستگاه مهرآباد ≈۱۰ کیلومتر غرب؛ داده‌ی ماهانه و گلباد در دسترس نبود.</li>
+        <li><b>کاربری‌ها</b> با خط‌چین = تأیید نشده.</li>
+      </ul>
+      <h3>پرسش‌های باز</h3>
+      <ol class="oq">
+        <li>آیا بنای پژوهشکده تاریخ علم (گوشه‌ی جنوب‌شرقی) داخل سایت است؟</li>
+        <li>عکس ۱۳ روی نقشه‌ی کلید هست ولی در PDF نیست.</li>
+        <li>جهت دید عکس‌های ۱، ۳، ۱۱ و ۱۲ نامشخص است.</li>
+        <li>برنامه‌ی فیزیکی طرح: مساحت سالن‌ها، زمین‌ها، کلاس‌ها.</li>
+      </ol>
+      <h3>روش</h3>
+      <p class="prose">مختصات محلی بر حسب متر با مبدأ 35.7065N · 51.3930E. تصویر هوایی با ۵ نقطه‌ی کنترل تقاطع زمین‌مرجع شده (≈۰٫۱۹ متر بر پیکسل، باقیمانده ≤۷ متر). معابر و بناها از OSM؛ کشاورز، زارع و هدایتی از خطوط خود کاربر.</p>
+    </div>
+    <div class="app-col"><h3>منابع</h3><ol class="bib" id="bib"></ol></div>
+    <div class="app-col"><h3>مواد خام</h3><div id="archive"></div></div>
+  </div>
+  <footer class="sf">نسخه‌ی ارائه · ساخته‌شده از مواد پروژه‌ی v1 و v2</footer>
+</section>
+
+</div></div>
+
+<!-- ================= CHROME ================= -->
+<nav class="menu" id="menu" aria-label="فهرست اسلایدها">
+  <button type="button" class="menu-tab" id="menu-tab" aria-expanded="false" aria-controls="menu-list"><span>فهرست</span></button>
+  <ol class="menu-list" id="menu-list"></ol>
+</nav>
+<div class="ctrl" id="ctrl">
+  <button type="button" class="nb" id="prev" aria-label="اسلاید قبلی">→ <span>قبلی</span></button>
+  <span class="cnt" id="cnt" aria-live="polite"></span>
+  <button type="button" class="nb" id="next" aria-label="اسلاید بعدی"><span>بعدی</span> ←</button>
+</div>
+<div class="progress"><i id="prog"></i></div>
+
+<script src="js/data/geo.js"></script>
+<script src="js/data/images.js"></script>
+<script src="js/data/content.js"></script>
+<script src="js/core/sa.js"></script>
+<script src="js/components/components.js"></script>
+<script src="js/core/draw.js"></script>
+<script src="js/slides/context.js"></script>
+<script src="js/slides/analysis.js"></script>
+<script src="js/slides/strategy.js"></script>
+<script src="js/deck.js"></script>
+</body>
+</html>

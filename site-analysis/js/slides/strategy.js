@@ -47,7 +47,7 @@
         if (geo.area) node = s('path', { d: SA.d(geo.area, true), fill: c, 'fill-opacity': 0.16, stroke: c, 'stroke-width': 1, 'stroke-dasharray': '4 3', class: 'ns' }, g);
         else if (geo.line) node = s('path', { d: SA.d(geo.line), fill: 'none', stroke: c, 'stroke-width': 4, 'stroke-opacity': 0.6, 'stroke-linecap': 'butt', class: 'ns' }, g);
         const at = geo.pt || (geo.line ? SA.along(geo.line, 0.5).p : SA.centroid(geo.area));
-        const m = SA.marker(mv, g, at, id, { fill: c });
+        const m = SA.pin(mv, g, at, id, { fill: c });
         const data = { k: QN[k][0] + ' · ' + id, t };
         if (node) mv.hover(node, data, id);
         mv.hover(m, data, id);
@@ -74,7 +74,7 @@
       const id = 'f' + i, g = s('g', { class: 'force' }, mv.layer('f'));
       f.draw(mv, g, f.c);
       const at = [[60, 70], [-60, 108], [-55, 20], [45, -20], [0, 40]][i];
-      SA.marker(mv, g, at, SA.fa(i + 1), { fill: f.c });
+      SA.pin(mv, g, at, SA.fa(i + 1), { fill: f.c });
       mv.hover(g, { k: 'نیروی ' + SA.fa(i + 1), t: f.t, e: f.en }, id);
       el('li', { tabindex: 0, 'data-g': id, style: '--c:' + f.c }, ol, '<span class="b">' + SA.fa(i + 1) + '</span><div><h4>' + f.t + '<small>' + f.en + '</small></h4><p>' + f.p + '</p></div>');
     });
@@ -103,7 +103,7 @@
     const ol = SA.$('#rules');
     RULES.forEach((r, i) => {
       const id = 'r' + i, g = s('g', null, mv.layer('rules'));
-      draws[i](g, r.c); SA.marker(mv, g, at[i], SA.fa(i + 1), { fill: r.c, color: '#15181B' });
+      draws[i](g, r.c); SA.pin(mv, g, at[i], SA.fa(i + 1), { fill: r.c, color: '#15181B' });
       mv.hover(g, { k: 'قاعده‌ی ' + SA.fa(i + 1), t: r.t, e: r.en }, id);
       el('li', { tabindex: 0, 'data-g': id, style: '--c:' + r.c }, ol, '<span class="b" style="color:#15181B">' + SA.fa(i + 1) + '</span><div><h4>' + r.t + '<small>' + r.en + '</small></h4><p>' + r.p + '</p></div>');
     });
