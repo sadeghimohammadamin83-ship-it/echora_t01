@@ -382,7 +382,7 @@
 .m3d:active { cursor: grabbing; }
 .m3d canvas { display: block; width: 100% !important; height: 100% !important; }
 .m3d-labels { position: absolute; inset: 0; pointer-events: none; }
-.m3d-l { position: absolute; left: 0; top: 0; transition: opacity .3s; white-space: nowrap; }
+.m3d-l { position: absolute; left: 0; top: 0; transition: opacity .3s; white-space: nowrap; will-change: transform; }
 .m3d-l i { position: absolute; left: -3px; top: -3px; width: 6px; height: 6px; border-radius: 50%; background: var(--ink); }
 .m3d-l i::after { content: ""; position: absolute; left: 2.5px; bottom: 5px; width: 1px; height: 26px; background: var(--ink); }
 .m3d-l b { position: absolute; left: -2px; bottom: 34px; font: 700 .82rem/1 var(--f-fa); color: var(--ink); text-shadow: 0 0 3px #fff, 0 0 6px #fff; transform: translateX(-50%); left: 0; }
@@ -450,13 +450,9 @@
 .rail ol { margin-top: 14px; }
 .topbar .cur.in { animation: curin .45s var(--ease); }
 @keyframes curin { from { opacity: 0; transform: translateY(6px); } }
-/* smooth light↔dark seams: each dark section fades in from the paper, and back */
-.sec.dark::before, .sec.dark::after { content: ""; position: absolute; left: 0; right: 0; height: 140px; pointer-events: none; z-index: 0; }
-.sec.dark::before { top: -1px; height: 72px; background: linear-gradient(var(--paper), var(--night)); }
-.sec.dark::after { bottom: -1px; height: 72px; background: linear-gradient(var(--night), var(--paper)); }
-.sec.dark + .sec.dark::before, .sec.dark:has(+ .sec.dark)::after, .cover::after { display: none; }
-.cover::before { display: none; }
-.sec.dark:not(.cover) > * { position: relative; z-index: 1; }
+/* light↔dark seams: a crisp cut, no fade */
+.sec.dark::before, .sec.dark::after { content: none; display: none; }
+.sec.dark { box-shadow: none; }
 .rail, .rail * { transition: background-color .7s var(--ease), color .7s var(--ease), border-color .7s var(--ease); }
 /* layer panel: opacity sliders share the row, never overflow */
 .gis-panel { overflow-x: hidden; }
@@ -483,11 +479,11 @@
 .loc-off { opacity: 0 !important; pointer-events: none; }
 @keyframes tpulse { from { r: 6; opacity: 1; } to { r: 34; opacity: 0; } }
 .tpulse { animation: tpulse 2.7s var(--ease) infinite; }
-.loc-hud { position: absolute; right: 18px; bottom: 44px; z-index: 4; display: grid; gap: 2px; text-align: right; pointer-events: none; color: var(--night-ink); opacity: 0; transform: translateY(8px); transition: opacity .6s var(--ease), transform .6s var(--ease); }
+.loc-hud { position: absolute; right: 64px; bottom: 40px; z-index: 4; display: grid; gap: 2px; text-align: right; pointer-events: none; color: var(--night-ink); opacity: 0; transform: translateY(8px); transition: opacity .6s var(--ease), transform .6s var(--ease); }
 .loc-hud.in { opacity: 1; transform: none; }
 .loc-hud .h-k { font: 600 .6rem/1 var(--f-lat); letter-spacing: .22em; color: #6CB4F5; }
-.loc-hud b { font: 250 2rem/1.1 var(--f-lat); letter-spacing: -.03em; }
-.loc-hud .h-fa { font: 600 1rem/1.4 var(--f-fa); color: #D8D5CE; }
+.loc-hud b { display: block; font: 300 clamp(1.2rem, 2.2vw, 1.8rem)/1.15 var(--f-lat); letter-spacing: -.02em; }
+.loc-hud .h-fa { display: block; font: 600 .95rem/1.5 var(--f-fa); color: #D8D5CE; }
 .loc-hud .h-c { font: 500 .62rem/1 var(--f-lat); letter-spacing: .1em; color: var(--night-mute); margin-top: 4px; }
 .lightdims { opacity: 0; transition: opacity .8s; } .lightdims.on { opacity: 1; }
 .lightdims path { stroke: #fff !important; } .lightdims circle { fill: #fff; }
@@ -541,3 +537,62 @@ html { scroll-behavior: auto !important; }
 .rail li a .ip b { opacity: .35; }
 .rail li a[aria-current="true"] .ip b { opacity: .9; }
 @media (max-width: 900px) { .locsec .scrolly { grid-template-columns: 1fr; } .loc-hud b { font-size: 1.3rem; } }
+
+/* ==========================================================================
+   ONE SLIDE = ONE SCREEN (desktop & laptop). The header of each section is pinned;
+   maps, panels and stages take exactly the height that is left (--hh set by stepper.js).
+   ========================================================================== */
+@media (min-width: 901px) and (min-height: 481px) {
+  .sec { --hh: 150px; --room: calc(100vh - var(--hh) - 26px); padding-top: 0; padding-bottom: 16px; background: var(--paper); }
+  .sec.tint { background: var(--paper-2); } .sec.dark { background: var(--night); }
+  .sec:not(.cover) { min-height: 100vh; }
+  .sec-head { position: sticky; top: 0; z-index: 8; background: inherit; padding-top: clamp(12px, 2.2vh, 26px); padding-bottom: clamp(8px, 1.4vh, 16px); margin-bottom: 10px; }
+  .sec-head .no { font-size: clamp(2.4rem, 6.2vh, 5.4rem); }
+  .sec-head .kick { margin-bottom: clamp(4px, .9vh, 12px); }
+  .t-h1 { font-size: clamp(1.5rem, 4.4vh, 3rem); }
+  .t-h1-fa { font-size: clamp(.95rem, 2vh, 1.3rem); margin-top: .2em; }
+  .sec-head .finding { font-size: clamp(.8rem, 1.65vh, .95rem); line-height: 1.75; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+  /* sticky stages sit right under the pinned header */
+  .scrolly .stage { top: calc(var(--hh) + 2px); height: var(--room); }
+  .scrolly .steps { padding: 30vh 0 34vh; }
+  .scrolly .step { min-height: 64vh; }
+  /* maps & boards = the room left */
+  .map-xl, .kp-map, .dem-map, .map-sq { height: var(--room); min-height: 0; max-height: none; aspect-ratio: auto; }
+  .kp-board, .dem-board { height: var(--room); }
+  .kp-list, .dem-side { max-height: var(--room); overflow: auto; }
+  .grid > .stack, .grid > [class*="c-"] > .stack, #wind-panel, #air, .swot-lists, .views-list, #impl-list { max-height: var(--room); overflow-y: auto; scrollbar-width: thin; }
+  .gis-board, .m3d-board, .morph-board { height: 100%; }
+  .m3d-board { grid-template-rows: minmax(0, 1fr) auto; }
+  .m3d-ui .t-cap { display: none; }
+  .iso-row { height: var(--room); margin-top: 0; }
+  .iso-map { aspect-ratio: auto; height: 100%; }
+  .profile { height: calc(var(--room) * .5); }
+  .profile .prof-svg { height: 100%; width: 100%; }
+  .section-cut { max-height: calc(var(--room) * .6); }
+  .section-cut .sect-svg { max-height: calc(var(--room) * .6 - 20px); width: 100%; }
+  .atlas-circles { height: var(--room); align-content: center; }
+  .ac-disc { width: min(100%, calc(var(--room) - 120px)); }
+  .climate { min-height: 0; }
+  .sun-scrolly .sun-diag svg { max-height: calc(var(--room) - 170px); }
+  .sun-scrolly .stage .sun { grid-template-rows: minmax(0, 1fr) auto; }
+  .sun-scrolly .sun-plan .map-sq, .sun-scrolly .map-sq { height: calc(var(--room) - 170px); }
+  .survey-grid { max-height: calc(var(--room) - 120px); overflow-y: auto; }
+  .lu-donut { max-width: min(280px, calc(var(--room) * .38)); }
+  .loc-wrap, .loc-map { height: 100%; }
+  /* cover = exactly one screen */
+  .cover { height: 100vh; min-height: 0; padding-top: 8vh; padding-bottom: 7vh; align-items: end; }
+  .cover h1 { font-size: clamp(2.6rem, 10.5vh, 7.2rem); margin: 1.6vh 0 1.4vh; }
+  .cover-fa { font-size: clamp(.95rem, 2.3vh, 1.4rem); margin-bottom: 2.4vh; line-height: 1.6; }
+  .cover-facts .fact { padding-top: 1vh; padding-bottom: 1vh; }
+  .cover-facts .v { font-size: clamp(1.4rem, 4.4vh, 2.6rem); }
+  .cover-legend { margin-top: 1.8vh; }
+  /* terrain: slide 1 = DEM board, slide 2 = section + 1 m contours together */
+  .dem-side { overflow: hidden; gap: 1.6vh; }
+  .dem-minis { flex: 1; min-height: 0; grid-template-columns: 1fr 1fr; grid-template-rows: minmax(0, 1fr); gap: 10px; align-items: end; }
+  .dem-minis > div { min-height: 0; height: 100%; }
+  .dem-minis .mini-map { aspect-ratio: auto; height: 100%; }
+  #s10 .profile { height: calc(var(--room) * .4); margin-bottom: 12px; }
+  #s10 .grid .map-sq { height: calc(var(--room) * .6 - 12px); }
+  #s10 .grid > .stack { max-height: calc(var(--room) * .6 - 12px); }
+}
+

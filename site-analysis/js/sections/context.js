@@ -78,7 +78,7 @@
     const ir = layer('iran');
     G.iran.forEach((pv) => pv.r.forEach((ring) => {
       const P = ring.map((q) => ll(q[0], q[1])), isT = pv.n === 'Tehran';
-      const p = s('path', { d: SA.d(P, true), fill: isT ? 'rgba(46,134,222,.55)' : 'rgba(255,255,255,.035)', stroke: isT ? '#5AA7F0' : 'rgba(233,231,226,.28)', 'stroke-width': isT ? 1.6 : 0.6, class: 'ns', filter: isT ? 'url(#glow)' : null }, ir);
+      const p = s('path', { d: SA.d(P, true), fill: isT ? 'rgba(46,134,222,.3)' : 'rgba(255,255,255,.035)', stroke: isT ? '#5AA7F0' : 'rgba(233,231,226,.28)', 'stroke-width': isT ? 1.6 : 0.6, class: 'ns', filter: isT ? 'url(#glow)' : null }, ir);
       mv.hover(p, { k: 'استان', e: pv.n }, 'pv' + pv.n);
     }));
     mv.label(ll(55.3, 32.2), 'IRAN', 'lbl light', { size: 22, layer: 'Liran' });
@@ -147,12 +147,17 @@
       hud.innerHTML = '<span class="h-k">' + lab[0] + ' / 5</span><b>' + lab[1] + '</b><span class="h-fa">' + lab[2] + '</span><span class="h-c">35.7070° N · 51.3931° E</span>';
       hud.classList.remove('in'); void hud.offsetWidth; hud.classList.add('in');
     };
-    const vis = [['iran'], ['tehran'], ['d6'], ['d6', 'pu'], ['pu', 'site']];
+    const vis = [['iran'], ['iran', 'tehran'], ['d6'], ['d6', 'pu'], ['pu', 'site']];
     let cur = -1;
     const go = (k) => {
-      if (k === cur) return; cur = k;
-      Object.keys(L).forEach((n) => L[n].classList.toggle('loc-off', vis[k].indexOf(n) < 0));
-      mv.setView(VIEWS[k], SA.reduced ? 0 : 2200);
+      if (k === cur) return;
+      const inward = k > cur; cur = k;
+      /* incoming layers fade in at once; outgoing ones hold while the camera travels, then dissolve */
+      clearTimeout(go.t);
+      Object.keys(L).forEach((n) => { if (vis[k].indexOf(n) >= 0) L[n].classList.remove('loc-off'); });
+      const drop = () => Object.keys(L).forEach((n) => L[n].classList.toggle('loc-off', vis[cur].indexOf(n) < 0));
+      if (SA.reduced) drop(); else go.t = setTimeout(drop, inward ? 700 : 250);
+      mv.setView(VIEWS[k], SA.reduced ? 0 : (k <= 1 && inward ? 2800 : 2200));
       setHud(k);
       if (k === 2) SA.$$('.draw', L.d6).forEach((p, i) => { p.classList.remove('on'); void p.getBoundingClientRect(); setTimeout(() => p.classList.add('on'), 300 + i * 40); });
       if (k === 4) { SA.revealAnnots(host); dg.classList.add('on'); }

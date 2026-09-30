@@ -79,7 +79,11 @@
       const A = c(this.cur || from), B = c(to);
       const step = (now) => {
         const k = Math.min(1, (now - t0) / dur), e = ease(k);
-        const cx = A[0] + (B[0] - A[0]) * e, cy = A[1] + (B[1] - A[1]) * e, w = Math.exp(A[2] + (B[2] - A[2]) * e), h = Math.exp(A[3] + (B[3] - A[3]) * e);
+        const w = Math.exp(A[2] + (B[2] - A[2]) * e), h = Math.exp(A[3] + (B[3] - A[3]) * e);
+        /* big zooms: the centre follows the size (target stays anchored on screen), not a straight line */
+        const wa = Math.exp(A[2]), wb = Math.exp(B[2]), big = Math.abs(A[2] - B[2]) > 0.4;
+        const f = big ? (w - wb) / (wa - wb) : 1 - e;
+        const cx = B[0] + (A[0] - B[0]) * f, cy = B[1] + (A[1] - B[1]) * f;
         apply([cx - w / 2, cy - h / 2, cx + w / 2, cy + h / 2]);
         if (k < 1) this._raf = requestAnimationFrame(step);
       };

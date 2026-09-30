@@ -14,8 +14,9 @@
     if (!window.THREE) { host.innerHTML = '<p class="t-cap">3D unavailable (WebGL / Three.js not loaded).</p>'; return; }
     const THREE = window.THREE;
     let renderer;
-    try { renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false }); } catch (e) { host.innerHTML = '<p class="t-cap">3D needs WebGL, which this browser does not provide.</p>'; return; }
-    renderer.setPixelRatio(Math.min(1.5, devicePixelRatio));
+    try { renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: 'high-performance', stencil: false }); } catch (e) { host.innerHTML = '<p class="t-cap">3D needs WebGL, which this browser does not provide.</p>'; return; }
+    const PR_REST = Math.min(1.5, devicePixelRatio), PR_MOVE = Math.min(1, devicePixelRatio);
+    renderer.setPixelRatio(PR_REST);
     renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFShadowMap; renderer.shadowMap.autoUpdate = false;
     renderer.outputEncoding = THREE.sRGBEncoding;
     host.appendChild(renderer.domElement);
@@ -46,7 +47,7 @@
     const cx = cvs.getContext('2d'), k = TS / (HALF * 2);
     const toC = (p) => [(p[0] + HALF) * k, (HALF - p[1]) * k];
     const tex = new THREE.CanvasTexture(cvs); tex.encoding = THREE.sRGBEncoding; tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
-    const groundMat = new THREE.MeshStandardMaterial({ map: tex, roughness: 1, metalness: 0 });
+    const groundMat = new THREE.MeshLambertMaterial({ map: tex });
     const ground = new THREE.Mesh(geo, groundMat); ground.receiveShadow = true; scene.add(ground);
     const load = (src) => new Promise((res) => { const im = new Image(); im.onload = () => res(im); im.onerror = () => res(null); im.src = src; });
     let demolished = false;
@@ -76,9 +77,9 @@
 
     /* ---------- buildings ---------- */
     const mats = {
-      n: new THREE.MeshStandardMaterial({ color: 0xf4f1ea, roughness: 0.92 }),
-      edu: new THREE.MeshStandardMaterial({ color: 0xdfe6ec, roughness: 0.9 }),
-      site: new THREE.MeshStandardMaterial({ color: 0x9fb6cc, roughness: 0.85, transparent: true, opacity: 1 }),
+      n: new THREE.MeshLambertMaterial({ color: 0xf4f1ea }),
+      edu: new THREE.MeshLambertMaterial({ color: 0xdfe6ec }),
+      site: new THREE.MeshLambertMaterial({ color: 0x9fb6cc, transparent: true, opacity: 1 }),
     };
     const edges = new THREE.LineBasicMaterial({ color: 0x3a3a3a, transparent: true, opacity: 0.35 });
     const siteBlds = [], pick = [];
@@ -127,7 +128,7 @@
     if (dropped) console.info('[3d] footprints on street corridors not extruded:', dropped);
 
     /* ---------- trees (canopy extracted from imagery) ---------- */
-    const tgeo = new THREE.IcosahedronGeometry(1, 0), tmat = new THREE.MeshStandardMaterial({ color: 0x7d9a5f, roughness: 1, flatShading: true });
+    const tgeo = new THREE.IcosahedronGeometry(1, 0), tmat = new THREE.MeshLambertMaterial({ color: 0x7d9a5f, flatShading: true });
     const pts = I.trees.filter((p) => Math.abs(p[0]) < HALF - 5 && Math.abs(p[1]) < HALF - 5);
     const inst = new THREE.InstancedMesh(tgeo, tmat, pts.length);
     const dummy = new THREE.Object3D(); let rnd = 1;
@@ -167,10 +168,12 @@
     const lw = el('div', { class: 'm3d-labels' }, host);
     const L = labs.map(([p, fa, en, lift]) => ({ v: new THREE.Vector3(p[0], hAt(p[0], p[1]) + lift, -p[1]), e: el('div', { class: 'm3d-l' }, lw, '<i></i><b>' + fa + '</b><span>' + en + '</span>') }));
     const tip = SA.tip;
-    const ray = new THREE.Raycaster(), mouse = new THREE.Vector2(); let rayPending = false, lastEv = null;
+    const ray = new THREE.Raycaster(), mouse = new THREE.Vector2(); let rayPending = false, lastEv = null, dragging = false;
+    renderer.domElement.addEventListener('pointerdown', () => { dragging = true; tip.hide(); setMoving(true); render(); wake(); });
+    addEventListener('pointerup', () => { if (dragging) { dragging = false; wake(); } });
     renderer.domElement.addEventListener('pointermove', (ev) => {
       const r = renderer.domElement.getBoundingClientRect(); mouse.set(((ev.clientX - r.left) / r.width) * 2 - 1, -((ev.clientY - r.top) / r.height) * 2 + 1);
-      if (rayPending) return; rayPending = true; lastEv = ev;
+      if (dragging || rayPending) return; rayPending = true; lastEv = ev;
       requestAnimationFrame(() => {
         rayPending = false; ray.setFromCamera(mouse, cam); const hit = ray.intersectObjects(pick, false)[0];
         let info = null;
@@ -224,20 +227,31 @@
 
     /* ---------- render loop: only while visible, idle-aware ---------- */
     let visible = false, raf = 0, idleUntil = 0;
-    function resize() { const r = host.getBoundingClientRect(); if (!r.width) return; renderer.setSize(r.width, r.height, false); cam.aspect = r.width / r.height; cam.updateProjectionMatrix(); render(); }
+    /* the canvas size is cached: reading layout every frame forced a reflow of the whole page */
+    let W = 0, Hh = 0, lowRes = false;
+    function resize() { const r = host.getBoundingClientRect(); if (!r.width) return; W = r.width; Hh = r.height; renderer.setSize(W, Hh, false); cam.aspect = W / Hh; cam.updateProjectionMatrix(); render(); }
+    /* adaptive resolution: 1× while the camera moves, full sharpness once it rests */
+    function setMoving(m) { if (m === lowRes || PR_MOVE === PR_REST) return; lowRes = m; renderer.setPixelRatio(m ? PR_MOVE : PR_REST); renderer.setSize(W, Hh, false); }
+    const pv = new THREE.Vector3();
     function render() {
       renderer.render(scene, cam);
-      const r = renderer.domElement.getBoundingClientRect();
-      L.forEach(({ v, e }) => { const p = v.clone().project(cam); const vis = p.z < 1 && Math.abs(p.x) < 1.05 && Math.abs(p.y) < 1.05; e.style.opacity = vis ? 1 : 0; e.style.transform = 'translate(' + ((p.x + 1) / 2 * r.width).toFixed(1) + 'px,' + ((1 - p.y) / 2 * r.height).toFixed(1) + 'px)'; });
+      L.forEach((l) => {
+        const p = pv.copy(l.v).project(cam), vis = p.z < 1 && Math.abs(p.x) < 1.05 && Math.abs(p.y) < 1.05;
+        const o = vis ? '1' : '0', t = 'translate3d(' + Math.round((p.x + 1) / 2 * W) + 'px,' + Math.round((1 - p.y) / 2 * Hh) + 'px,0)';
+        if (l.o !== o) { l.o = o; l.e.style.opacity = o; }
+        if (vis && l.t !== t) { l.t = t; l.e.style.transform = t; }
+      });
     }
     function loop(now) {
       raf = 0;
       if (!visible) return;
       if (tween) tween(now);
       if (demoT) { demoT(now); renderer.shadowMap.needsUpdate = true; }
-      const moving = controls.update();
+      const moving = controls.update(), busy = tween || demoT || moving || dragging;
+      setMoving(!!busy);
       render();
-      if (tween || demoT || moving || now < idleUntil) raf = requestAnimationFrame(loop);
+      if (busy || now < idleUntil) raf = requestAnimationFrame(loop);
+      else if (lowRes) { setMoving(false); render(); }
     }
     function wake() { idleUntil = performance.now() + 600; if (!raf && visible) raf = requestAnimationFrame(loop); }
     controls.addEventListener('change', wake);

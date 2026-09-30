@@ -8,20 +8,47 @@
     let stops = [], cur = 0, anim = null, lockUntil = 0;
     const H = () => innerHeight;
     const topOf = (e) => e.getBoundingClientRect().top + scrollY;
+    const desk = () => innerWidth > 900 && innerHeight > 480;
+    /* every section header is pinned while its slide is on screen; --hh = its height, used by the CSS to size the rest */
+    function measure() {
+      SA.$$('[data-nav]').forEach((sec) => { const h = sec.querySelector(':scope > .sec-head'); sec.style.setProperty('--hh', (h && desk() ? h.offsetHeight + 12 : 0) + 'px'); });
+    }
     function build() {
+      measure();
       const out = [], vh = H();
       SA.$$('[data-nav]').forEach((sec) => {
-        const t = topOf(sec), h = sec.offsetHeight;
-        out.push({ y: t, sec });
-        const steps = SA.$$('.scrolly .step', sec);
-        if (steps.length) steps.forEach((st) => out.push({ y: topOf(st) + st.offsetHeight / 2 - vh / 2, sec }));
-        else for (let y = t + vh * 0.86; y < t + h - vh * 0.6; y += vh * 0.86) out.push({ y: Math.min(y, t + h - vh), sec });
+        const t = topOf(sec), h = sec.offsetHeight, hh = parseFloat(sec.style.getPropertyValue('--hh')) || 0;
+        const steps = SA.$$('.scrolly .step', sec), sc = sec.querySelector('.scrolly');
+        /* the first slide of a section: the header on top and the first content block (or sticky stage) right under it */
+        const first = [...sec.children].find((c) => !c.classList.contains('sec-head') && c.offsetHeight >= 8);
+        let y0 = t;
+        if (desk() && first && topOf(first) + Math.min(first.offsetHeight, vh) > t + vh - 6) y0 = Math.max(t, topOf(first) - hh - (sc === first ? 2 : 10));
+        out.push({ y: y0, sec, head: true });
+        if (steps.length) { steps.forEach((st) => out.push({ y: Math.max(y0 + 41, topOf(st) + st.offsetHeight / 2 - vh / 2), sec })); }
+        /* content blocks after the header (direct children, and the cells of grids) */
+        const blocks = [];
+        [...sec.children].forEach((c) => {
+          if (c.classList.contains('sec-head') || c.classList.contains('scrolly') || c.offsetHeight < 8) return;
+          if (c.classList.contains('grid')) [...c.children].forEach((g) => g.offsetHeight > 8 && blocks.push(g)); else blocks.push(c);
+        });
+        const scrollyEnd = steps.length ? topOf(sec.querySelector('.scrolly')) + sec.querySelector('.scrolly').offsetHeight : t;
+        let page = steps.length ? scrollyEnd - vh : y0;             /* top of the screen currently shown */
+        const room = vh - hh - 16;
+        blocks.map((e) => ({ top: topOf(e), bot: topOf(e) + e.offsetHeight })).sort((x, y) => x.top - y.top).forEach((bl) => {
+          if (bl.bot <= page + vh - 6) return;                      /* already fully visible */
+          page = bl.top - hh - 10; out.push({ y: page, sec });       /* new slide: block starts under the pinned header */
+          while (bl.bot > page + vh - 6) { page += room; out.push({ y: page, sec }); }   /* taller than one screen */
+        });
+        /* never page past the section's end: no slide shows the top of the next section */
+        const lim = t + h - vh;
+        if (lim > y0) out.forEach((q) => { if (q.sec === sec && !q.head && q.y > lim) q.y = lim; });
       });
       const max = document.documentElement.scrollHeight - vh;
-      stops = out.map((s) => ({ y: Math.max(0, Math.min(max, Math.round(s.y))), sec: s.sec })).sort((a, b) => a.y - b.y)
-        .filter((s, i, a) => i === 0 || s.y - a[i - 1].y > 40);
+      stops = out.map((q) => ({ y: Math.max(0, Math.min(max, Math.round(q.y))), sec: q.sec })).sort((x, y) => x.y - y.y)
+        .filter((q, i, arr) => i === 0 || q.y - arr[i - 1].y > 40);
       sync();
     }
+    SA.__stops = () => stops;
     function sync() { let k = 0; for (let i = 0; i < stops.length; i++) if (stops[i].y <= scrollY + 8) k = i; cur = k; ui(); }
     const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
     function go(k) {

@@ -37,25 +37,18 @@
     const C = I.context, M = C.m, sfx = o.dark ? 'dark' : 'base', defs = SA.defs(mv.svg);
     /* 1 · Sentinel-2 (10 m) — the wide base, so every zoom-out stays in imagery */
     if (o.s2 && S2) { const b = S2.district; s('image', { href: 'img/layers/s2_district_' + (o.s2 === 'color' ? 'color' : o.dark ? 'dark' : 'mono') + '.jpg', x: b.x0, y: -b.y1, width: b.x1 - b.x0, height: b.y1 - b.y0, preserveAspectRatio: 'none', opacity: o.op }, g); }
-    /* 2 · Google context (0.65 m), feathered into the Sentinel base */
+    /* 2 · Google context (0.65 m) — a crisp tile with a hairline frame, no feathering */
+    const frame = o.dark ? 'rgba(233,231,226,.55)' : 'rgba(26,28,30,.55)';
     if (o.context) {
-      const fid = 'fc' + (SA._fe = (SA._fe || 0) + 1);
-      const gr = s('radialGradient', { id: fid + 'g', cx: 0.5, cy: 0.5, r: 0.6 }, defs);
-      s('stop', { offset: 0.74, 'stop-color': '#fff' }, gr); s('stop', { offset: 1, 'stop-color': '#000' }, gr);
-      /* the mask lives in the image's own (pixel) user space, because the image carries the transform */
-      const mk = s('mask', { id: fid, maskUnits: 'userSpaceOnUse', x: 0, y: 0, width: C.w, height: C.h }, defs);
-      s('rect', { width: C.w, height: C.h, fill: 'url(#' + fid + 'g)' }, mk);
-      s('image', { href: 'img/layers/context_' + sfx + '.jpg', width: C.w, height: C.h, transform: 'matrix(' + M.join(' ') + ')', preserveAspectRatio: 'none', opacity: o.op, mask: 'url(#' + fid + ')' }, g);
+      const tr = 'matrix(' + M.join(' ') + ')';
+      s('image', { href: 'img/layers/context_' + sfx + '.jpg', width: C.w, height: C.h, transform: tr, preserveAspectRatio: 'none', opacity: o.op }, g);
+      s('rect', { width: C.w, height: C.h, transform: tr, fill: 'none', stroke: frame, 'stroke-width': 0.8, class: 'ns' }, g);
     }
-    /* 3 · site aerial (0.19 m), feathered */
+    /* 3 · site aerial (0.19 m) — crisp, framed */
     if (o.aerial) {
       const x = -A.tx / A.s, y = -A.ty / A.s, w = A.w / A.s, h = A.h / A.s;
-      const fid = 'fe' + (SA._fe = (SA._fe || 0) + 1);
-      const lg = s('mask', { id: fid, maskUnits: 'userSpaceOnUse', x, y, width: w, height: h }, defs);
-      const gr = s('radialGradient', { id: fid + 'g', cx: 0.5, cy: 0.5, r: 0.62 }, defs);
-      s('stop', { offset: 0.72, 'stop-color': '#fff' }, gr); s('stop', { offset: 1, 'stop-color': '#000' }, gr);
-      s('rect', { x, y, width: w, height: h, fill: 'url(#' + fid + 'g)' }, lg);
-      s('image', { href: 'img/layers/aerial_' + sfx + '.jpg', x, y, width: w, height: h, preserveAspectRatio: 'none', mask: 'url(#' + fid + ')', opacity: o.op }, g);
+      s('image', { href: 'img/layers/aerial_' + sfx + '.jpg', x, y, width: w, height: h, preserveAspectRatio: 'none', opacity: o.op }, g);
+      s('rect', { x, y, width: w, height: h, fill: 'none', stroke: frame, 'stroke-width': 0.8, class: 'ns' }, g);
     }
     if (o.veg) SA.vegLayer(mv, g, o);
     return g;
