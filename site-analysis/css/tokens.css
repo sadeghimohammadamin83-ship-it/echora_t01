@@ -1,0 +1,77 @@
+/* ==========================================================================
+   DESIGN SYSTEM — tokens
+   Neutral warm paper + charcoal ink, one accent (the site blue, fixed by the
+   user's colour code), a muted GIS palette, and the user's street colours.
+   ========================================================================== */
+@font-face { font-family: "Inter"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("../fonts/inter-latin-wght-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "Inter"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("../fonts/inter-latin-ext-wght-normal.woff2") format("woff2"); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+2113, U+2190-21FF, U+2200-22FF, U+25A0-25FF; }
+@font-face { font-family: "Vazirmatn"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("../fonts/vazirmatn-arabic-wght-normal.woff2") format("woff2"); unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC; }
+@font-face { font-family: "Vazirmatn"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("../fonts/vazirmatn-latin-wght-normal.woff2") format("woff2"); unicode-range: U+0000-00FF, U+2000-206F; }
+
+:root {
+  /* surfaces */
+  --paper: #F2F0EB;
+  --paper-2: #E9E6DF;
+  --paper-3: #DEDAD1;
+  --card: #FAF9F6;
+  --ink: #1C1F22;
+  --ink-2: #464A4E;
+  --mute: #7F7C75;
+  --line: rgba(28, 31, 34, .16);
+  --hair: rgba(28, 31, 34, .08);
+  --night: #15181B;
+  --night-2: #1F2327;
+  --night-ink: #E9E7E2;
+  --night-mute: #8D8B86;
+  --night-line: rgba(233, 231, 226, .14);
+
+  /* accent = the project site (user colour code: BLUE) */
+  --site: #2E86DE;
+  --site-soft: rgba(46, 134, 222, .16);
+  --site-deep: #1B5FA3;
+
+  /* user street colour code — meaning must not change */
+  --kesh: #D9A91A;   /* YELLOW  Keshavarz Blvd */
+  --jal: #5FA83A;    /* GREEN   Jalalieh */
+  --zare: #FFFFFF;   /* WHITE   Zare' (dark casing) */
+  --zare-case: #555A60;
+  --hed: #7B4FA0;    /* PURPLE  Hedayati */
+  --ena: #EF7F1A;    /* ORANGE  Enayat */
+  --pour: #C8332B;   /* RED     Poursina (one-way W) */
+  --azar: #D6417F;   /* PINK    16 Azar (one-way S) */
+
+  /* GIS land-use palette (muted) */
+  --lu-res: #D9C4A0;
+  --lu-edu: #93A9BA;
+  --lu-cult: #B88D86;
+  --lu-com: #D49A5B;
+  --lu-pub: #B8574F;
+  --lu-park: #C3C0B8;
+  --lu-green: #9EB48B;
+  --lu-unk: #D5D1C8;
+  --lu-site: #2E86DE;
+
+  /* analysis semantics */
+  --pos: #3E7A4E;      /* positive / view / green */
+  --neg: #A8443C;      /* sensitive / negative */
+  --serv: #8C6420;     /* service */
+  --wind: #2F6F9E;
+  --sun: #D98A1C;
+
+  /* type */
+  --f-lat: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-fa: "Vazirmatn", "Inter", Tahoma, sans-serif;
+  --t-display: clamp(3.2rem, 7.4vw, 7.6rem);
+  --t-h1: clamp(2rem, 3.6vw, 3.4rem);
+  --t-h2: clamp(1.25rem, 1.7vw, 1.6rem);
+  --t-body: clamp(.95rem, .98vw, 1.04rem);
+  --t-cap: .82rem;
+  --t-tech: .68rem;
+
+  /* space & rhythm */
+  --gut: clamp(16px, 3vw, 48px);
+  --rail: 208px;
+  --r: 2px;
+  --ease: cubic-bezier(.22, .61, .36, 1);
+  --ease-io: cubic-bezier(.65, 0, .35, 1);
+}
