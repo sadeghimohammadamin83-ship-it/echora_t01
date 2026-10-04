@@ -1,0 +1,25 @@
+{
+  "name": "bim-asset-hub",
+  "version": "1.0.0",
+  "description": "Static site for ECHORA (Pre-Alpha 0.1). No build step: open `index.html`.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sadeghimohammadamin83-ship-it/bim-asset-hub.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sadeghimohammadamin83-ship-it/bim-asset-hub/issues"
+  },
+  "homepage": "https://github.com/sadeghimohammadamin83-ship-it/bim-asset-hub#readme",
+  "dependencies": {
+    "@capacitor/android": "^8.5.2",
+    "@capacitor/cli": "^8.5.2",
+    "@capacitor/core": "^8.5.2"
+  }
+}
