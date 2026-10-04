@@ -44,3 +44,10 @@ jobs:
           gh release delete apk-latest --yes --cleanup-tag || true
           gh release create apk-latest ECHORA.apk --target "$GITHUB_SHA" --prerelease \
             --title "ECHORA Android APK" --notes "Debug APK built from $GITHUB_SHA"
+      - name: Push APK to apk-build branch
+        run: |
+          mkdir /tmp/apkout && cp ECHORA.apk /tmp/apkout/ && cd /tmp/apkout
+          git init -q -b apk-build
+          git config user.name github-actions && git config user.email github-actions@users.noreply.github.com
+          git add ECHORA.apk && git commit -qm "APK from $GITHUB_SHA"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" apk-build
