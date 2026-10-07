@@ -244,7 +244,14 @@
   const SHOT_MS = reduce ? 4000 : 5200;
   function tzBuild() {
     const st = $('#tzStage');
-    if (CFG.TEASER_URL) { st.innerHTML = `<video src="${esc(CFG.TEASER_URL)}" controls autoplay playsinline style="width:100%;height:100%;object-fit:contain;background:#000"></video>`; return; }
+    if (CFG.TEASER_URL) {
+      const webm = CFG.TEASER_WEBM ? `<source src="${esc(CFG.TEASER_WEBM)}" type="video/webm">` : '';
+      st.innerHTML = `<video controls autoplay playsinline poster="${IMG('teaser')}" style="width:100%;height:100%;object-fit:contain;background:#000">${webm}<source src="${esc(CFG.TEASER_URL)}" type="video/mp4"></video>`;
+      // no playable source in this browser: fall back to the slideshow instead of a dead player
+      const last = st.querySelector('video source:last-of-type');
+      last?.addEventListener('error', () => { CFG.TEASER_URL = ''; tzBuild(); tzIdx = 0; tzStep(); });
+      return;
+    }
     st.innerHTML = C.teaser.map((s, i) => `<div class="tz-shot" data-i="${i}"><img src="${IMG(s.img)}" alt=""><p class="tz-line${i === 3 ? ' alarm-l' : ''}">${esc(L(s))}</p></div>`).join('') +
       `<div class="tz-end"><span class="wordmark" aria-label="ECHORA">ECH<svg class="wm-o" viewBox="0 0 40 40"><circle cx="20" cy="20" r="14"/><line x1="20" y1="4" x2="20" y2="36"/></svg>RA</span><p class="mono motto">${esc(t('hero.motto'))}</p><p class="mono" style="color:var(--text-3)">${esc(t('hero.eyebrow'))}</p></div>`;
   }
