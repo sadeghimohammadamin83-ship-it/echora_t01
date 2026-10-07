@@ -17,12 +17,9 @@ window.ECHORA_CONFIG = {
   APK_FILE: "ECHORA-0.5.0.apk",
   APK_SIZE: "1.8 MB",
 
-  // Web version (same game, runs in the browser; installable and offline-capable).
-  WEB_URL: "play/index.html",
-
   // Teaser MP4: a montage of real in-game captures. Empty = show the in-page slideshow preview.
   TEASER_URL: "assets/media/echora-teaser.mp4",
   TEASER_WEBM: "assets/media/echora-teaser.webm",
 
-  PLATFORM: "Windows x64 · Android 7+ · Web",
+  PLATFORM: "Windows x64 · Android 7+",
 };
