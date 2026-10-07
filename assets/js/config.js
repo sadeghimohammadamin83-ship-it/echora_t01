@@ -7,14 +7,14 @@
    ========================================================================== */
 window.ECHORA_CONFIG = {
   VERSION: "Pre-Alpha 0.5",
-  VERSION_NUMBER: "0.5.1",
+  VERSION_NUMBER: "0.5.2",
 
   // Windows portable game (one .exe) and Android package.
-  WIN_URL: "downloads/ECHORA-0.5.1-portable.exe",
-  WIN_FILE: "ECHORA-0.5.1-portable.exe",
+  WIN_URL: "downloads/ECHORA-0.5.2-portable.exe",
+  WIN_FILE: "ECHORA-0.5.2-portable.exe",
   WIN_SIZE: "73 MB",
-  APK_URL: "downloads/ECHORA-0.5.1.apk",
-  APK_FILE: "ECHORA-0.5.1.apk",
+  APK_URL: "downloads/ECHORA-0.5.2.apk",
+  APK_FILE: "ECHORA-0.5.2.apk",
   APK_SIZE: "1.9 MB",
 
   // Teaser MP4: a montage of real in-game captures. Empty = show the in-page slideshow preview.

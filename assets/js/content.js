@@ -361,7 +361,16 @@ window.ECHORA_CONTENT = {
       ],
     },
     {
-      v: "0.5.1", latest: true, date: { en: "October 2026", fa: "مهر ۱۴۰۵" },
+      v: "0.5.2", latest: true, date: { en: "October 2026", fa: "مهر ۱۴۰۵" },
+      title: { en: "Menu mood", fa: "حال‌وهوای منو" },
+      groups: [
+        { h: { en: "Look", fa: "ظاهر" }, items: [
+          { en: "The main menu is back to a dark, moody look, with the details still easy to see.", fa: "منوی اصلی به حال‌وهوای تیره برگشت، با جزئیاتی که هنوز راحت دیده می‌شوند." },
+        ] },
+      ],
+    },
+    {
+      v: "0.5.1", date: { en: "October 2026", fa: "مهر ۱۴۰۵" },
       title: { en: "Brighter nights, helmet lamp", fa: "شب روشن‌تر، چراغ کلاه" },
       groups: [
         { h: { en: "Look", fa: "ظاهر" }, items: [
