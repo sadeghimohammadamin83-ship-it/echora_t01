@@ -361,7 +361,16 @@ window.ECHORA_CONTENT = {
       ],
     },
     {
-      v: "0.5.2", latest: true, date: { en: "October 2026", fa: "مهر ۱۴۰۵" },
+      v: "0.5.3", latest: true, date: { en: "October 2026", fa: "مهر ۱۴۰۵" },
+      title: { en: "Lamp follows the head", fa: "چراغ همراه سر" },
+      groups: [
+        { h: { en: "Helmet", fa: "کلاه" }, items: [
+          { en: "The helmet lamp now shines where the colonist faces. Turning the camera around no longer swings the light behind the head.", fa: "چراغ کلاه حالا همان جهتی را روشن می‌کند که شخصیت رو به آن است. چرخاندن دوربین دیگر نور را پشت سر نمی‌برد." },
+        ] },
+      ],
+    },
+    {
+      v: "0.5.2", date: { en: "October 2026", fa: "مهر ۱۴۰۵" },
       title: { en: "Menu mood", fa: "حال‌وهوای منو" },
       groups: [
         { h: { en: "Look", fa: "ظاهر" }, items: [
