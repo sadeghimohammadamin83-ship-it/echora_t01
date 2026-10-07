@@ -337,7 +337,22 @@ window.ECHORA_CONTENT = {
 
   updates: [
     {
-      v: "0.4.0", latest: true, date: { en: "October 2026", fa: "مهر ۱۴۰۵" },
+      v: "0.4.1", latest: true, date: { en: "October 2026", fa: "مهر ۱۴۰۵" },
+      title: { en: "Smoother and brighter", fa: "روان‌تر و روشن‌تر" },
+      groups: [
+        { h: { en: "Performance", fa: "کارایی" }, items: [
+          { en: "Fixed the stutter when collecting supplies on the ground: pickups no longer add or remove lights, which made the engine recompile every material at once.", fa: "لگ هنگام جمع‌کردن مواد روی زمین رفع شد: نقاط جمع‌آوری دیگر نور اضافه یا حذف نمی‌کنند؛ همان کاری که موتور را مجبور می‌کرد همهٔ متریال‌ها را یک‌باره دوباره کامپایل کند." },
+          { en: "The action bar and interaction checks no longer run every frame, herds far away are not simulated, and phones and low-detail PCs get smaller herds.", fa: "نوار اقدام و بررسی تعامل دیگر هر فریم اجرا نمی‌شود، گله‌های دور شبیه‌سازی نمی‌شوند و گوشی‌ها و رایانه‌های کم‌جزئیات گله‌های کوچک‌تر می‌گیرند." },
+          { en: "The local plan builds in slices, so the HUD never stalls a frame while it loads.", fa: "نقشهٔ محلی تکه‌تکه ساخته می‌شود تا HUD هنگام بارگذاری فریمی را نگه ندارد." },
+        ] },
+        { h: { en: "Look and feel", fa: "ظاهر و حس بازی" }, items: [
+          { en: "The game now begins at 07:30 in bright morning light, and daylight itself is brighter and more readable all day.", fa: "بازی حالا ساعت ۰۷:۳۰ در نور روشن صبح شروع می‌شود و نور روز در تمام روز روشن‌تر و خواناتر است." },
+          { en: "Field of view starts at 60.", fa: "میدان دید با ۶۰ شروع می‌شود." },
+        ] },
+      ],
+    },
+    {
+      v: "0.4.0", date: { en: "October 2026", fa: "مهر ۱۴۰۵" },
       title: { en: "The Collection Run", fa: "مأموریت جمع‌آوری" },
       groups: [
         { h: { en: "New opening", fa: "شروع تازه" }, items: [

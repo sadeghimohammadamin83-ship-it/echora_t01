@@ -5,11 +5,11 @@
    ========================================================================== */
 window.ECHORA_CONFIG = {
   // Windows portable game (one .exe) and Android package.
-  WIN_URL: "downloads/ECHORA-0.4.0-portable.exe",
-  WIN_FILE: "ECHORA-0.4.0-portable.exe",
+  WIN_URL: "downloads/ECHORA-0.4.1-portable.exe",
+  WIN_FILE: "ECHORA-0.4.1-portable.exe",
   WIN_SIZE: "73 MB",
-  APK_URL: "downloads/ECHORA-0.4.0.apk",
-  APK_FILE: "ECHORA-0.4.0.apk",
+  APK_URL: "downloads/ECHORA-0.4.1.apk",
+  APK_FILE: "ECHORA-0.4.1.apk",
   APK_SIZE: "2 MB",
 
   // Optional: link to the teaser MP4 once it exists. Empty = show the in-page slideshow preview.
