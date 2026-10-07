@@ -361,7 +361,17 @@ window.ECHORA_CONTENT = {
       ],
     },
     {
-      v: "0.5.3", latest: true, date: { en: "October 2026", fa: "مهر ۱۴۰۵" },
+      v: "0.5.4", latest: true, date: { en: "October 2026", fa: "مهر ۱۴۰۵" },
+      title: { en: "Phone defaults", fa: "پیش‌فرض‌های گوشی" },
+      groups: [
+        { h: { en: "Mobile", fa: "موبایل" }, items: [
+          { en: "On phones the text size now starts at 100% instead of 130%.", fa: "روی گوشی اندازهٔ متن حالا از ۱۰۰٪ شروع می‌شود، نه ۱۳۰٪." },
+          { en: "Phones start with the graphics profile tuned on a real device (render scale 50%, shadows high, post-processing on, particles low).", fa: "گوشی‌ها با پروفایل گرافیکی تنظیم‌شده روی دستگاه واقعی شروع می‌کنند (مقیاس رندر ۵۰٪، سایه بالا، پس‌پردازش روشن، ذرات کم)." },
+        ] },
+      ],
+    },
+    {
+      v: "0.5.3", date: { en: "October 2026", fa: "مهر ۱۴۰۵" },
       title: { en: "Lamp follows the head", fa: "چراغ همراه سر" },
       groups: [
         { h: { en: "Helmet", fa: "کلاه" }, items: [
