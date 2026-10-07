@@ -211,8 +211,8 @@
       <h3>${esc(L(c.t))}</h3><p>${esc(L(c.s))}</p><span class="st">${esc(t(c.play ? 'chap.playable' : 'chap.coming'))}</span></li>`).join('');
   }
   function renderUpdates() {
-    $('#updList').innerHTML = (C.updates || []).map((u, i) => `<article class="upd${u.latest ? ' upd--latest' : ''}" ${i === 0 ? 'open' : ''}>
-      <header class="upd__head"><span class="upd__v mono">${esc(digits('v' + u.v))}</span>${u.latest ? `<span class="upd__tag mono">${esc(t('upd.latest'))}</span>` : ''}
+    $('#updList').innerHTML = (C.updates || []).map((u, i) => `<article class="upd${u.latest || u.tag ? ' upd--latest' : ''}" ${i === 0 ? 'open' : ''}>
+      <header class="upd__head"><span class="upd__v mono">${esc(digits('v' + u.v))}</span>${u.tag ? `<span class="upd__tag mono">${esc(L(u.tag))}</span>` : u.latest ? `<span class="upd__tag mono">${esc(t('upd.latest'))}</span>` : ''}
         <h3 class="upd__t">${esc(L(u.title))}</h3><span class="upd__d mono">${esc(L(u.date))}</span></header>
       <div class="upd__body">${u.groups.map((g) => `<section><h4>${esc(L(g.h))}</h4><ul>${g.items.map((it) => `<li>${esc(L(it))}</li>`).join('')}</ul></section>`).join('')}</div>
     </article>`).join('');

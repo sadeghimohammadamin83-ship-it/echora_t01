@@ -85,6 +85,8 @@ window.ECHORA_CONTENT = {
       "dl.how": "Download the file and run it. The Windows build is portable: no installer, no setup.",
       "dl.win.t": "Windows", "dl.win.d": "Portable game, one file. Windows 10 or 11, 64-bit.", "dl.win.btn": "Download ECHORA.exe",
       "dl.apk.t": "Android", "dl.apk.d": "Touch controls, one APK. Android 7.0 or newer.", "dl.apk.btn": "Download ECHORA.apk",
+      "dl.ios.t": "iPhone & iPad", "dl.ios.d": "Installable web app (PWA). Runs fullscreen from your home screen and works offline.", "dl.ios.btn": "Open ECHORA", "dl.ios.meta": "Safari · iOS 16.4 or newer",
+      "dl.ios.how": "On iPhone or iPad: open the page in Safari, tap Share, then “Add to Home Screen”. ECHORA starts fullscreen like an app and keeps working without a connection.",
       "dl.apk.how": "Open the downloaded APK and allow “Install unknown apps” for your browser when Android asks. The build is signed with a local key, so Play Protect may show a notice: choose “Install anyway”.",
       "upd.eyebrow": "Updates", "upd.title": "What’s new.", "upd.lead": "The latest build and what changed since the last one.", "upd.latest": "Latest", "upd.date": "October 2026",
       "dl.warn": "The build is not code-signed yet, so Windows may show a SmartScreen warning. Choose “More info”, then “Run anyway”.",
@@ -183,6 +185,8 @@ window.ECHORA_CONTENT = {
       "dl.how": "فایل را دانلود و اجرا کنید. نسخهٔ ویندوز پرتابل است: بدون نصب و راه‌اندازی.",
       "dl.win.t": "ویندوز", "dl.win.d": "بازی پرتابل در یک فایل. ویندوز ۱۰ یا ۱۱، ۶۴ بیتی.", "dl.win.btn": "دانلود ECHORA.exe",
       "dl.apk.t": "اندروید", "dl.apk.d": "کنترل لمسی، یک فایل APK. اندروید ۷٫۰ یا بالاتر.", "dl.apk.btn": "دانلود ECHORA.apk",
+      "dl.ios.t": "آیفون و آیپد", "dl.ios.d": "برنامهٔ وب نصب‌شدنی (PWA). تمام‌صفحه از صفحهٔ اصلی اجرا می‌شود و بدون اینترنت هم کار می‌کند.", "dl.ios.btn": "باز کردن ECHORA", "dl.ios.meta": "سافاری · iOS ۱۶٫۴ یا بالاتر",
+      "dl.ios.how": "روی آیفون یا آیپد: صفحه را در سافاری باز کنید، «Share» و بعد «Add to Home Screen» را بزنید. ECHORA مثل یک برنامه تمام‌صفحه اجرا می‌شود و بدون اتصال هم کار می‌کند.",
       "dl.apk.how": "فایل APK دانلودشده را باز کنید و وقتی اندروید پرسید، «نصب برنامه‌های ناشناس» را برای مرورگرتان مجاز کنید. این نسخه با کلید محلی امضا شده و ممکن است Play Protect هشدار بدهد: «Install anyway» را بزنید.",
       "upd.eyebrow": "به‌روزرسانی‌ها", "upd.title": "چه چیزهایی تازه است.", "upd.lead": "آخرین نسخه و آنچه از نسخهٔ قبل تغییر کرده است.", "upd.latest": "آخرین", "upd.date": "مهر ۱۴۰۵",
       "dl.warn": "این نسخه هنوز امضای دیجیتال ندارد، پس ممکن است ویندوز هشدار SmartScreen نشان دهد. روی «More info» و بعد «Run anyway» بزنید.",
@@ -337,7 +341,47 @@ window.ECHORA_CONTENT = {
 
   updates: [
     {
-      v: "0.4.1", latest: true, date: { en: "October 2026", fa: "مهر ۱۴۰۵" },
+      v: "ECHORA 1 → 0.4", tag: { en: "Since ECHORA 1", fa: "نسبت به اکورا ۱" }, date: { en: "The big picture", fa: "تصویر کلی" },
+      title: { en: "A different game", fa: "یک بازی کاملاً متفاوت" },
+      groups: [
+        { h: { en: "Look and world", fa: "ظاهر و دنیا" }, items: [
+          { en: "A new art direction: dark crimson and graphite, a rebuilt sky with the Echo ring, storms and lightning, creatures in the air, new lighting and materials.", fa: "جهت هنری تازه: سرخ تیره و گرافیتی، آسمان بازسازی‌شده با حلقهٔ اکو، طوفان و آذرخش، موجودات در هوا، نور و متریال جدید." },
+          { en: "A far larger world: a whole new meadow beyond camp, hills, new regions on a hand-painted map, living herds with real behaviour.", fa: "دنیایی بسیار بزرگ‌تر: یک چمنزار کاملاً تازه بیرون از کمپ، تپه‌ها، منطقه‌های تازه روی نقشهٔ نقاشی‌شده، و گله‌های زنده با رفتار واقعی." },
+          { en: "The opening cinematic is rebuilt shot by shot, with a full cockpit, a crash and the new “Night One” sequence.", fa: "سکانس آغازین فریم‌به‌فریم بازسازی شد، با کابین کامل، سقوط و سکانس تازهٔ «شب اول»." },
+        ] },
+        { h: { en: "Gameplay and story", fa: "گیم‌پلی و داستان" }, items: [
+          { en: "A new start: you no longer wake inside camp. You are sent out on “The Collection Run”, with real stages and radio calls.", fa: "شروعی تازه: دیگر داخل کمپ بیدار نمی‌شوی. برای «مأموریت جمع‌آوری» بیرون فرستاده می‌شوی، با مرحله‌های واقعی و تماس رادیویی." },
+          { en: "Heavy, deliberate movement for a thick-air planet, a helmet you can put on and off, longer and brighter days with a smoothly moving sun.", fa: "حرکت سنگین و حساب‌شده برای سیاره‌ای با هوای غلیظ، کلاه‌خودی که می‌شود برداشت و گذاشت، روزهای بلندتر و روشن‌تر با خورشیدی که نرم حرکت می‌کند." },
+          { en: "Characters have their own voices; the camp has a credits board.", fa: "شخصیت‌ها صدای خودشان را دارند و کمپ تابلوی سازندگان دارد." },
+        ] },
+        { h: { en: "Interface", fa: "رابط" }, items: [
+          { en: "The field computer is redesigned from scratch (equipment, map, camp, research, archive, log), plus a new main menu, HUD and a local 2D plan.", fa: "کامپیوتر میدانی از نو طراحی شد (تجهیزات، نقشه، کمپ، پژوهش، آرشیو، گزارش) و منوی اصلی، HUD و نقشهٔ محلی دوبعدی تازه آمد." },
+          { en: "Sound everywhere: interface, steps, lamps, creatures, thunder.", fa: "صدا در همه‌جا: رابط، قدم‌ها، چراغ‌ها، موجودات، رعد." },
+        ] },
+        { h: { en: "Platforms", fa: "پلتفرم‌ها" }, items: [
+          { en: "One portable Windows file, an Android app and an installable iPhone and iPad web app, all from this page.", fa: "یک فایل پرتابل ویندوز، یک برنامهٔ اندروید و یک برنامهٔ وب نصب‌شدنی برای آیفون و آیپد، همه از همین صفحه." },
+          { en: "A new website with a live update log.", fa: "سایت تازه با گزارش به‌روزرسانی‌ها." },
+        ] },
+      ],
+    },
+    {
+      v: "0.4.2", latest: true, date: { en: "October 2026", fa: "مهر ۱۴۰۵" },
+      title: { en: "Closer, smoother, touch-ready", fa: "نزدیک‌تر، روان‌تر، آمادهٔ لمس" },
+      groups: [
+        { h: { en: "Camera and touch", fa: "دوربین و لمس" }, items: [
+          { en: "The camera starts closer to the player.", fa: "دوربین نزدیک‌تر به بازیکن شروع می‌شود." },
+          { en: "On phones the cinematic skip is a real on-screen control: hold it to skip. The “click to look around” hint is now “drag to look around”, and keyboard-only hints are hidden on touch screens.", fa: "روی گوشی، رد کردن سینماتیک یک کنترل واقعی روی صفحه است: نگهش دارید تا رد شود. پیام «برای نگاه کردن کلیک کنید» حالا «بکشید» است و راهنمای مخصوص کیبورد روی صفحهٔ لمسی پنهان می‌شود." },
+        ] },
+        { h: { en: "Android 12 and newer", fa: "اندروید ۱۲ و بالاتر" }, items: [
+          { en: "Runs at 60 fps by default (it was capped at 30), picks the screen’s fastest refresh rate and asks the system for sustained performance.", fa: "به‌طور پیش‌فرض با ۶۰ فریم اجرا می‌شود (قبلاً ۳۰ بود)، سریع‌ترین نرخ تازه‌سازی صفحه را انتخاب می‌کند و از سیستم عملکرد پایدار می‌خواهد." },
+        ] },
+        { h: { en: "iPhone and iPad", fa: "آیفون و آیپد" }, items: [
+          { en: "New: install ECHORA from Safari with “Add to Home Screen” (web app, fullscreen, works offline).", fa: "تازه: ECHORA را از سافاری با «Add to Home Screen» نصب کنید (برنامهٔ وب، تمام‌صفحه، آفلاین)." },
+        ] },
+      ],
+    },
+    {
+      v: "0.4.1", date: { en: "October 2026", fa: "مهر ۱۴۰۵" },
       title: { en: "Smoother and brighter", fa: "روان‌تر و روشن‌تر" },
       groups: [
         { h: { en: "Performance", fa: "کارایی" }, items: [
