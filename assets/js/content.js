@@ -361,7 +361,25 @@ window.ECHORA_CONTENT = {
       ],
     },
     {
-      v: "0.5.0", latest: true, date: { en: "October 2026", fa: "مهر ۱۴۰۵" },
+      v: "0.5.1", latest: true, date: { en: "October 2026", fa: "مهر ۱۴۰۵" },
+      title: { en: "Brighter nights, helmet lamp", fa: "شب روشن‌تر، چراغ کلاه" },
+      groups: [
+        { h: { en: "Look", fa: "ظاهر" }, items: [
+          { en: "The main menu is much brighter: a dusk view where the camp, trees, mountains and the eclipse all read.", fa: "منوی اصلی خیلی روشن‌تر شد: نمای غروب که کمپ، درخت‌ها، کوه‌ها و خورشیدگرفتگی همه دیده می‌شوند." },
+          { en: "Nights are a little easier to read. Daytime is unchanged.", fa: "شب‌ها کمی خواناتر شدند. روز بدون تغییر است." },
+        ] },
+        { h: { en: "Helmet", fa: "کلاه" }, items: [
+          { en: "You now start with the helmet already on.", fa: "حالا بازی با کلاه روی سر شروع می‌شود." },
+          { en: "New helmet lamp: press L (or the lamp button on touch) to light the way ahead in the dark. It switches off when you take the helmet off.", fa: "چراغ کلاه تازه: با کلید L (یا دکمهٔ چراغ در لمسی) مسیر جلو را در تاریکی روشن کن. با درآوردن کلاه خاموش می‌شود." },
+        ] },
+        { h: { en: "Fixes", fa: "رفع اشکال" }, items: [
+          { en: "The painted world map is no longer hidden by an old map-visibility setting on PC.", fa: "نقشهٔ نقاشی‌شده دیگر به‌خاطر تنظیم قدیمی دید نقشه روی رایانه پنهان نمی‌شود." },
+          { en: "The camp screen scrolls again, so every upgrade can be reached.", fa: "صفحهٔ کمپ دوباره اسکرول می‌کند و به همهٔ ارتقاها می‌شود رسید." },
+        ] },
+      ],
+    },
+    {
+      v: "0.5.0", date: { en: "October 2026", fa: "مهر ۱۴۰۵" },
       title: { en: "Release polish", fa: "صیقل نسخه" },
       groups: [
         { h: { en: "Mobile", fa: "موبایل" }, items: [
