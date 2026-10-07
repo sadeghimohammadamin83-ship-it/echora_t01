@@ -1,18 +1,20 @@
 /* ==========================================================================
-   ECHORA site configuration — the ONLY place to edit links.
+   ECHORA site configuration — the ONLY place to edit links and file facts.
+   Downloads are served straight from this repository (downloads/), so a click
+   saves the game file; there is no external file host.
    ========================================================================== */
 window.ECHORA_CONFIG = {
-  // >>> PASTE THE FINAL ZIP DOWNLOAD LINK HERE <<<
-  // Every "Download" button on the site uses this one value.
-  // While it is empty, the buttons show a "link coming soon" notice instead.
-  DOWNLOAD_URL: "https://drive.usercontent.google.com/download?id=1ZOG7AlbXKWWHdIV47tGhfwR5fSUOMvk2&export=download&confirm=t",
+  // Windows portable game (one .exe) and Android package.
+  WIN_URL: "downloads/ECHORA-0.4.0-portable.exe",
+  WIN_FILE: "ECHORA-0.4.0-portable.exe",
+  WIN_SIZE: "73 MB",
+  APK_URL: "downloads/ECHORA-0.4.0.apk",
+  APK_FILE: "ECHORA-0.4.0.apk",
+  APK_SIZE: "2 MB",
 
   // Optional: link to the teaser MP4 once it exists. Empty = show the in-page slideshow preview.
   TEASER_URL: "",
 
-  // Shown next to the download buttons. Update when a new build ships.
-  VERSION: "Pre-Alpha 0.1",
-  PLATFORM: "Windows x64",
-  FILE_NAME: "ECHORA-win-x64.zip",
-  FILE_SIZE: "112 MB",
+  VERSION: "Pre-Alpha 0.4",
+  PLATFORM: "Windows x64 · Android 7+",
 };

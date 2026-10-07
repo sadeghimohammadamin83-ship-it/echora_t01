@@ -5,14 +5,14 @@ window.ECHORA_CONTENT = {
     en: {
       "meta.title": "ECHORA — A Living World",
       "nav.story": "Story", "nav.crew": "Crew", "nav.world": "World", "nav.archive": "Archive",
-      "nav.chapters": "Chapters", "nav.media": "Media", "nav.download": "Download",
+      "nav.chapters": "Chapters", "nav.media": "Media", "nav.updates": "Updates", "nav.download": "Download",
       "nav.menu": "Menu", "nav.close": "Close", "lang.switch": "فارسی", "lang.label": "Switch to Persian",
       "skip": "Skip to content",
-      "hero.eyebrow": "Pre-Alpha 0.1 · Windows",
+      "hero.eyebrow": "Pre-Alpha 0.4 · Windows & Android",
       "hero.tag": "A Living World",
       "hero.line": "The planet will keep breathing without you.",
       "hero.sub": "A living-world survival and discovery game. Wake in Camp One, a month after the crash, and help the others hold it together.",
-      "cta.download": "Download for Windows", "cta.teaser": "Watch Teaser", "cta.soon": "The download link is coming soon.",
+      "cta.download": "Download for Windows", "cta.android": "Download for Android", "cta.updates": "What’s new", "cta.teaser": "Watch Teaser", "cta.soon": "The download link is coming soon.",
       "hero.scroll": "Scroll",
       "hero.motto": "Explore · Learn · Restore · Belong",
 
@@ -82,7 +82,11 @@ window.ECHORA_CONTENT = {
       "dl.title": "The planet waits.",
       "dl.lead": "Shape your presence. Lead your story.",
       "dl.platform": "Platform", "dl.version": "Version", "dl.file": "File", "dl.size": "Size",
-      "dl.how": "Unzip and run ECHORA.exe. No installer needed.",
+      "dl.how": "Download the file and run it. The Windows build is portable: no installer, no setup.",
+      "dl.win.t": "Windows", "dl.win.d": "Portable game, one file. Windows 10 or 11, 64-bit.", "dl.win.btn": "Download ECHORA.exe",
+      "dl.apk.t": "Android", "dl.apk.d": "Touch controls, one APK. Android 7.0 or newer.", "dl.apk.btn": "Download ECHORA.apk",
+      "dl.apk.how": "Open the downloaded APK and allow “Install unknown apps” for your browser when Android asks. The build is signed with a local key, so Play Protect may show a notice: choose “Install anyway”.",
+      "upd.eyebrow": "Updates", "upd.title": "What’s new.", "upd.lead": "The latest build and what changed since the last one.", "upd.latest": "Latest", "upd.date": "October 2026",
       "dl.warn": "The build is not code-signed yet, so Windows may show a SmartScreen warning. Choose “More info”, then “Run anyway”.",
       "dl.low": "Older GPU? Set Graphics quality to Low in Settings.",
       "dl.controls": "Controls",
@@ -99,14 +103,14 @@ window.ECHORA_CONTENT = {
     fa: {
       "meta.title": "اِکورا — جهانی زنده",
       "nav.story": "داستان", "nav.crew": "خدمه", "nav.world": "جهان", "nav.archive": "بایگانی",
-      "nav.chapters": "فصل‌ها", "nav.media": "رسانه", "nav.download": "دانلود",
+      "nav.chapters": "فصل‌ها", "nav.media": "رسانه", "nav.updates": "به‌روزرسانی‌ها", "nav.download": "دانلود",
       "nav.menu": "منو", "nav.close": "بستن", "lang.switch": "English", "lang.label": "تغییر به انگلیسی",
       "skip": "رفتن به محتوا",
-      "hero.eyebrow": "پیش‌آلفا ۰٫۱ · ویندوز",
+      "hero.eyebrow": "پیش‌آلفا ۰٫۴ · ویندوز و اندروید",
       "hero.tag": "جهانی زنده",
       "hero.line": "این سیاره بدون شما هم نفس می‌کشد.",
       "hero.sub": "بازی بقا و اکتشاف در جهانی زنده. یک ماه پس از سقوط، در کمپ یک بیدار شوید و کمک کنید بقیه دوام بیاورند.",
-      "cta.download": "دانلود برای ویندوز", "cta.teaser": "تماشای تیزر", "cta.soon": "لینک دانلود به‌زودی قرار می‌گیرد.",
+      "cta.download": "دانلود برای ویندوز", "cta.android": "دانلود برای اندروید", "cta.updates": "تازه‌ها", "cta.teaser": "تماشای تیزر", "cta.soon": "لینک دانلود به‌زودی قرار می‌گیرد.",
       "hero.scroll": "پایین",
       "hero.motto": "کاوش · یادگیری · احیا · تعلق",
 
@@ -176,7 +180,11 @@ window.ECHORA_CONTENT = {
       "dl.title": "سیاره منتظر است.",
       "dl.lead": "حضورت را شکل بده. داستانت را رهبری کن.",
       "dl.platform": "پلتفرم", "dl.version": "نسخه", "dl.file": "فایل", "dl.size": "حجم",
-      "dl.how": "فایل زیپ را باز کنید و ECHORA.exe را اجرا کنید. نصب لازم نیست.",
+      "dl.how": "فایل را دانلود و اجرا کنید. نسخهٔ ویندوز پرتابل است: بدون نصب و راه‌اندازی.",
+      "dl.win.t": "ویندوز", "dl.win.d": "بازی پرتابل در یک فایل. ویندوز ۱۰ یا ۱۱، ۶۴ بیتی.", "dl.win.btn": "دانلود ECHORA.exe",
+      "dl.apk.t": "اندروید", "dl.apk.d": "کنترل لمسی، یک فایل APK. اندروید ۷٫۰ یا بالاتر.", "dl.apk.btn": "دانلود ECHORA.apk",
+      "dl.apk.how": "فایل APK دانلودشده را باز کنید و وقتی اندروید پرسید، «نصب برنامه‌های ناشناس» را برای مرورگرتان مجاز کنید. این نسخه با کلید محلی امضا شده و ممکن است Play Protect هشدار بدهد: «Install anyway» را بزنید.",
+      "upd.eyebrow": "به‌روزرسانی‌ها", "upd.title": "چه چیزهایی تازه است.", "upd.lead": "آخرین نسخه و آنچه از نسخهٔ قبل تغییر کرده است.", "upd.latest": "آخرین", "upd.date": "مهر ۱۴۰۵",
       "dl.warn": "این نسخه هنوز امضای دیجیتال ندارد، پس ممکن است ویندوز هشدار SmartScreen نشان دهد. روی «More info» و بعد «Run anyway» بزنید.",
       "dl.low": "کارت گرافیک قدیمی دارید؟ در تنظیمات، کیفیت گرافیک را روی «کم» بگذارید.",
       "dl.controls": "کنترل‌ها",
@@ -327,20 +335,76 @@ window.ECHORA_CONTENT = {
     ["Tab", "c.exp"], ["M", "c.map"], ["R", "c.arch"], ["C", "c.camp"], ["1–3", "c.dlg"], ["F11", "c.full"],
   ],
 
-  gallery: [
-    { img: "g-01", cap: { en: "Approach · opening cinematic", fa: "نزدیک شدن · سکانس آغازین" } },
-    { img: "g-02", cap: { en: "Descent over the mountains", fa: "فرود بر فراز کوهستان" } },
-    { img: "g-03", cap: { en: "Camp One, morning", fa: "کمپ یک، صبح" } },
-    { img: "g-04", cap: { en: "Oxygen tank at sunset", fa: "مخزن اکسیژن هنگام غروب" } },
-    { img: "g-05", cap: { en: "First person, night", fa: "اول‌شخص، شب" } },
-    { img: "g-06", cap: { en: "The basin at dusk", fa: "حوضه هنگام غروب" } },
-    { img: "g-07", cap: { en: "Western meadow", fa: "چمنزار غربی" } },
-    { img: "g-08", cap: { en: "Looking back at camp", fa: "نگاهی به کمپ" } },
-    { img: "g-09", cap: { en: "Living Archive", fa: "بایگانی زنده" } },
-    { img: "g-10", cap: { en: "Expedition map", fa: "نقشهٔ اکتشاف" } },
-    { img: "g-11", cap: { en: "Research tree", fa: "درخت پژوهش" } },
-    { img: "g-12", cap: { en: "The eastern cliffs, morning", fa: "صخره‌های شرقی، صبح" } },
+  updates: [
+    {
+      v: "0.4.0", latest: true, date: { en: "October 2026", fa: "مهر ۱۴۰۵" },
+      title: { en: "The Collection Run", fa: "مأموریت جمع‌آوری" },
+      groups: [
+        { h: { en: "New opening", fa: "شروع تازه" }, items: [
+          { en: "The game no longer starts inside camp. You are sent to the south meadow for three supplies (resin, a supply pod, resonant ore) and walk back to Camp One.", fa: "بازی دیگر از داخل کمپ شروع نمی‌شود. تو را برای سه تدارکات (رزین، کپسول تدارکات، سنگ معدن تشدیدی) به چمنزار جنوبی می‌فرستند و برمی‌گردی کمپ یک." },
+          { en: "Real stages with radio calls from Mara, Tomas, Ilan and Suri; the ground hum rises as you work.", fa: "مرحله‌های واقعی با تماس رادیویی مارا، تومس، ایلان و سوری؛ وزوز زمین هنگام کار بالا می‌رود." },
+          { en: "Characters talk in their own voices: speech-like babble for dialogue, radio and idle muttering.", fa: "شخصیت‌ها با صدای خودشان حرف می‌زنند: صدای شبیه گفتار برای دیالوگ، رادیو و زمزمه." },
+        ] },
+        { h: { en: "Opening cinematic", fa: "سکانس آغازین" }, items: [
+          { en: "Rebuilt from the reference video: lens-flared sun, lit planet, engine flames, speed streaks, hull fire and a smoke trail after the failure.", fa: "بازسازی‌شده از روی ویدیوی مرجع: خورشید با درخشش لنز، سیاره‌ی روشن، شعله‌ی موتور، خطوط سرعت، آتش بدنه و دود بعد از خرابی." },
+          { en: "A full cockpit with ~550 blinking indicators, readout screens, orange flight suits, red alarms and sparks.", fa: "کابین کامل با حدود ۵۵۰ چراغ چشمک‌زن، صفحه‌های نمایش، لباس پرواز نارنجی، آژیر قرمز و جرقه." },
+          { en: "New “Night One” sequence: the wreck under string lights, a survivor with a tablet, two crew at the lab table, a crane over the camp.", fa: "سکانس تازه‌ی «شب اول»: لاشه‌ی کشتی زیر چراغ‌های ریسه‌ای، بازمانده‌ای با تبلت، دو نفر کنار میز آزمایشگاه، و نمای بالای کمپ." },
+        ] },
+        { h: { en: "World", fa: "دنیا" }, items: [
+          { en: "A large new walkable meadow south of camp (camp itself unchanged), with hills, grass, trees and rocks.", fa: "چمنزار جدید و بزرگ در جنوب کمپ (خود کمپ دست‌نخورده)، با تپه، چمن، درخت و صخره." },
+          { en: "Glaidhorn herds rewritten: they graze, look up at 13 m, and trot away at 6 m. No more jittery approach bugs. Three new herds.", fa: "گله‌های گلایدهورن بازنویسی شد: می‌چرند، از ۱۳ متری سر بالا می‌گیرند و از ۶ متری می‌دوند. باگ حرکت نزدیک‌شدن رفع شد. سه گله‌ی تازه." },
+        ] },
+        { h: { en: "Interface", fa: "رابط" }, items: [
+          { en: "New field HUD skin and a local 2D plan in the corner that shows where you are, which way you face, supplies and the objective.", fa: "پوسته‌ی تازه‌ی HUD و نقشه‌ی محلی دوبعدی گوشه‌ی صفحه که جایت، جهت نگاهت، تدارکات و هدف را نشان می‌دهد." },
+          { en: "The painted world map is now the chart, with soft fog over undiscovered regions.", fa: "نقشه‌ی نقاشی‌شده‌ی دنیا حالا پس‌زمینه‌ی نقشه است و مناطق کشف‌نشده زیر مه نرم‌اند." },
+          { en: "Persian text for everything above.", fa: "ترجمه‌ی فارسی همه‌ی موارد بالا." },
+        ] },
+        { h: { en: "Mobile", fa: "موبایل" }, items: [
+          { en: "Controls rearranged like a mobile shooter: a plain translucent stick on the left, jump, sprint and crouch in a column on the right edge, a big action button within thumb reach.", fa: "دکمه‌ها شبیه بازی‌های تیراندازی موبایل چیده شد: جوی‌استیک ساده‌ی شفاف سمت چپ، پرش، دویدن و خم‌شدن در یک ستون لبه‌ی راست و یک دکمه‌ی بزرگ در دسترس شست." },
+          { en: "Android APK now available here.", fa: "APK اندروید حالا همین‌جا موجود است." },
+        ] },
+      ],
+    },
+    {
+      v: "0.3.0", date: { en: "October 2026", fa: "مهر ۱۴۰۵" },
+      title: { en: "Weight, sound and a darker world", fa: "وزن، صدا و دنیایی تاریک‌تر" },
+      groups: [
+        { h: { en: "Highlights", fa: "نکات مهم" }, items: [
+          { en: "Heavy, slow movement for a thick-air planet, plus a helmet you can put on and off (H).", fa: "حرکت سنگین و آهسته برای سیاره‌ای با هوای غلیظ، و کلاه‌خودی که می‌شود برداشت و گذاشت (H)." },
+          { en: "Sound effects everywhere: interface, steps, lamps, creatures, thunder.", fa: "افکت صوتی همه‌جا: رابط، قدم‌ها، چراغ‌ها، موجودات، رعد." },
+          { en: "Longer, brighter days with a smoothly moving sun; storms, lightning and creatures in the sky.", fa: "روزهای بلندتر و روشن‌تر با خورشیدی که نرم حرکت می‌کند؛ طوفان، آذرخش و موجودات آسمان." },
+          { en: "Field computer redesigned, new main menu, the Echo logo and app icon, a credits board at camp.", fa: "کامپیوتر میدانی بازطراحی شد، منوی اصلی تازه، لوگوی اکو و آیکن برنامه، و تابلوی سازندگان در کمپ." },
+          { en: "Start-up freeze fixed with an instant splash and a persistent texture cache.", fa: "پریدگی شروع بازی با اسپلش فوری و حافظه‌ی دائمی بافت‌ها رفع شد." },
+        ] },
+      ],
+    },
+    {
+      v: "0.2.0", date: { en: "October 2026", fa: "مهر ۱۴۰۵" },
+      title: { en: "A new art direction", fa: "جهت هنری تازه" },
+      groups: [
+        { h: { en: "Highlights", fa: "نکات مهم" }, items: [
+          { en: "Dark crimson-and-graphite art direction across the world, sky, materials and UI.", fa: "جهت هنری تیره‌ی سرخ و گرافیتی در دنیا، آسمان، متریال‌ها و رابط." },
+        ] },
+      ],
+    },
   ],
+  gallery: [
+    { img: "g-01", cap: { en: "Final approach: sun and planet", fa: "نزدیک شدن نهایی: خورشید و سیاره" } },
+    { img: "g-02", cap: { en: "The cockpit, crew in flight suits", fa: "کابین، خدمه با لباس پرواز" } },
+    { img: "g-03", cap: { en: "Failure: sparks, alarms, hold on", fa: "خرابی: جرقه، آژیر، محکم بگیرید" } },
+    { img: "g-04", cap: { en: "Losing control over the peaks", fa: "از دست رفتن کنترل بر فراز قله‌ها" } },
+    { img: "g-05", cap: { en: "Camp One, the crew’s board", fa: "کمپ یک، تابلوی خدمه" } },
+    { img: "g-06", cap: { en: "The south meadow and its herds", fa: "چمنزار جنوبی و گله‌هایش" } },
+    { img: "g-07", cap: { en: "Out on the collection run", fa: "در مأموریت جمع‌آوری" } },
+    { img: "g-08", cap: { en: "Expedition map, painted by hand", fa: "نقشهٔ اکتشاف، نقاشی‌شده" } },
+    { img: "g-09", cap: { en: "Equipment, field computer", fa: "تجهیزات، کامپیوتر میدانی" } },
+    { img: "g-10", cap: { en: "The continent, from above", fa: "قاره، از بالا" } },
+    { img: "g-11", cap: { en: "Night One: the wreck under string lights", fa: "شب اول: لاشه‌ی کشتی زیر چراغ‌های ریسه‌ای" } },
+    { img: "g-12", cap: { en: "Main menu", fa: "منوی اصلی" } },
+    { img: "g-13", cap: { en: "Touch controls on a phone", fa: "کنترل لمسی روی گوشی" } },
+  ],
+
+
   // Teaser slideshow lines (storyboard from the brief, text taken from the game).
   teaser: [
     { img: "t-1", en: "Day 30 · 06:14 · Glassroot Basin", fa: "روز ۳۰ · ۰۶:۱۴ · حوضهٔ گلس‌روت" },

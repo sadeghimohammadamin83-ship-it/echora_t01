@@ -27,18 +27,16 @@
   loader?.addEventListener('click', endLoader);
   addEventListener('keydown', endLoader, { once: true });
 
-  /* ---------- config: download link, version ---------- */
-  const DL = (CFG.DOWNLOAD_URL || '').trim();
+  /* ---------- config: download links, version ---------- */
   $$('[data-cfg]').forEach((el) => { el.textContent = CFG[el.dataset.cfg] ?? el.textContent; });
   let toastTimer;
   const toast = (msg) => { const el = $('#toast'); el.textContent = msg; el.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => { el.hidden = true; }, 3800); };
+  // data-dl="win" | "apk": the link is the file itself (same origin), so the browser saves it instead of navigating.
   $$('[data-dl]').forEach((a) => {
-    if (DL) { a.href = DL; a.setAttribute('rel', 'noopener'); }
-    else a.addEventListener('click', (e) => {
-      // No link yet: scroll to the download section (if not already there) and explain.
-      if (a.closest('#download')) e.preventDefault();
-      toast(t('cta.soon'));
-    });
+    const kind = a.dataset.dl === 'apk' ? 'APK' : 'WIN';
+    const url = (CFG[kind + '_URL'] || '').trim();
+    if (url) { a.href = url; a.setAttribute('download', CFG[kind + '_FILE'] || ''); }
+    else a.addEventListener('click', (e) => { e.preventDefault(); toast(t('cta.soon')); });
   });
 
   /* ---------- i18n ---------- */
@@ -50,7 +48,7 @@
     $$('[data-i18n-aria]').forEach((el) => el.setAttribute('aria-label', t(el.dataset.i18nAria)));
     if (lang === 'fa') $$('[data-cfg="VERSION"]').forEach((el) => { el.textContent = C.ui.fa['hero.eyebrow'].split(' · ')[0]; });
     else $$('[data-cfg="VERSION"]').forEach((el) => { el.textContent = CFG.VERSION; });
-    renderCrew(); renderMap(); renderWeb(); renderSpecies(); renderEvents(); renderTimeline(); renderGallery(); renderControls();
+    renderCrew(); renderMap(); renderWeb(); renderSpecies(); renderEvents(); renderTimeline(); renderGallery(); renderControls(); renderUpdates();
     store.set('echora.lang', lang);
   }
   $('#langBtn').addEventListener('click', () => applyLang(lang === 'en' ? 'fa' : 'en'));
@@ -63,7 +61,7 @@
   const secIO = new IntersectionObserver((es) => es.forEach((e) => {
     if (e.isIntersecting) links.forEach((a) => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
   }), { rootMargin: '-45% 0px -50% 0px' });
-  ['story', 'crew', 'world', 'archive', 'chapters', 'media', 'download'].forEach((id) => { const s = document.getElementById(id); s && secIO.observe(s); });
+  ['story', 'crew', 'world', 'archive', 'updates', 'chapters', 'media', 'download'].forEach((id) => { const s = document.getElementById(id); s && secIO.observe(s); });
   const burger = $('#burger'), drawer = $('#drawer');
   const setDrawer = (open) => { burger.setAttribute('aria-expanded', open); drawer.hidden = !open; document.body.style.overflow = open ? 'hidden' : ''; };
   burger.addEventListener('click', () => setDrawer(drawer.hidden));
@@ -97,7 +95,7 @@
         const a = .25 + .35 * Math.sin(p.w * 1.7) ** 2;
         ctx.beginPath(); ctx.arc(p.x * W, p.y * H, p.r, 0, 6.283);
         ctx.fillStyle = p.red ? `rgba(255,110,95,${a})` : `rgba(236,232,228,${a * .7})`;
-        ctx.shadowBlur = 8; ctx.shadowColor = p.red ? '#b7a1ff' : '#fff'; ctx.fill();
+        ctx.shadowBlur = 8; ctx.shadowColor = p.red ? '#ff7a84' : '#fff'; ctx.fill();
       }
       requestAnimationFrame(tick);
     }
@@ -211,6 +209,13 @@
   function renderTimeline() {
     $('#timeline').innerHTML = C.chapters.map((c) => `<li class="ch${c.play ? ' play' : ''}"><span class="n">${esc(digits(String(c.n).padStart(2, '0')))}</span>
       <h3>${esc(L(c.t))}</h3><p>${esc(L(c.s))}</p><span class="st">${esc(t(c.play ? 'chap.playable' : 'chap.coming'))}</span></li>`).join('');
+  }
+  function renderUpdates() {
+    $('#updList').innerHTML = (C.updates || []).map((u, i) => `<article class="upd${u.latest ? ' upd--latest' : ''}" ${i === 0 ? 'open' : ''}>
+      <header class="upd__head"><span class="upd__v mono">${esc(digits('v' + u.v))}</span>${u.latest ? `<span class="upd__tag mono">${esc(t('upd.latest'))}</span>` : ''}
+        <h3 class="upd__t">${esc(L(u.title))}</h3><span class="upd__d mono">${esc(L(u.date))}</span></header>
+      <div class="upd__body">${u.groups.map((g) => `<section><h4>${esc(L(g.h))}</h4><ul>${g.items.map((it) => `<li>${esc(L(it))}</li>`).join('')}</ul></section>`).join('')}</div>
+    </article>`).join('');
   }
   function renderControls() { $('#controls').innerHTML = C.controls.map(([k, v]) => `<li><kbd>${esc(k)}</kbd><span>${esc(t(v))}</span></li>`).join(''); }
 

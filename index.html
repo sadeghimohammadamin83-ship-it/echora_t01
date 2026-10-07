@@ -4,19 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ECHORA — A Living World</title>
-<meta name="description" content="ECHORA is a living-world survival and discovery game. Wake in Camp One, a month after the crash, and help the others hold it together. Pre-Alpha 0.1 for Windows.">
+<meta name="description" content="ECHORA is a living-world survival and discovery game. Wake in Camp One, a month after the crash, and help the others hold it together. Pre-Alpha 0.4 for Windows and Android.">
 <meta name="theme-color" content="#080d14">
 <link rel="canonical" href="https://sadeghimohammadamin83-ship-it.github.io/echora_t01/">
 <link rel="icon" type="image/png" href="assets/img/icon.png">
 <meta property="og:type" content="website">
 <meta property="og:title" content="ECHORA — A Living World">
-<meta property="og:description" content="A living-world survival and discovery game. Pre-Alpha 0.1 for Windows.">
+<meta property="og:description" content="A living-world survival and discovery game. Pre-Alpha 0.4 for Windows and Android.">
 <meta property="og:image" content="https://sadeghimohammadamin83-ship-it.github.io/echora_t01/assets/img/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="ECHORA — A Living World">
-<meta name="twitter:description" content="A living-world survival and discovery game. Pre-Alpha 0.1 for Windows.">
+<meta name="twitter:description" content="A living-world survival and discovery game. Pre-Alpha 0.4 for Windows and Android.">
 <meta name="twitter:image" content="https://sadeghimohammadamin83-ship-it.github.io/echora_t01/assets/img/og.jpg">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoGame","name":"ECHORA","alternateName":"اِکورا","description":"A living-world survival and discovery game.","genre":["Survival","Exploration"],"gamePlatform":"Windows","operatingSystem":"Windows x64","inLanguage":["en","fa"],"softwareVersion":"Pre-Alpha 0.1"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoGame","name":"ECHORA","alternateName":"اِکورا","description":"A living-world survival and discovery game.","genre":["Survival","Exploration"],"gamePlatform":["Windows","Android"],"operatingSystem":"Windows x64, Android 7+","inLanguage":["en","fa"],"softwareVersion":"0.4.0"}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap">
@@ -41,12 +41,13 @@
     <a href="#crew" data-i18n="nav.crew">Crew</a>
     <a href="#world" data-i18n="nav.world">World</a>
     <a href="#archive" data-i18n="nav.archive">Archive</a>
+    <a href="#updates" data-i18n="nav.updates">Updates</a>
     <a href="#chapters" data-i18n="nav.chapters">Chapters</a>
     <a href="#media" data-i18n="nav.media">Media</a>
   </nav>
   <div class="nav__end">
     <button class="lang" id="langBtn" type="button" data-i18n-aria="lang.label"><span data-i18n="lang.switch">فارسی</span></button>
-    <a class="btn btn--sm btn--primary" href="#download" data-dl><span data-i18n="nav.download">Download</span></a>
+    <a class="btn btn--sm btn--primary" href="#download"><span data-i18n="nav.download">Download</span></a>
     <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="drawer"><span></span><span></span><span class="sr" data-i18n="nav.menu">Menu</span></button>
   </div>
 </header>
@@ -57,9 +58,10 @@
     <a href="#crew"><small>02</small><span data-i18n="nav.crew">Crew</span></a>
     <a href="#world"><small>03</small><span data-i18n="nav.world">World</span></a>
     <a href="#archive"><small>04</small><span data-i18n="nav.archive">Archive</span></a>
-    <a href="#chapters"><small>05</small><span data-i18n="nav.chapters">Chapters</span></a>
-    <a href="#media"><small>06</small><span data-i18n="nav.media">Media</span></a>
-    <a href="#download"><small>07</small><span data-i18n="nav.download">Download</span></a>
+    <a href="#updates"><small>05</small><span data-i18n="nav.updates">Updates</span></a>
+    <a href="#chapters"><small>06</small><span data-i18n="nav.chapters">Chapters</span></a>
+    <a href="#media"><small>07</small><span data-i18n="nav.media">Media</span></a>
+    <a href="#download"><small>08</small><span data-i18n="nav.download">Download</span></a>
   </nav>
 </div>
 
@@ -78,16 +80,17 @@
       <p class="hero__line" data-i18n="hero.line">The planet will keep breathing without you.</p>
       <p class="hero__sub" data-i18n="hero.sub">A living-world survival and discovery game.</p>
       <div class="hero__cta">
-        <a class="btn btn--primary btn--lg magnetic" href="#download" data-dl>
+        <a class="btn btn--primary btn--lg magnetic" href="#download" data-dl="win">
           <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5 10.5 4.4v7.2H3zm8.5-1.2L21 3v8.6h-9.5zM3 12.4h7.5v7.2L3 18.5zm8.5 0H21V21l-9.5-1.3z"/></svg>
           <span data-i18n="cta.download">Download for Windows</span>
         </a>
-        <button class="btn btn--ghost btn--lg magnetic" type="button" data-teaser>
-          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
-          <span data-i18n="cta.teaser">Watch Teaser</span>
-        </button>
+        <a class="btn btn--ghost btn--lg magnetic" href="#download" data-dl="apk">
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm5 16.2a1 1 0 1 0 0-2 1 1 0 0 0 0 2zM7 6v10h10V6z"/></svg>
+          <span data-i18n="cta.android">Download for Android</span>
+        </a>
+        <a class="btn btn--text btn--lg" href="#updates"><span data-i18n="cta.updates">What’s new</span></a>
       </div>
-      <p class="dl-meta mono"><span data-cfg="VERSION">Pre-Alpha 0.1</span> · <span data-cfg="PLATFORM">Windows x64</span> · <span data-cfg="FILE_SIZE">112 MB</span></p>
+      <p class="dl-meta mono"><span data-cfg="VERSION">Pre-Alpha 0.1</span> · <span data-cfg="PLATFORM">Windows x64 · Android 7+</span></p>
     </div>
     <div class="hero__foot wrap">
       <span class="mono motto" data-i18n="hero.motto">Explore · Learn · Restore · Belong</span>
@@ -216,6 +219,18 @@
     </div>
   </section>
 
+  <!-- UPDATES -->
+  <section class="updates" id="updates" aria-labelledby="updTitle">
+    <div class="wrap">
+      <header class="sec-head">
+        <p class="eyebrow" data-i18n="upd.eyebrow">Updates</p>
+        <h2 class="display" id="updTitle" data-i18n="upd.title">What’s new.</h2>
+        <p class="sec-lead" data-i18n="upd.lead"></p>
+      </header>
+      <div class="upd-list" id="updList"></div>
+    </div>
+  </section>
+
   <!-- CHAPTERS -->
   <section class="chapters" id="chapters" aria-labelledby="chapTitle">
     <div class="wrap">
@@ -273,20 +288,33 @@
       <p class="eyebrow" data-i18n="dl.eyebrow">Download</p>
       <h2 class="display display--xl" id="dlTitle" data-i18n="dl.title">The planet waits.</h2>
       <p class="dl-lead" data-i18n="dl.lead"></p>
-      <a class="btn btn--primary btn--xl magnetic" href="#download" data-dl>
-        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0-4.5-4.5M12 14l4.5-4.5M4 17v3h16v-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span data-i18n="cta.download">Download for Windows</span>
-      </a>
-      <dl class="specs mono">
-        <div><dt data-i18n="dl.platform">Platform</dt><dd data-cfg="PLATFORM"></dd></div>
-        <div><dt data-i18n="dl.version">Version</dt><dd data-cfg="VERSION"></dd></div>
-        <div><dt data-i18n="dl.file">File</dt><dd data-cfg="FILE_NAME" dir="ltr"></dd></div>
-        <div><dt data-i18n="dl.size">Size</dt><dd data-cfg="FILE_SIZE"></dd></div>
-      </dl>
+      <div class="dlcards">
+        <article class="dlcard">
+          <svg class="dlcard__ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5 10.5 4.4v7.2H3zm8.5-1.2L21 3v8.6h-9.5zM3 12.4h7.5v7.2L3 18.5zm8.5 0H21V21l-9.5-1.3z"/></svg>
+          <h3 data-i18n="dl.win.t">Windows</h3>
+          <p data-i18n="dl.win.d"></p>
+          <a class="btn btn--primary btn--lg magnetic" href="#download" data-dl="win" download>
+            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0-4.5-4.5M12 14l4.5-4.5M4 17v3h16v-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span data-i18n="dl.win.btn">Download ECHORA.exe</span>
+          </a>
+          <p class="dlcard__meta mono" dir="ltr"><span data-cfg="WIN_FILE"></span> · <span data-cfg="WIN_SIZE"></span></p>
+        </article>
+        <article class="dlcard">
+          <svg class="dlcard__ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm5 16.2a1 1 0 1 0 0-2 1 1 0 0 0 0 2zM7 6v10h10V6z"/></svg>
+          <h3 data-i18n="dl.apk.t">Android</h3>
+          <p data-i18n="dl.apk.d"></p>
+          <a class="btn btn--primary btn--lg magnetic" href="#download" data-dl="apk" download>
+            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v11m0 0-4.5-4.5M12 14l4.5-4.5M4 17v3h16v-3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span data-i18n="dl.apk.btn">Download ECHORA.apk</span>
+          </a>
+          <p class="dlcard__meta mono" dir="ltr"><span data-cfg="APK_FILE"></span> · <span data-cfg="APK_SIZE"></span></p>
+        </article>
+      </div>
       <div class="dl-notes">
         <p data-i18n="dl.how"></p>
         <p data-i18n="dl.warn"></p>
         <p data-i18n="dl.low"></p>
+        <p data-i18n="dl.apk.how"></p>
       </div>
       <details class="controls">
         <summary data-i18n="dl.controls">Controls</summary>
@@ -304,7 +332,7 @@
     </div>
     <nav class="foot__nav" aria-label="Footer">
       <a href="#story" data-i18n="nav.story"></a><a href="#crew" data-i18n="nav.crew"></a><a href="#world" data-i18n="nav.world"></a>
-      <a href="#archive" data-i18n="nav.archive"></a><a href="#chapters" data-i18n="nav.chapters"></a><a href="#media" data-i18n="nav.media"></a>
+      <a href="#archive" data-i18n="nav.archive"></a><a href="#updates" data-i18n="nav.updates"></a><a href="#chapters" data-i18n="nav.chapters"></a><a href="#media" data-i18n="nav.media"></a>
       <a href="#download" data-i18n="nav.download"></a>
     </nav>
     <div class="foot__meta">
