@@ -12,7 +12,7 @@ window.ECHORA_CONTENT = {
       "hero.tag": "A Living World",
       "hero.line": "The planet will keep breathing without you.",
       "hero.sub": "A living-world survival and discovery game. Wake in Camp One, a month after the crash, and help the others hold it together.",
-      "cta.download": "Download for Windows", "cta.android": "Download for Android", "cta.updates": "What’s new", "cta.teaser": "Watch Teaser", "cta.soon": "The download link is coming soon.",
+      "cta.download": "Download for Windows", "cta.android": "Download for Android", "cta.ios": "iPhone & iPad", "cta.updates": "What’s new", "cta.teaser": "Watch Teaser", "cta.soon": "The download link is coming soon.",
       "hero.scroll": "Scroll",
       "hero.motto": "Explore · Learn · Restore · Belong",
 
@@ -112,7 +112,7 @@ window.ECHORA_CONTENT = {
       "hero.tag": "جهانی زنده",
       "hero.line": "این سیاره بدون شما هم نفس می‌کشد.",
       "hero.sub": "بازی بقا و اکتشاف در جهانی زنده. یک ماه پس از سقوط، در کمپ یک بیدار شوید و کمک کنید بقیه دوام بیاورند.",
-      "cta.download": "دانلود برای ویندوز", "cta.android": "دانلود برای اندروید", "cta.updates": "تازه‌ها", "cta.teaser": "تماشای تیزر", "cta.soon": "لینک دانلود به‌زودی قرار می‌گیرد.",
+      "cta.download": "دانلود برای ویندوز", "cta.android": "دانلود برای اندروید", "cta.ios": "آیفون و آیپد", "cta.updates": "تازه‌ها", "cta.teaser": "تماشای تیزر", "cta.soon": "لینک دانلود به‌زودی قرار می‌گیرد.",
       "hero.scroll": "پایین",
       "hero.motto": "کاوش · یادگیری · احیا · تعلق",
 
