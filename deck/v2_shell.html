@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>استانداردهای طراحی فضاهای ورزشی — شنا، والیبال، بسکتبال</title>
+<style>
+@font-face{font-family:"Vazirmatn";src:url(data:font/woff2;base64,%%FONT%%) format("woff2");font-weight:100 900;font-display:block}
+%%CSS%%
+</style>
+</head>
+<body>
+<div id="viewport"><div id="stage">
+%%SLIDES%%
+<div id="prog"><i id="progI"></i></div>
+</div></div>
+<div id="pgmini">01 / %%N%%</div>
+<div id="bar">
+  <button id="bPrev" title="قبلی">‹ قبلی</button>
+  <span class="cnt" id="cnt">01 / %%N%%</span>
+  <button id="bNext" title="بعدی">بعدی ›</button>
+  <div class="prog"><i id="barI"></i></div>
+  <button id="bPres">حالت ارائه (P)</button>
+  <button id="bFull">تمام‌صفحه (F)</button>
+  <button id="bHelp">راهنما (?)</button>
+</div>
+<div id="help"><div>
+  <b>میان‌برها</b><br>
+  بعدی: → ↓ Space Page Down<br>
+  قبلی: ← ↑ Page Up<br>
+  شروع / پایان: Home / End<br>
+  حالت ارائه: P &nbsp; تمام‌صفحه: F &nbsp; خروج: Esc<br>
+  بزرگ‌نمایی تصویر: کلیک روی نقشه
+</div></div>
+<div id="lb"><img alt=""></div>
+<script>
+const IMGS = %%IMGS%%;
+%%JS%%
+</script>
+</body>
+</html>
