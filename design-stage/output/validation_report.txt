@@ -1,0 +1,37 @@
+source sha256 5be8161d6d26c856 (file not modified by the tools)
+  ✓ output opens and audits clean (errors 0, fixes 0)
+  ✓ ezdxf audit of the reopened document: no errors
+  ✓ DXF version kept: AC1032
+  ✓ header $INSUNITS unchanged (6)
+  ✓ header $MEASUREMENT unchanged (0)
+  ✓ header $LUNITS unchanged (2)
+  ✓ header $INSBASE unchanged ((0.0, 0.0, 0.0))
+  ✓ all 4092 source model-space entities present (missing 0)
+  ✓ source entities geometrically unchanged (changed 0)
+  ✓ source blocks kept (127 → 139, none exploded)
+  ✓ 20 source layers kept with their properties
+  ✓ no new entity was put on a source (TPX_*) layer
+  new layers: ANNOTATIONS (144), BUILDING_LABELS (5), CONCEPT_DIAGRAMS (15), DIMENSIONS (11), ENTRANCES (29), EXISTING_TO_REMOVE (3), FUNCTIONAL_ZONES (3), LANDSCAPE (48), OPEN_SPACE (18), OPEN_SPACE_HATCH (9), PEDESTRIAN_CIRCULATION (8), PROPOSED_BUILDINGS (5), PROPOSED_BUILDINGS_HATCH (5), PROPOSED_UPPER_FLOORS (13), SERVICE_ACCESS (3), SITE_BOUNDARY (2), VEHICULAR_CIRCULATION (2)
+  ✓ no empty proposal layers []
+  ✓ 5 building footprints, all closed polylines
+  ✓ footprint  1999.2 m² lies inside the boundary
+  ✓ footprint   216.0 m² lies inside the boundary
+  ✓ footprint   520.8 m² lies inside the boundary
+  ✓ footprint   960.4 m² lies inside the boundary
+  ✓ footprint   616.8 m² lies inside the boundary
+  ✓ label for B1 SPORTS HALL shows 3,229 m²
+  ✓ label for B2 WORKSHOP & LAB shows 216 m²
+  ✓ label for B3 ACADEMIC WING shows 1,552 m²
+  ✓ label for B4 AUDITORIUM shows 1,206 m²
+  ✓ label for B5 GATEWAY BUILDING shows 1,661 m²
+  ✓ all 12 program items placed with their exact gross (Σ 7,864 = 7,864)
+  ✓ totals net 5,759 / gross 7,864 match the brief
+  ✓ area schedule in the title block lists all 12 items
+  ✓ 8 pedestrian routes drawn
+  ✓ pedestrian network is one connected system
+  ✓ B1 reached by the pedestrian network (≤ 4.5 m)
+  ✓ B2 reached by the pedestrian network (≤ 4.5 m)
+  ✓ B3 reached by the pedestrian network (≤ 4.5 m)
+  ✓ B4 reached by the pedestrian network (≤ 4.5 m)
+  ✓ B5 reached by the pedestrian network (≤ 4.5 m)
+RESULT: PASS
