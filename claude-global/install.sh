@@ -40,9 +40,11 @@ block() {
 if [[ -f "$TARGET_MD" ]] && grep -qF "$BEGIN_MARK" "$TARGET_MD"; then
   if [[ $UPDATE -eq 1 ]]; then
     tmp="$(mktemp)"
+    # Compare lines without a trailing CR so a CRLF file is matched too.
     awk -v b="$BEGIN_MARK" -v e="$END_MARK" -v f="$POLICY_FILE" '
-      $0 == b { print; while ((getline line < f) > 0) print line; skip = 1; next }
-      $0 == e { skip = 0 }
+      { l = $0; sub(/\r$/, "", l) }
+      l == b { print; while ((getline line < f) > 0) print line; skip = 1; next }
+      l == e { skip = 0 }
       !skip { print }
     ' "$TARGET_MD" > "$tmp"
     cat "$tmp" > "$TARGET_MD"

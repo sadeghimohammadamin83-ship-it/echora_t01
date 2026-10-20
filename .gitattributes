@@ -1,0 +1,5 @@
+# Keep Claude Code config files LF on every OS so installed copies match byte for byte.
+CLAUDE.md text eol=lf
+.claude/agents/*.md text eol=lf
+claude-global/*.md text eol=lf
+claude-global/*.sh text eol=lf
